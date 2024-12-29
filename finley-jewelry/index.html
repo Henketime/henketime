@@ -1,20 +1,123 @@
-<html>
-  <head>
-    <title>Henketime Index</title>
-    <meta name="viewport" content="width=device-width, user-scalable=no">
-    <style TYPE="text/css">
-    body {
-      padding:0px;
-      margin:0px;
-      background-color:#222;
-      color:#ccc
-    }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artisan Jewelry Bazaar - Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px 0;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+            margin: 0 10px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        nav a:hover {
+            background-color: #555;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+        .category-card {
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        .category-card:hover {
+            transform: translateY(-5px);
+        }
+        .category-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .category-info {
+            padding: 20px;
+            text-align: center;
+        }
+        .category-name {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .category-link {
+            display: inline-block;
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .category-link:hover {
+            background-color: #555;
+        }
     </style>
-  </head>
-
-  <body>
-    <div>
-      Finley Jewelry
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="pages/bracelets.html">Bracelets</a>
+            <a href="pages/necklaces.html">Necklaces</a>
+            <a href="pages/earrings.html">Earrings</a>
+        </nav>
+    </header>
+    <div class="container">
+        <h1>Welcome to Artisan Jewelry Bazaar</h1>
+        <div class="category-grid">
+            <div class="category-card">
+                <img src="https://picsum.photos/400/300?random=1" alt="Bracelets">
+                <div class="category-info">
+                    <div class="category-name">Bracelets</div>
+                    <a href="pages/bracelets.html" class="category-link">View Collection</a>
+                </div>
+            </div>
+            <div class="category-card">
+                <img src="https://picsum.photos/400/300?random=2" alt="Necklaces">
+                <div class="category-info">
+                    <div class="category-name">Necklaces</div>
+                    <a href="pages/necklaces.html" class="category-link">View Collection</a>
+                </div>
+            </div>
+            <div class="category-card">
+                <img src="https://picsum.photos/400/300?random=3" alt="Earrings">
+                <div class="category-info">
+                    <div class="category-name">Earrings</div>
+                    <a href="pages/earrings.html" class="category-link">View Collection</a>
+                </div>
+            </div>
+        </div>
     </div>
-  </body>
+</body>
 </html>

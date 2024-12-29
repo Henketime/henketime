@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artisan Jewelry Bazaar - Bracelets</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px 0;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+            margin: 0 10px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        nav a:hover {
+            background-color: #555;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .product-card {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .product-images {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .product-images img {
+            width: calc(50% - 5px);
+            height: 120px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        .product-name {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .product-price {
+            font-size: 1.1em;
+            color: #4a4a4a;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="bracelets.html">Bracelets</a>
+            <a href="necklaces.html">Necklaces</a>
+            <a href="earrings.html">Earrings</a>
+        </nav>
+    </header>
+    <div class="container">
+        <h1>Artisan Bracelets Collection</h1>
+        <div class="product-grid">
+            <div class="product-card">
+                <div class="product-images">
+                    <img src="https://picsum.photos/200/300?random=1" alt="Beaded Bracelet 1">
+                    <img src="https://picsum.photos/200/300?random=2" alt="Beaded Bracelet 2">
+                    <img src="https://picsum.photos/200/300?random=3" alt="Beaded Bracelet 3">
+                </div>
+                <div class="product-name">Handcrafted Beaded Bracelet</div>
+                <div class="product-price">$25.00</div>
+            </div>
+            <div class="product-card">
+                <div class="product-images">
+                    <img src="https://picsum.photos/200/300?random=4" alt="Silver Bracelet 1">
+                    <img src="https://picsum.photos/200/300?random=5" alt="Silver Bracelet 2">
+                </div>
+                <div class="product-name">Sterling Silver Charm Bracelet</div>
+                <div class="product-price">$45.00</div>
+            </div>
+            <div class="product-card">
+                <div class="product-images">
+                    <img src="https://picsum.photos/200/300?random=6" alt="Leather Bracelet 1">
+                    <img src="https://picsum.photos/200/300?random=7" alt="Leather Bracelet 2">
+                    <img src="https://picsum.photos/200/300?random=8" alt="Leather Bracelet 3">
+                </div>
+                <div class="product-name">Braided Leather Bracelet</div>
+                <div class="product-price">$30.00</div>
+            </div>
+            <div class="product-card">
+                <div class="product-images">
+                    <img src="https://picsum.photos/200/300?random=9" alt="Gold Bracelet 1">
+                    <img src="https://picsum.photos/200/300?random=10" alt="Gold Bracelet 2">
+                </div>
+                <div class="product-name">14K Gold-Plated Cuff Bracelet</div>
+                <div class="product-price">$55.00</div>
+            </div>
+            <div class="product-card">
+                <div class="product-images">
+                    <img src="https://picsum.photos/200/300?random=11" alt="Gemstone Bracelet 1">
+                    <img src="https://picsum.photos/200/300?random=12" alt="Gemstone Bracelet 2">
+                    <img src="https://picsum.photos/200/300?random=13" alt="Gemstone Bracelet 3">
+                </div>
+                <div class="product-name">Natural Gemstone Stretch Bracelet</div>
+                <div class="product-price">$35.00</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
