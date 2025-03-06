@@ -1,0 +1,205 @@
+<html style="font-family: 'Fira Sans' sans-serif; background-color: #eaeaea; font-size: 12px; font-weight: bold; height: 100%;">
+  <head>
+    <title>Gabriel Music</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <style>
+      .body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100%;
+        background-color: #f7e5d5;
+        a {
+          color: #000;
+          text-decoration: none;
+        }
+      }
+      .title-bar {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding-top: 12px;
+        padding-bottom: 64px;
+
+        @media (min-width: 768px) {
+          padding-top: 64px;
+          flex-direction: row;
+          align-items: center;
+        }
+      }
+      .title-bar__header {
+        margin-top: 6px;
+        margin-bottom: 6px;
+        font-size: 80px;
+        order: 2;
+
+        @media (min-width: 768px) {
+          order: 1;
+        }
+      }
+      .title-bar__player-container {
+        width: 100%;
+        justify-self: stretch;
+
+        iframe {
+          width: 100%;
+        }
+
+        @media (min-width: 768px) {
+          width: auto;
+          order: 2;
+
+          iframe {
+            width: 300px;
+          }
+        }
+      }
+      #fadeImage {
+        transition: opacity 0.5s ease-in-out;
+      }
+      .information-tile {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        padding-bottom: 20px;
+      }
+      .information-tiles {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+
+        & > .information-tile {
+          border-color: #d6c3bd;
+          border-style: solid;
+          border-width: 0;
+          border-top-width: 4px;
+
+          &:first-child {
+            border: none;
+          }
+        }
+
+        @media (min-width: 768px) {
+          flex-direction: row;
+
+          & > .information-tile {
+            border-color: #d6c3bd;
+            border-style: solid;
+            border-width: 0;
+            border-left-width: 4px;
+
+            &:first-child {
+              border: none;
+            }
+          }
+        }
+      }
+      .media-links {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        text-transform: uppercase;
+        text-align: center;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+
+        @media (min-width: 768px) {
+          flex-direction: row;
+        }
+      }
+      .divider {
+        border-top-width: 4px;
+        border-top-style: solid;
+        border-top-color: #d6c3bd;
+
+        @media (min-width: 768px) {
+          display: none;
+        }
+      }
+    </style>
+    <!-- <script type="text/javascript">
+      const gabrielDiv = "#gabrielImage"
+      document.addEventListener('DOMContentLoaded', function() {
+      const fadeImage = document.getElementById('fadeImage');
+      const hoverImage = new Image();
+      hoverImage.src = '/local/gabriel_02_1440x972.png';
+
+      fadeImage.addEventListener('mouseover', function() {
+        fadeImage.style.opacity = '0';
+        setTimeout(() => {
+          fadeImage.src = hoverImage.src;
+          fadeImage.style.opacity = '1';
+        }, 250);
+      });
+
+      fadeImage.addEventListener('mouseout', function() {
+        fadeImage.style.opacity = '0';
+        setTimeout(() => {
+          fadeImage.src = '/local/gabriel_01_1440x972.png';
+          fadeImage.style.opacity = '1';
+        }, 250);
+      });
+    });
+    </script> -->
+  </head>
+
+  <body class="body">
+    <main x-data="" style="flex: auto; flex-grow: 1; flex-shrink: 0; position: relative; padding-left: 16px; padding-right: 16px;">
+      <div class="title-bar">
+        <h1 class="title-bar__header">Gabriel</h1>
+        <div class="title-bar__player-container">
+          <iframe src="https://open.spotify.com/embed/album/5WQtIEmY4RpZSk7kCpQ1ps" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+        </div>
+      </div>
+      <div>
+        <section>
+          <picture style="display: block; width: 100%; margin-bottom: 20px;">
+            <img src="/local/gabriel_01_1440x972.png" style="max-width: 1440px; height: auto; width: 100%">
+            <!-- <img id="fadeImage" src="/local/gabriel_01_1440x972.png" style="max-width: 1440px; height: auto; width: 100%"> -->
+          </picture>
+          <div class="information-tiles">
+            <div class="information-tile">
+              <h2 style="text-transform: uppercase; margin-bottom: 16px;">Management</h2>
+              <div><p style="margin-bottom: 24px;"><span style="text-transform: uppercase;">INTERNATIONAL</span><a href="mailto:gabriellcastio@gmail.com" style="text-decoration: underline;"><br>gabriellcastio@gmail.com</a></p></div>
+            </div>
+            <div class="information-tile">
+              <h2 style="text-transform: uppercase; margin-bottom: 16px;">Bookings</h2>
+              <div>
+                <p style="margin-bottom: 24px;"><span style="text-transform: uppercase;">NORTH</span> <span style="text-transform: uppercase;">AMERICA</span><br><a href="mailto:gabriellcastio@gmail.com" style="text-decoration: underline;">gabriellcastio@gmail.com</a></p>
+                <!-- <p style="margin-bottom: 24px;"><span style="text-transform: uppercase;">EUROPE</span> <span>&amp;</span>&nbsp;<span style="text-transform: uppercase;">WORLD</span><br><a href="mailto:gabriellcastio@gmail.com" style="text-decoration: underline;">gabriellcastio@gmail.com</a><br></p> -->
+              </div>
+            </div>
+            <div class="information-tile">
+              <h2 style="text-transform: uppercase; margin-bottom: 16px;">Press</h2>
+              <div><p style="margin-bottom: 24px;"><span style="text-transform: uppercase;">INTERNATIONAL</span><a href="mailto:gabriellcastio@gmail.com" style="text-decoration: underline;"><br>gabriellcastio@gmail.com</a></p></div>
+            </div>
+          </div>
+          <hr class="divider">
+        </section>
+      </div>
+    </main>
+    <footer style="margin-top: auto; padding-left: 16px; padding-right: 16px;">
+      <div style="padding-top: 10px; padding-bottom: 10px;">
+        <ul class="media-links">
+          <li style="margin-bottom: 12px;">
+            <a href="https://www.instagram.com/jaysoncastilloo/" target="_blank" style="display: block; padding-left: 16px; padding-right: 16px;">Instagram</a>
+          </li>
+          <li style="margin-bottom: 12px;">
+            <a href="https://www.youtube.com/@-Gabriell" target="_blank" style="display: block; padding-left: 16px; padding-right: 16px;">YouTube</a>
+          </li>
+          <li style="margin-bottom: 12px;">
+            <a href="https://soundcloud.com/jayson-castillo-295821063" target="_blank" style="display: block; padding-left: 16px; padding-right: 16px;">Soundcloud</a>
+          </li>
+          <li style="margin-bottom: 12px;">
+            <a href="https://music.apple.com/us/artist/gabriel/1704361216" target="_blank" style="display: block; padding-left: 16px; padding-right: 16px;">Apple Music</a>
+          </li>
+          <!-- <li>
+            <a href="https://gabrielmusic.xyz/tour" style="display: block; padding-left: 16px; padding-right: 16px;">Tour Dates</a>
+          </li> -->
+        </ul>
+      </div>
+    </footer>
+  </body>
+</html>
+
