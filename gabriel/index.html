@@ -119,6 +119,26 @@
       }
     </style>
     <!-- <script type="text/javascript">
+      document.addEventListener('DOMContentLoaded', function() {
+      const albumId = '2180307564';
+      const playerContainer = document.getElementById('bandcamp-player');
+
+      const iframe = document.createElement('iframe');
+      iframe.style.border = '0';
+      iframe.style.width = '350px';
+      iframe.style.height = '470px';
+      iframe.src = `https://bandcamp.com/EmbeddedPlayer/album=${albumId}/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/transparent=true/`;
+      iframe.setAttribute('seamless', '');
+
+      const link = document.createElement('a');
+      link.href = 'https://gabriellmusic.bandcamp.com/album/doves-fly-here-deluxe';
+      link.textContent = 'Doves Fly Here (Deluxe) by Gabriell';
+
+      iframe.appendChild(link);
+      playerContainer.appendChild(iframe);
+    });
+    </script> -->
+    <!-- <script type="text/javascript">
       const gabrielDiv = "#gabrielImage"
       document.addEventListener('DOMContentLoaded', function() {
       const fadeImage = document.getElementById('fadeImage');
@@ -151,6 +171,7 @@
         <div class="title-bar__player-container">
           <iframe src="https://open.spotify.com/embed/album/5WQtIEmY4RpZSk7kCpQ1ps" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
         </div>
+        <!-- <div id="bandcamp-player"></div> -->
       </div>
       <div>
         <section>
@@ -182,6 +203,9 @@
     <footer style="margin-top: auto; padding-left: 16px; padding-right: 16px;">
       <div style="padding-top: 10px; padding-bottom: 10px;">
         <ul class="media-links">
+          <li>
+            <a href="https://gabriellmusic.bandcamp.com/" target="_blank" style="display: block; padding-left: 16px; padding-right: 16px;">Bandcamp</a>
+          </li>
           <li style="margin-bottom: 12px;">
             <a href="https://www.instagram.com/jaysoncastilloo/" target="_blank" style="display: block; padding-left: 16px; padding-right: 16px;">Instagram</a>
           </li>
@@ -194,11 +218,13 @@
           <li style="margin-bottom: 12px;">
             <a href="https://music.apple.com/us/artist/gabriel/1704361216" target="_blank" style="display: block; padding-left: 16px; padding-right: 16px;">Apple Music</a>
           </li>
+          <li>
+            <a href="https://open.spotify.com/artist/158SVKTLRojoqpy9d54RZT" target="_blank" style="display: block; padding-left: 16px; padding-right: 16px;">Spotify</a>
+          </li>
           <!-- <li>
             <a href="https://gabrielmusic.xyz/tour" style="display: block; padding-left: 16px; padding-right: 16px;">Tour Dates</a>
           </li> -->
         </ul>
-      </div>
     </footer>
   </body>
 </html>
