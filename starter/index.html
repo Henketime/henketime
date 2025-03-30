@@ -42,8 +42,16 @@
         }
     </style>
     <script>
-        console.log('Hello, world!');
-    </script>
+    document.getElementById("myForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const valueOne = document.getElementById("valueOne").value;
+      const valueTwo = document.getElementById("valueTwo").value;
+
+      const calculatedValue = parseInt(valueOne) + parseInt(valueTwo);
+      document.getElementById("output").textContent = calculatedValue;
+    });
+  </script>
 </head>
 <body>
     <header>
@@ -54,9 +62,20 @@
     <div class="container">
         <h1>Page header</h1>
         <h2>Page header</h2>
-        <form>
+        <form id="wrapCalculator">
+            <label for="valueOne">
+                <input type="number" id="valueOne" name="name">
+                Name:
+            </label>
+            <label for="valueTwo">
+                <input type="number" id="valueTwo" name="name">
+                Name:
+            </label>
+
+            <button type="submit">Submit</button>
         </form>
-        <div>
+        <div id="output">
+            <!-- Output goes here -->
         </div>
     </div>
 </body>
