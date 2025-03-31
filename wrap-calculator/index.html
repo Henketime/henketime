@@ -76,6 +76,22 @@
             flex: 0;
             justify-content: flex-end;
         }
+
+        .calculations-table {
+            border-collapse: collapse;
+        }
+        .calculations-table > thead > tr > th {
+            text-align: right;
+        }
+        .calculations-table > thead > tr > th:first-of-type {
+            text-align: left;
+        }
+        .calculations-table > tbody > tr > td {
+            text-align: right;
+        }
+        .calculations-table > tbody > tr > th {
+            text-align: left;
+        }
     </style>
 </head>
 <body>
@@ -87,26 +103,37 @@
     <div class="container">
         <h1>Wrap Calculator</h1>
         <form id="wrapCalculator" class="form">
-            <div class="field-group">
-                <h2 class="field-group-header">Veneer dimensions</h2>
-                <label for="veneerWidth" class="field whole">
+            <label for="coverType" class="field type-select" style="align-self: flex-start">
+                Cover type
+                <select id="coverType" name="Cover type">
+                    <option value="standard-portrait">Standard hardcover</option>
+                    <option value="trade-small">Trade paperback (small)</option>
+                    <option value="trade-medium">Trade paperback (medium)</option>
+                    <option value="trade-large">Trade paperback (large)</option>
+                    <option value="custom">Custom</option>
+                </select>
+            </label>
+            <!-- Cover field group -->
+            <div class="field-group" style="display: none;">
+                <h2 class="field-group-header">Cover dimensions</h2>
+                <label for="coverWidth" class="field">
                     <span>Width</span>
-                    <input type="number" id="veneerWidth" name="Veneer width">
+                    <input type="number" id="coverWidth" name="Wrap width">
                 </label>
-                <label for="veneerWidthQuarters" class="field quarters">
-                    <select id="veneerWidthQuarters" name="Veneer width">
+                <label for="coverWidthQuarters" class="field quarters">
+                    <select id="coverWidthQuarters" name="Wrap width">
                         <option value="0">0</option>
                         <option value="0.25">1/4</option>
                         <option value="0.5">1/2</option>
                         <option value="0.75">3/4</option>
                     </select>
                 </label>
-                <label for="veneerHeight" class="field">
+                <label for="coverHeight" class="field">
                     <span>Height</span>
-                    <input type="number" id="veneerHeight" name="Veneer height">
+                    <input type="number" id="coverHeight" name="Top and bottom margin">
                 </label>
-                <label for="veneerHeightQuarters" class="field quarters">
-                    <select id="veneerHeightQuarters" name="Veneer height">
+                <label for="coverHeightQuarters" class="field quarters">
+                    <select id="coverHeightQuarters" name="Top and bottom margin">
                         <option value="0">0</option>
                         <option value="0.25">1/4</option>
                         <option value="0.5">1/2</option>
@@ -115,7 +142,53 @@
                 </label>
             </div>
 
-            <div class="field-group">
+            <label for="coreType" class="field type-select" style="align-self: flex-start">
+                Core type
+                <select id="coreType" name="Core type">
+                    <option value="large">Large</option>
+                    <option value="small">Small</option>
+                    <option value="flexi">Flexible</option>
+                    <option value="custom">Custom</option>
+                </select>
+            </label>
+            <!-- Core field group -->
+            <div class="field-group" style="display: none;">
+                <h2 class="field-group-header">Core dimensions</h2>
+                <label for="coreWidth" class="field whole">
+                    <span>Width</span>
+                    <input type="number" id="coreWidth" name="core width">
+                </label>
+                <label for="coreWidthQuarters" class="field quarters">
+                    <select id="coreWidthQuarters" name="core width">
+                        <option value="0">0</option>
+                        <option value="0.25">1/4</option>
+                        <option value="0.5">1/2</option>
+                        <option value="0.75">3/4</option>
+                    </select>
+                </label>
+                <label for="coreHeight" class="field">
+                    <span>Height</span>
+                    <input type="number" id="coreHeight" name="core height">
+                </label>
+                <label for="coreHeightQuarters" class="field quarters">
+                    <select id="coreHeightQuarters" name="core height">
+                        <option value="0">0</option>
+                        <option value="0.25">1/4</option>
+                        <option value="0.5">1/2</option>
+                        <option value="0.75">3/4</option>
+                    </select>
+                </label>
+            </div>
+
+            <label for="wrapType" class="field type-select" style="align-self: flex-start">
+                Wrap type
+                <select id="wrapType" name="Wrap type">
+                    <option value="fold">Fold</option>
+                    <option value="wrap">Wrap</option>
+                </select>
+            </label>
+            <!-- Wrap constraints field group -->
+            <div class="field-group" style="display: none;">
                 <h2 class="field-group-header">Wrap constraints</h2>
                 <label for="wrapWidth" class="field">
                     <span>Width</span>
@@ -145,53 +218,150 @@
 
             <input type="submit" style="align-self: flex-end"></input>
         </form>
-        <div id="totalLength">
-            <!-- Output goes here -->
-        </div>
-        <div id="numberOfWraps">
-            <!-- Output goes here -->
-        </div>
+        <img
+            id="coverImage"
+            src="./local/UV_checker_Map_byValle.jpg"
+            alt="Placeholder image"
+            style="
+                height: auto;
+                max-width: 100%;
+                margin: 0 auto;
+            "
+        >
+        <table style="border-collapse: collapse;" class="calculations-table">
+            <caption style="text-align: left">
+              Calculated dimensions for object
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Object</th>
+                <th scope="col"># wraps</th>
+                <th scope="col">Width</th>
+                <th scope="col">Height</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Cover</th>
+                <td colspan="2" id="coverWidthDisplay"></td>
+                <td id="coverHeightDisplay"></td>
+              </tr>
+              <tr>
+                <th scope="row">Core</th>
+                <td colspan="2" id="coreWidthDisplay"></td>
+                <td id="coreHeightDisplay"></td>
+              </tr>
+              <tr>
+                <th scope="row">Wrap</th>
+                <td id="numberOfWrapsDisplay"></td>
+                <td id="wrapWidthDisplay"></td>
+                <td id="wrapHeightDisplay"></td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <th scope="row" colspan="2" style="border-top: 1px solid #aaa; text-align: left">Footer</th>
+                <td colspan="2" style="border-top: 1px solid #aaa; text-align: right">Value</td>
+              </tr>
+            </tfoot>
+          </table>
+        <div id="wrapWidth"></div>
+        <div id="wrapHeight"></div>
+        <div id="numberOfWraps"></div>
     </div>
     <script>
-        console.log (document.getElementById("wrapCalculator"))
         document.getElementById("wrapCalculator").addEventListener("submit", function(event) {
             event.preventDefault();
 
-            function calculateStrip(vWidth, vHeight, wWidth, tbMargin) {
-                const vBeltLength = 2 * vWidth;
-                const totalHeight = vHeight + (2 * tbMargin);
-                const wraps = totalHeight / wWidth;
-                const lengthPerWrap = Math.hypot(vBeltLength, wWidth);
-                const totalLength = wraps * lengthPerWrap;
+            function calculateCoverScreenDimensions(coverWidth, coverHeight) {
+                const coverAspectRatio = coverWidth / coverHeight;
+
+                const screenWidth = window.innerWidth;
+                const onScreenCoverWidth = Math.min(screenWidth - 40, 560);
+                const onScreenCoverHeight = onScreenCoverWidth / coverAspectRatio;
 
                 return {
-                    totalLength: totalLength.toFixed(2),
-                    numberOfWraps: wraps.toFixed(2)
+                    coverWidth,
+                    coverHeight,
+                    onScreenCoverWidth: onScreenCoverWidth.toFixed(2),
+                    onScreenCoverHeight: onScreenCoverHeight.toFixed(2)
                 };
             }
 
-            const calculatedValue = calculateStrip(
-                (
-                    Number(document.getElementById("veneerWidth").value)
-                    + Number(document.getElementById("veneerWidthQuarters").value)
-                ),
-                (
-                    Number(document.getElementById("veneerHeight").value)
-                    + Number(document.getElementById("veneerWidthQuarters").value)
-                ),
-                (
-                    Number(document.getElementById("wrapWidth").value)
-                    + Number(document.getElementById("veneerWidthQuarters").value)
-                ),
-                (
-                    Number(document.getElementById("topBottomMargin").value)
-                    + Number(document.getElementById("veneerWidthQuarters").value)
-                ),
-            );
+            let coverWidth = 17.5;
+            let coverHeight = 10.25;
+            // All assume a 1" spine
+            if (coverType === 'custom') {
+                coverWidth = Number(document.getElementById("coverWidth").value) + Number(document.getElementById("coverWidthQuarters").value);
+                coverHeight = Number(document.getElementById("coverHeight").value) + Number(document.getElementById("coverHeightQuarters").value);
+            }
+            if (coverType === 'trade-small') {
+                coverWidth = 11.5;
+                coverHeight = 8.25;
+            }
+            if (coverType === 'trade-medium') {
+                coverWidth = 13.5;
+                coverHeight = 8.25;
+            }
+            if (coverType === 'trade-large') {
+                coverWidth = 17.5;
+                coverHeight = 8.25;
+            }
+            // Set cover image screen dimensions
+            const coverValues = calculateCoverScreenDimensions(coverWidth, coverHeight);
+            document.getElementById("coverImage").style.width = `${coverValues.onScreenCoverWidth}px`;
+            document.getElementById("coverImage").style.height = `${coverValues.onScreenCoverHeight}px`;
 
-            // Display calculated value
-            document.getElementById("totalLength").textContent = calculatedValue.totalLength;
-            document.getElementById("numberOfWraps").textContent = calculatedValue.numberOfWraps;
+            document.getElementById("coverWidthDisplay").innerHTML = coverValues.coverWidth;
+            document.getElementById("coverHeightDisplay").innerHTML = coverValues.coverHeight;
+
+            // Margin
+            let topBottomMargin = Number(document.getElementById("topBottomMargin").value) + Number(document.getElementById("topBottomMarginQuarters").value);
+
+            // Core dimensions
+            let coreValues = {
+                width: 1.5,
+                height: 7
+            }
+            if (coreType === 'custom') {
+                coreValues.width = Number(document.getElementById("coreWidth").value) + Number(document.getElementById("coreWidthQuarters").value);
+                coreValues.height = Number(document.getElementById("coreHeight").value) + Number(document.getElementById("coreHeightQuarters").value);
+            }
+            if (coreType === 'small') {
+                coreValues.width = 1.125;
+                coreValues.height = 5;
+            }
+            // Display calculated core values
+            document.getElementById("coreWidthDisplay").innerHTML = coreValues.width;
+            document.getElementById("coreHeightDisplay").innerHTML = coreValues.height;
+
+            // Wrap dimensions
+            let wrapValues = {
+                width: (coreValues.width * 2 + topBottomMargin).toFixed(2),
+                height: (coreValues.height + 2 * topBottomMargin).toFixed(2),
+            }
+            if (wrapType === 'wrap') {
+                function calculateWrap(coreWidth, coreHeight, wrapWidth, margin) {
+                    const vBeltLength = 2 * coreWidth;
+                    const totalHeight = coreHeight + (2 * margin);
+                    const wraps = totalHeight / wrapWidth;
+                    const lengthPerWrap = Math.hypot(vBeltLength, wrapWidth);
+                    const wrapHeight = wraps * lengthPerWrap;
+
+                    return {
+                        wrapHeight: wrapHeight.toFixed(2),
+                        numberOfWraps: wraps.toFixed(2)
+                    };
+                }
+                wrapWidth = Number(document.getElementById("wrapWidth").value) + Number(document.getElementById("wrapWidthQuarters").value);
+
+                wrapValues = calculateWrap(coreWidth, coreHeight, wrapWidth, topBottomMargin);
+            }
+
+            // Display calculated wrap values
+            document.getElementById("wrapWidthDisplay").textContent = wrapValues.width;
+            document.getElementById("wrapHeightDisplay").textContent = wrapValues.height;
+            document.getElementById("numberOfWrapsDisplay").textContent = wrapValues.numberOfWraps;
         });
     </script>
 </body>
