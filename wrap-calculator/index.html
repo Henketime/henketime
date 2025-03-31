@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wrap Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px 0;
+        }
+        nav {
+            display: flex;
+            justify-content: flex-start;
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+            margin: 0 10px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        nav a:hover {
+            background-color: #555;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .form {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 24px;
+            max-width: 560px;
+            margin: 0 auto;
+        }
+        .field-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            gap: 24px;
+            width: 100%;
+            margin-bottom: 24px;
+        }
+        .field-group-header {
+            width: 100%;
+            margin-bottom: 0;
+        }
+        .field {
+            display: flex;
+            flex: 1 0 0;
+            gap: 12px;
+
+            input {
+                flex: 1;
+                border: none;
+                border-bottom: 1px solid #aaa;
+                background-color: transparent;;
+            }
+        }
+        .quarters {
+            flex: 0;
+            justify-content: flex-end;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html">Home</a>
+        </nav>
+    </header>
+    <div class="container">
+        <h1>Wrap Calculator</h1>
+        <form id="wrapCalculator" class="form">
+            <div class="field-group">
+                <h2 class="field-group-header">Veneer dimensions</h2>
+                <label for="veneerWidth" class="field whole">
+                    <span>Width</span>
+                    <input type="number" id="veneerWidth" name="Veneer width">
+                </label>
+                <label for="veneerWidthQuarters" class="field quarters">
+                    <select id="veneerWidthQuarters" name="Veneer width">
+                        <option value="0">0</option>
+                        <option value="0.25">1/4</option>
+                        <option value="0.5">1/2</option>
+                        <option value="0.75">3/4</option>
+                    </select>
+                </label>
+                <label for="veneerHeight" class="field">
+                    <span>Height</span>
+                    <input type="number" id="veneerHeight" name="Veneer height">
+                </label>
+                <label for="veneerHeightQuarters" class="field quarters">
+                    <select id="veneerHeightQuarters" name="Veneer height">
+                        <option value="0">0</option>
+                        <option value="0.25">1/4</option>
+                        <option value="0.5">1/2</option>
+                        <option value="0.75">3/4</option>
+                    </select>
+                </label>
+            </div>
+
+            <div class="field-group">
+                <h2 class="field-group-header">Wrap constraints</h2>
+                <label for="wrapWidth" class="field">
+                    <span>Width</span>
+                    <input type="number" id="wrapWidth" name="Wrap width">
+                </label>
+                <label for="wrapWidthQuarters" class="field quarters">
+                    <select id="wrapWidthQuarters" name="Wrap width">
+                        <option value="0">0</option>
+                        <option value="0.25">1/4</option>
+                        <option value="0.5">1/2</option>
+                        <option value="0.75">3/4</option>
+                    </select>
+                </label>
+                <label for="topBottomMargin" class="field">
+                    <span>Lip</span>
+                    <input type="number" id="topBottomMargin" name="Top and bottom margin">
+                </label>
+                <label for="topBottomMarginQuarters" class="field quarters">
+                    <select id="topBottomMarginQuarters" name="Top and bottom margin">
+                        <option value="0">0</option>
+                        <option value="0.25">1/4</option>
+                        <option value="0.5">1/2</option>
+                        <option value="0.75">3/4</option>
+                    </select>
+                </label>
+            </div>
+
+            <input type="submit" style="align-self: flex-end"></input>
+        </form>
+        <div id="totalLength">
+            <!-- Output goes here -->
+        </div>
+        <div id="numberOfWraps">
+            <!-- Output goes here -->
+        </div>
+    </div>
+    <script>
+        console.log (document.getElementById("wrapCalculator"))
+        document.getElementById("wrapCalculator").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            function calculateStrip(vWidth, vHeight, wWidth, tbMargin) {
+                const vBeltLength = 2 * vWidth;
+                const totalHeight = vHeight + (2 * tbMargin);
+                const wraps = totalHeight / wWidth;
+                const lengthPerWrap = Math.hypot(vBeltLength, wWidth);
+                const totalLength = wraps * lengthPerWrap;
+
+                return {
+                    totalLength: totalLength.toFixed(2),
+                    numberOfWraps: wraps.toFixed(2)
+                };
+            }
+
+            const calculatedValue = calculateStrip(
+                (
+                    Number(document.getElementById("veneerWidth").value)
+                    + Number(document.getElementById("veneerWidthQuarters").value)
+                ),
+                (
+                    Number(document.getElementById("veneerHeight").value)
+                    + Number(document.getElementById("veneerWidthQuarters").value)
+                ),
+                (
+                    Number(document.getElementById("wrapWidth").value)
+                    + Number(document.getElementById("veneerWidthQuarters").value)
+                ),
+                (
+                    Number(document.getElementById("topBottomMargin").value)
+                    + Number(document.getElementById("veneerWidthQuarters").value)
+                ),
+            );
+
+            // Display calculated value
+            document.getElementById("totalLength").textContent = calculatedValue.totalLength;
+            document.getElementById("numberOfWraps").textContent = calculatedValue.numberOfWraps;
+        });
+    </script>
+</body>
+</html>
