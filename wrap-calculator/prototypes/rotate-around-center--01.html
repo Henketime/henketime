@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Interactive Canvas Rectangle</title>
+</head>
+<body>
+  <canvas id="myCanvas" width="600" height="600" style="border:1px solid #000000;"></canvas>
+  <script>
+    const canvas = document.getElementById('myCanvas');
+    const ctx = canvas.getContext('2d');
+
+    const img = new Image();
+    img.src = '../assets/UV_checker_Map_byValle.jpg';
+
+    // Canvas dimensions
+    const CANVAS_WIDTH = 600;
+    const CANVAS_HEIGHT = 600;
+    // Rectangle dimensions
+    const CORE_WIDTH = 350;
+    const CORE_HEIGHT = 75;
+    let panel1CoreX = (CANVAS_WIDTH - CORE_WIDTH) / 2;
+    let panel1CoreY = (CANVAS_HEIGHT - CORE_HEIGHT) / 2;
+    let rotationAngle = 0;
+
+    img.onload = () => {
+      drawScene();
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowUp') {
+          panel1CoreY -= 10;
+        }
+        else if (event.key === 'ArrowRight') {
+          event.shiftKey ? rotationAngle += 1 : panel1CoreX += 10;
+        }
+        else if (event.key === 'ArrowDown') {
+          panel1CoreY += 10;
+        }
+        else if (event.key === 'ArrowLeft') {
+          event.shiftKey ? rotationAngle -= 1 : panel1CoreX -= 10;
+        }
+        drawScene();
+      });
+    };
+
+    function drawScene() {
+      // Clear and redraw base image
+      ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+      ctx.drawImage(img, 0, 0, 600, 600);
+
+      // Transform context for rotation
+      ctx.save();
+      const centerX = panel1CoreX + CORE_WIDTH / 2;
+      const centerY = panel1CoreY + CORE_HEIGHT / 2;
+
+      // Move to rectangle center and rotate
+      ctx.translate(centerX, centerY);
+      ctx.rotate(rotationAngle * Math.PI / 180);
+
+      // Draw semi-transparent rectangle
+      ctx.fillStyle = 'rgba(0, 0, 255, 0.5)';
+      ctx.fillRect(-CORE_WIDTH / 2, -CORE_HEIGHT / 2, CORE_WIDTH, CORE_HEIGHT);
+
+      ctx.restore();
+    }
+  </script>
+</body>
+</html>
