@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Canvas Cropping and Movement</title>
+  <style>
+    .canvases {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      height: 100vh;
+      margin: 0;
+    }
+    canvas {
+      width: 600px;
+      height: 600px;
+      border: 1px solid black;
+    }
+  </style>
+</head>
+<body>
+  <div class="canvases">
+    <canvas id="panel1"></canvas>
+    <canvas id="panel2"></canvas>
+  </div>
+
+  <script>
+    // Canvas dimensions
+    const CANVAS_WIDTH = 600;
+    const CANVAS_HEIGHT = 600;
+    // Rectangle dimensions
+    const CORE_WIDTH = 350;
+    const CORE_HEIGHT = 75;
+
+    const MOVE_STEP = 10; // Pixels per key press
+
+    const canvases = {
+      panel1: document.getElementById('panel1'),
+      panel2: document.getElementById('panel2')
+    };
+
+    Object.values(canvases).forEach(canvas => {
+      canvas.width = CANVAS_WIDTH;
+      canvas.height = CANVAS_HEIGHT;
+    });
+
+    const img = new Image();
+    img.src = '../assets/UV_checker_Map_byValle.jpg';
+
+    // Position variables
+    let imageX = 0; // Image position X
+    let imageY = 0; // Image position Y
+    let panel1CoreX = (canvases.panel1.width - CORE_WIDTH) / 2; // Rectangle center X
+    let panel1CoreY = (canvases.panel1.height - CORE_HEIGHT) / 2; // Rectangle center Y
+    let panel2CoreX = (canvases.panel2.width - CORE_WIDTH) / 2; // Rectangle center X
+    let panel2CoreY = (canvases.panel2.height - CORE_HEIGHT) / 2; // Rectangle center Y
+    // Angle variables
+    function getDegrees(radians) {
+      return radians * (180 / Math.PI);
+    }
+    function getRadians(degrees) {
+      return degrees * (Math.PI / 180);
+    }
+    let panel1Rads = getRadians(-45)
+    let panel2Rads = getRadians(45)
+
+    function drawPanel1() {
+      console.log ("Drawing panel 1...");
+      const ctx = canvases.panel1.getContext('2d');
+      ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+      // Draw background image
+      ctx.drawImage(img, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+      // Draw rotated rectangle
+      ctx.save();
+
+      ctx.translate(
+        panel1CoreX + CORE_WIDTH / 2,
+        panel1CoreY + CORE_HEIGHT / 2
+      );
+      ctx.rotate(panel1Rads);
+      ctx.translate(
+        -CORE_WIDTH / 2,
+        -CORE_HEIGHT / 2,
+      )
+
+      ctx.strokeStyle = '#ff0000';
+      ctx.lineWidth = 4;
+      ctx.strokeRect(
+        0,
+        0,
+        CORE_WIDTH,
+        CORE_HEIGHT
+      );
+      ctx.restore();
+    }
+
+    // Draw the second panel with the image and rectangle
+    function drawPanel2() {
+      console.log ("Drawing panel 2...");
+      const ctx = canvases.panel2.getContext("2d");
+      ctx.clearRect(0, 0, canvases.panel2.width, canvases.panel2.height);
+
+      // Rotate the image around its center
+      // ctx.save(); // Save current state
+      // ctx.translate(canvases.panel2.width / 2, canvases.panel2.height / 2); // Move origin to center
+      // ctx.rotate(Math.PI / 4); // Rotate by 45 degrees (in radians)
+      // ctx.translate(-canvases.panel2.width / 2, -canvases.panel2.height / 2); // Move origin back to top-left corner
+
+      // ctx.drawImage(img, imageX, imageY, canvases.panel2.width, canvases.panel2.height); // Draw the image
+
+      // ctx.restore(); // Restore transformations to reset coordinate system
+
+      // Draw the cropping rectangle (on top of the image)
+      ctx.save();
+
+      ctx.beginPath();
+      ctx.rect(panel2CoreX, panel2CoreY, CORE_WIDTH, CORE_HEIGHT);
+      ctx.clip(); // Clip everything outside the rectangle
+      // ctx.fillStyle = "rgba(255,255,255,0)"; // Transparent fill for rectangle area
+      // ctx.fill();
+      ctx.translate(canvases.panel2.width / 2, canvases.panel2.height / 2); // Move origin to center
+      ctx.rotate(panel2Rads);
+      console.log ('panel2Rads', panel2Rads)
+      console.log ('imageX', imageX)
+      ctx.translate(-canvases.panel2.width / 2, -canvases.panel2.height / 2); // Move origin back to top-left corner
+      ctx.drawImage(img, imageX, imageY, canvases.panel2.width, canvases.panel2.height); // Draw cropped portion of the image
+
+      // ctx.restore();
+
+      // ctx.save();
+
+
+      ctx.restore();
+
+      // Draw rectangle outline for visibility
+      ctx.strokeStyle = "red";
+      ctx.lineWidth = 4;
+      ctx.strokeRect(panel2CoreX, panel2CoreY, CORE_WIDTH, CORE_HEIGHT);
+    }
+    function drawScene() {
+      console.log ("Drawing scene...");
+      drawPanel1(); // Draw the first panel (if needed)
+      drawPanel2(); // Draw the second panel with the image and rectangle
+    }
+    img.onload = () => {
+      drawScene();
+    };
+
+    // Event listener for key presses
+    document.addEventListener("keydown", (event) => {
+      console.log("Key pressed:", event.key);
+      const isShiftPressed = event.shiftKey;
+      switch (event.key) {
+        case "ArrowUp":
+          imageY += MOVE_STEP; // Move image up
+          panel1CoreY -= MOVE_STEP; // Move rectangle down (opposite direction)
+          break;
+        case "ArrowDown":
+          imageY -= MOVE_STEP; // Move image down
+          panel1CoreY += MOVE_STEP; // Move rectangle up (opposite direction)
+          break;
+        case "ArrowLeft":
+          imageX += MOVE_STEP; // Move image left
+          panel1CoreX -= MOVE_STEP; // Move rectangle right (opposite direction)
+          console.log ('isShiftPressed', isShiftPressed)
+          if (isShiftPressed) {
+            const coreAngle = getDegrees(panel1Rads)
+            const textureAngle = getDegrees(panel2Rads)
+            panel1Rads = getRadians(coreAngle + 1)
+            panel2Rads = getRadians(textureAngle - 1)
+          }
+          break;
+        case "ArrowRight":
+          imageX -= MOVE_STEP; // Move image right
+          panel1CoreX += MOVE_STEP; // Move rectangle left (opposite direction)
+          if (isShiftPressed) {
+            const coreAngle = getDegrees(panel1Rads)
+            const textureAngle = getDegrees(panel2Rads)
+            panel1Rads = getRadians(coreAngle - 1)
+            panel2Rads = getRadians(textureAngle + 1)
+          }
+          break;
+        default:
+          return; // Ignore other keys
+      }
+
+      drawScene(); // Redraw scene with updated positions
+    });
+  </script>
+</body>
+</html>

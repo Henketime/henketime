@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wrap Calculator</title>
+  </head>
+  <body>
+    <div style="display: flex; gap: 20px; padding: 20px;">
+      <canvas id="panel1"></canvas>
+      <canvas id="panel2"></canvas>
+    </div>
+
+    <script>
+      const ANGLE = 45; // Degrees, adjust as needed
+      const RADIANS = ANGLE * Math.PI / 180;
+
+      const CORE_WIDTH = 300;
+      const CORE_HEIGHT = 64;
+      const ASPECT_RATIO = 14/3;
+
+      const CANVAS_WIDTH = 600;
+      const CANVAS_HEIGHT = 600;
+
+      const MOVE_STEP = 10; // Pixels per key press
+
+      // Setup canvases
+      const canvases = {
+        panel1: document.getElementById('panel1'),
+        panel2: document.getElementById('panel2')
+      };
+
+      Object.values(canvases).forEach(canvas => {
+        canvas.width = CANVAS_WIDTH;
+        canvas.height = CANVAS_HEIGHT;
+      });
+
+      // Initial rectangle position
+      let rectX = (CANVAS_WIDTH - CORE_WIDTH) / 2;
+      let rectY = (CANVAS_HEIGHT - CORE_HEIGHT) / 2;
+
+      // Load image and draw both panels
+      const img = new Image();
+      img.crossOrigin = 'Anonymous';
+      img.onload = () => {
+        drawPanel1();
+        drawPanel2();
+      };
+      img.src = '../assets/UV_checker_Map_byValle.jpg';
+
+      function drawPanel1() {
+        const ctx = canvases.panel1.getContext('2d');
+        ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+        // Draw background image
+        ctx.drawImage(img, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+        // Draw rotated rectangle
+        ctx.save();
+
+        ctx.translate(
+          rectX + CORE_WIDTH / 2,
+          rectY + CORE_HEIGHT / 2
+        );
+        ctx.rotate(RADIANS);
+        ctx.translate(
+          -CORE_WIDTH / 2,
+          -CORE_HEIGHT / 2,
+        )
+
+        ctx.strokeStyle = '#ff0000';
+        ctx.lineWidth = 4;
+        ctx.strokeRect(
+          0,
+          0,
+          CORE_WIDTH,
+          CORE_HEIGHT
+        );
+        ctx.restore();
+      }
+
+      function drawPanel2() {
+        const ctx = canvases.panel2.getContext('2d');
+        ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+        ctx.save();
+        // Calculate clipping path in image's transformed space
+        const x = (CANVAS_WIDTH/2 - CORE_WIDTH/2);
+        const y = (CANVAS_HEIGHT/2 - CORE_HEIGHT/2);
+        ctx.transform(1, 0, 0, 1, x, y);  // Apply transformation matrix
+        ctx.rect(0, 0, CORE_WIDTH, CORE_HEIGHT);
+        ctx.clip();
+        ctx.restore();
+
+        // Draw background image
+        ctx.save();
+        ctx.translate(-rectX, rectY);
+        ctx.rotate(-RADIANS);
+        ctx.drawImage(img, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+        ctx.restore();
+
+        // // Draw rectangle
+        ctx.save();
+        ctx.translate(
+          CANVAS_WIDTH/2 - CORE_WIDTH/2,
+          CANVAS_HEIGHT/2 - CORE_HEIGHT/2
+        );
+        ctx.strokeStyle = '#ff0000';
+        ctx.lineWidth = 4;
+        ctx.strokeRect(0, 0, CORE_WIDTH, CORE_HEIGHT);
+        ctx.restore();
+      }
+
+      // Handle keyboard input for moving the rectangle
+      window.addEventListener('keydown', (event) => {
+        switch (event.key) {
+          case 'ArrowUp':
+            rectY -= MOVE_STEP;
+            break;
+          case 'ArrowDown':
+            rectY += MOVE_STEP;
+            break;
+          case 'ArrowLeft':
+            rectX -= MOVE_STEP;
+            break;
+          case 'ArrowRight':
+            rectX += MOVE_STEP;
+            break;
+          default:
+            return; // Ignore other keys
+        }
+
+        // Redraw both panels after movement
+        drawPanel1();
+        drawPanel2();
+      });
+    </script>
+  </body>
+</html>
