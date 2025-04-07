@@ -63,8 +63,8 @@
     function getRadians(degrees) {
       return degrees * (Math.PI / 180);
     }
-    let panel1Rads = getRadians(-45)
-    let panel2Rads = getRadians(45)
+    let coreRads = getRadians(-45)
+    let textureRads = getRadians(45)
 
     function drawPanel1() {
       console.log ("Drawing panel 1...");
@@ -81,7 +81,7 @@
         panel1CoreX + CORE_WIDTH / 2,
         panel1CoreY + CORE_HEIGHT / 2
       );
-      ctx.rotate(panel1Rads);
+      ctx.rotate(coreRads);
       ctx.translate(
         -CORE_WIDTH / 2,
         -CORE_HEIGHT / 2,
@@ -123,8 +123,8 @@
       // ctx.fillStyle = "rgba(255,255,255,0)"; // Transparent fill for rectangle area
       // ctx.fill();
       ctx.translate(canvases.panel2.width / 2, canvases.panel2.height / 2); // Move origin to center
-      ctx.rotate(panel2Rads);
-      console.log ('panel2Rads', panel2Rads)
+      ctx.rotate(textureRads);
+      console.log ('textureRads', textureRads)
       console.log ('imageX', imageX)
       ctx.translate(-canvases.panel2.width / 2, -canvases.panel2.height / 2); // Move origin back to top-left corner
       ctx.drawImage(img, imageX, imageY, canvases.panel2.width, canvases.panel2.height); // Draw cropped portion of the image
@@ -168,20 +168,22 @@
           panel1CoreX -= MOVE_STEP; // Move rectangle right (opposite direction)
           console.log ('isShiftPressed', isShiftPressed)
           if (isShiftPressed) {
-            const coreAngle = getDegrees(panel1Rads)
-            const textureAngle = getDegrees(panel2Rads)
-            panel1Rads = getRadians(coreAngle + 1)
-            panel2Rads = getRadians(textureAngle - 1)
+            const coreAngle = getDegrees(coreRads)
+            coreRads = getRadians(coreAngle + 1)
+
+            const textureAngle = getDegrees(textureRads)
+            textureRads = getRadians(textureAngle - 1)
           }
           break;
         case "ArrowRight":
           imageX -= MOVE_STEP; // Move image right
           panel1CoreX += MOVE_STEP; // Move rectangle left (opposite direction)
           if (isShiftPressed) {
-            const coreAngle = getDegrees(panel1Rads)
-            const textureAngle = getDegrees(panel2Rads)
-            panel1Rads = getRadians(coreAngle - 1)
-            panel2Rads = getRadians(textureAngle + 1)
+            const coreAngle = getDegrees(coreRads)
+            coreRads = getRadians(coreAngle - 1)
+
+            const textureAngle = getDegrees(textureRads)
+            textureRads = getRadians(textureAngle + 1)
           }
           break;
         default:
