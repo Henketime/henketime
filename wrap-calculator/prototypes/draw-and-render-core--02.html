@@ -27,14 +27,13 @@
   </div>
 
   <script>
-    // Canvas dimensions
     const CANVAS_WIDTH = 600;
     const CANVAS_HEIGHT = 600;
-    // Rectangle dimensions
+
     const CORE_WIDTH = 350;
     const CORE_HEIGHT = 75;
 
-    const MOVE_STEP = 10; // Pixels per key press
+    const MOVE_STEP = 10;
 
     const canvases = {
       panel1: document.getElementById('panel1'),
@@ -46,40 +45,33 @@
       canvas.height = CANVAS_HEIGHT;
     });
 
-    const img = new Image();
-    img.src = '../assets/UV_checker_Map_byValle.jpg';
+    const texture = new Image();
+    texture.src = '../assets/UV_checker_Map_byValle.jpg';
 
-    // Position variables
-    let imageX = 0; // Image position X
-    let imageY = 0; // Image position Y
-    let panel1CoreX = (canvases.panel1.width - CORE_WIDTH) / 2; // Rectangle center X
-    let panel1CoreY = (canvases.panel1.height - CORE_HEIGHT) / 2; // Rectangle center Y
+    let textureX = 0;
+    let textureY = 0;
+    let panel1CoreX = (canvases.panel1.width - CORE_WIDTH) / 2;
+    let panel1CoreY = (canvases.panel1.height - CORE_HEIGHT) / 2;
 
-    const panel2CoreX = (canvases.panel2.width - CORE_WIDTH) / 2; // Rectangle center X
-    const panel2CoreY = (canvases.panel2.height - CORE_HEIGHT) / 2; // Rectangle center Y
+    const panel2CoreX = (canvases.panel2.width - CORE_WIDTH) / 2;
+    const panel2CoreY = (canvases.panel2.height - CORE_HEIGHT) / 2;
 
     // Angle variables
-    let coreAngle = 0; // Initial angle in degrees
-    let textureAngle = 0; // Initial angle in degrees
+    let coreAngle = 0;
+    let textureAngle = 0;
 
     function drawPanel1() {
       const ctx = canvases.panel1.getContext('2d');
       ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
-      // Draw background image
-      ctx.drawImage(img, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-
-      // Draw rotated rectangle
+      // Draw static texture
+      ctx.drawImage(texture, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
       ctx.save();
 
       // Transform context for rotation
       const centerX = panel1CoreX + CORE_WIDTH / 2;
       const centerY = panel1CoreY + CORE_HEIGHT / 2;
 
-      console.log ('centerX:', centerX);
-      console.log ('centerY:', centerY);
-      console.log ('coreAngle:', coreAngle);
-      // TODO: Figure out how to rotate around the center of the rectangle
       // Move to rectangle center and rotate
       ctx.translate(centerX, centerY);
       ctx.rotate(coreAngle * Math.PI / 180);
@@ -95,70 +87,51 @@
       ctx.restore();
     }
 
-    // Draw the second panel with the image and rectangle
     function drawPanel2() {
       const ctx = canvases.panel2.getContext("2d");
       ctx.clearRect(0, 0, canvases.panel2.width, canvases.panel2.height);
-
-      // Rotate the image around its center
-      // ctx.save(); // Save current state
-      // ctx.translate(canvases.panel2.width / 2, canvases.panel2.height / 2); // Move origin to center
-      // ctx.rotate(Math.PI / 4); // Rotate by 45 degrees (in radians)
-      // ctx.translate(-canvases.panel2.width / 2, -canvases.panel2.height / 2); // Move origin back to top-left corner
-
-      // ctx.drawImage(img, imageX, imageY, canvases.panel2.width, canvases.panel2.height); // Draw the image
-
-      // ctx.restore(); // Restore transformations to reset coordinate system
-
-      // Draw the cropping rectangle (on top of the image)
       ctx.save();
 
       ctx.beginPath();
       ctx.rect(panel2CoreX, panel2CoreY, CORE_WIDTH, CORE_HEIGHT);
-      ctx.clip(); // Clip everything outside the rectangle
-      // ctx.fillStyle = "rgba(255,255,255,0)"; // Transparent fill for rectangle area
-      // ctx.fill();
-      ctx.translate(canvases.panel2.width / 2, canvases.panel2.height / 2); // Move origin to center
+      ctx.clip();
+
+      ctx.translate(canvases.panel2.width / 2, canvases.panel2.height / 2);
       ctx.rotate(textureAngle * Math.PI/180);
-      ctx.translate(-canvases.panel2.width / 2, -canvases.panel2.height / 2); // Move origin back to top-left corner
-      ctx.drawImage(img, imageX, imageY, canvases.panel2.width, canvases.panel2.height); // Draw cropped portion of the image
+      ctx.translate(-canvases.panel2.width / 2, -canvases.panel2.height / 2);
 
-      // Draw rectangle outline for visibility
-      ctx.strokeStyle = "red";
-      ctx.lineWidth = 4;
-      ctx.strokeRect(panel2CoreX, panel2CoreY, CORE_WIDTH, CORE_HEIGHT);
-
+      ctx.drawImage(texture, textureX, textureY, canvases.panel2.width, canvases.panel2.height);
       ctx.restore();
     }
     function drawScene() {
-      drawPanel1(); // Draw the first panel (if needed)
-      drawPanel2(); // Draw the second panel with the image and rectangle
+      drawPanel1();
+      drawPanel2();
     }
-    img.onload = () => {
+    texture.onload = () => {
       drawScene();
 
       document.addEventListener('keydown', (event) => {
         if (event.key === 'ArrowUp') {
-          imageY += MOVE_STEP;
+          textureY += MOVE_STEP;
           panel1CoreY -= MOVE_STEP;
         } else if (event.key === 'ArrowRight') {
           if (event.shiftKey) {
             coreAngle += 1
-            textureAngle += 1
+            textureAngle -= 1
           } else {
-            imageX -= MOVE_STEP;
+            textureX -= MOVE_STEP;
             panel1CoreX += MOVE_STEP;
           }
         } else if (event.key === 'ArrowDown') {
-          imageY -= MOVE_STEP;
+          textureY -= MOVE_STEP;
           panel1CoreY += MOVE_STEP;
         }
         else if (event.key === 'ArrowLeft') {
           if (event.shiftKey) {
             coreAngle -= 1
-            textureAngle -= 1
+            textureAngle += 1
           } else {
-            imageX += MOVE_STEP;
+            textureX += MOVE_STEP;
             panel1CoreX -= MOVE_STEP;
           }
         }
