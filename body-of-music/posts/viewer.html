@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>View Post</title>
+  <!-- Use the marked.js library for markdown parsing -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    body { font-family: sans-serif; background: #f9f9f9; margin: 2em; }
+    .container { max-width: 700px; margin: auto; background: #fff; padding: 2em; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    h1, h2, h3 { color: #333; }
+    pre, code { background: #eee; border-radius: 4px; padding: 0.2em 0.4em; }
+    a { color: #007acc; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Post Viewer</h1>
+    <input type="file" id="fileInput" accept=".md" />
+    <div id="postContent"></div>
+  </div>
+  <script>
+    document.getElementById('fileInput').addEventListener('change', async function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const text = await file.text();
+      document.getElementById('postContent').innerHTML = marked.parse(text);
+    });
+  </script>
+</body>
+</html>

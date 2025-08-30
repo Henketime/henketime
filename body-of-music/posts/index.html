@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Posts Index</title>
+</head>
+<body>
+  <h1>Posts Index</h1>
+  <pre id="indexContent"></pre>
+  <script>
+    async function loadIndex() {
+      // Prompt user to select the 'posts' folder
+      const dirHandle = await window.showDirectoryPicker();
+      const indexHandle = await dirHandle.getFileHandle('index.md');
+      const file = await indexHandle.getFile();
+      const text = await file.text();
+      document.getElementById('indexContent').textContent = text;
+    }
+    loadIndex();
+  </script>
+</body>
+</html>

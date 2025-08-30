@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Create a Post</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
+  <style>
+    body { font-family: sans-serif; background: #f9f9f9; margin: 2em; }
+    .container { max-width: 700px; margin: auto; background: #fff; padding: 2em; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    h1 { color: #333; }
+    label { display: block; margin-top: 1em; }
+    input[type="text"] { width: 100%; padding: 0.5em; margin-bottom: 1em; }
+    button { padding: 0.5em 1em; background: #007acc; color: #fff; border: none; border-radius: 4px; cursor: pointer; }
+    button:hover { background: #005fa3; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Create a Markdown Post</h1>
+    <form id="postForm">
+      <label>Title: <input type="text" id="title" required></label>
+      <label>Content:</label>
+      <textarea id="content"></textarea>
+      <button type="submit">Save Post</button>
+    </form>
+  </div>
+  <script>
+    var easyMDE = new EasyMDE({ element: document.getElementById('content') });
+
+    async function getPostsDirHandle() {
+      // Prompt user to select the 'posts' folder
+      return await window.showDirectoryPicker();
+    }
+
+    async function saveMarkdownFile(dirHandle, title, content) {
+      const filename = title.replace(/\s+/g, '_') + '.md';
+      const fileHandle = await dirHandle.getFileHandle(filename, { create: true });
+      const writable = await fileHandle.createWritable();
+      await writable.write(`# ${title}\n\n${content}`);
+      await writable.close();
+      return filename;
+    }
+
+    async function updateIndexFile(dirHandle, filename) {
+      // Read all markdown files in the directory
+      let files = [];
+      for await (const entry of dirHandle.values()) {
+        if (entry.kind === 'file' && entry.name.endsWith('.md') && entry.name !== 'index.md') {
+          files.push(entry.name);
+        }
+      }
+      // Create index content
+      let indexContent = '# Posts Index\n\n';
+      files.forEach(f => {
+        indexContent += `- [${f.replace('.md', '').replace(/_/g, ' ')}](${f})\n`;
+      });
+      // Write to index.md
+      const indexHandle = await dirHandle.getFileHandle('index.md', { create: true });
+      const writable = await indexHandle.createWritable();
+      await writable.write(indexContent);
+      await writable.close();
+    }
+
+    document.getElementById('postForm').onsubmit = async (e) => {
+      e.preventDefault();
+      const title = document.getElementById('title').value;
+      const content = easyMDE.value();
+      const dirHandle = await getPostsDirHandle();
+      const filename = await saveMarkdownFile(dirHandle, title, content);
+      await updateIndexFile(dirHandle, filename);
+      alert('Post saved and index updated!');
+    };
+  </script>
+</body>
+</html>
