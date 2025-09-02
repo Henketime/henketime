@@ -3,20 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <title>Posts Index</title>
+  <link rel="stylesheet" href="../variables.css">
+  <script src="../../lib/marked.min.js"></script>
+  <script src="../components/blog-navbar.js"></script>
+  <script src="../components/posts-index.js"></script>
 </head>
 <body>
-  <h1>Posts Index</h1>
-  <pre id="indexContent"></pre>
-  <script>
-    async function loadIndex() {
-      // Prompt user to select the 'posts' folder
-      const dirHandle = await window.showDirectoryPicker();
-      const indexHandle = await dirHandle.getFileHandle('index.md');
-      const file = await indexHandle.getFile();
-      const text = await file.text();
-      document.getElementById('indexContent').textContent = text;
-    }
-    loadIndex();
-  </script>
+  <blog-navbar title="Posts Index">
+    <button id="leftButton" slot="left-button">
+      Left
+    </button>
+    <button id="rightButton" slot="right-button">
+      Right
+    </button>
+  </blog-navbar>
+  <posts-index id="postsIndex" src="index.md"></posts-index>
 </body>
+<script>
+  document.getElementById('leftButton').addEventListener('click', () => {
+    window.location.href = '../create/index.html'
+  });
+  document.getElementById('rightButton').addEventListener('click', () => {
+    window.location.href = './viewer.html'
+  });
+</script>
 </html>

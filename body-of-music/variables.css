@@ -1,0 +1,14 @@
+:root {
+  --v-one-sixth: 2px;
+  --v-quarter: 3px;
+  --v-half: 6px;
+  --v-three-quarters: 9px;
+  --v-one: 12px;
+  --v-one-and-a-half: 18px;
+  --v-two: 24px;
+  --v-two-and-a-half: 30px;
+  --v-three: 36px;
+
+  --border-radius: var(--v-half);
+  --box-shadow: 0 var(--v-one-sixth) var(--v-one) rgba(0,0,0,0.07);
+}
