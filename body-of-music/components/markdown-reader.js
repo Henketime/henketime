@@ -1,7 +1,7 @@
-class MarkdownViewer extends HTMLElement {
+class MarkdownReader extends HTMLElement {
   constructor() {
     super();
-    console.log ('MarkdownViewer constructed');
+    console.log ('MarkdownReader constructed');
     this.attachShadow({ mode: 'open' });
     this.shadowRoot.innerHTML = `
       <style>
@@ -18,8 +18,10 @@ class MarkdownViewer extends HTMLElement {
 
   attributeChangedCallback(name, oldValue, newValue) {
     if (name === 'src' && newValue) {
+      console.log ('loadMarkdown', newValue)
       this.loadMarkdown(newValue);
     } else if (name === 'markdown') {
+      console.log ('renderMarkdown', newValue)
       this.renderMarkdown(newValue);
     }
   }
@@ -31,6 +33,7 @@ class MarkdownViewer extends HTMLElement {
       const text = await response.text();
       this.renderMarkdown(text);
     } catch (err) {
+      console.log ('Error loading markdown:', err);
       this.shadowRoot.querySelector('.markdown-content').textContent = 'Error: ' + err.message;
     }
   }
@@ -44,4 +47,4 @@ class MarkdownViewer extends HTMLElement {
   }
 }
 
-customElements.define('markdown-viewer', MarkdownViewer);
+customElements.define('markdown-reader', MarkdownReader);

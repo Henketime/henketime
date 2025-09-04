@@ -3,26 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <title>View Post</title>
-  <!-- Use the marked.js library for markdown parsing -->
+  <script src="../components/blog-navbar.js"></script>
+  <script src="../components/markdown-reader.js"></script>
+  <link rel="stylesheet" href="../styles/styles.css">
+  <!-- easyMDE -->
   <link rel="stylesheet" href="../../lib/easymde.min.css">
   <script src="../../lib/marked.min.js"></script>
-  <script src="../components/markdown-viewer.js"></script>
-  <style>
-    body { font-family: sans-serif; background: #f9f9f9; margin: 2em; }
-    .container { max-width: 700px; margin: auto; background: #fff; padding: 2em; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-    h1, h2, h3 { color: #333; }
-    pre, code { background: #eee; border-radius: 4px; padding: 0.2em 0.4em; }
-    a { color: #007acc; }
-  </style>
 </head>
 <body>
+  <blog-navbar title="Posts Index">
+    <button id="leftButton" slot="left-button">
+      Left
+    </button>
+    <button id="rightButton" slot="right-button">
+      Right
+    </button>
+  </blog-navbar>
   <div class="container">
-    <h1>Post Viewer</h1>
+    <h1>Post Reader</h1>
     <div style="margin-top:2em; display:flex; justify-content:space-between;">
       <button id="prevBtn">Previous</button>
       <button id="nextBtn">Next</button>
     </div>
-    <markdown-viewer id="mdViewer"></markdown-viewer>
+    <markdown-reader id="mdReader"></markdown-reader>
   </div>
   <script>
     // Get the 'file' query parameter from the URL
@@ -30,27 +33,29 @@
       const urlParams = new URLSearchParams(window.location.search);
       return urlParams.get(name);
     }
-    fetch('index.md')
+    fetch('blogs-index.csv')
       .then(response => response.text())
       .then(text => {
-        const posts = text.split('\n')
-          .map(line => {
-            const regex = /\[([^\]]+)\]\(([^)]+)\)/;
-            const match = line.match(regex);
-            if (match) {
-              const title = match[1];
-              const file = match[2];
-              return file.trim();
-            }
-            return line.trim();
+        const lines = text.trim().split('\n').slice(1);
+        if (lines.length < 2) {
+          this.shadowRoot.querySelector('.posts-index').innerHTML = '<p>No posts available.</p>';
+          return;
+        }
+        const posts = (
+          lines
+          .map(post => {
+            const [title, filename, date] = post.split(',');
+            return filename.trim();
           })
-          .filter(line => line.endsWith('.md'));
+          .filter(Boolean)
+          .filter(filename => filename.endsWith('.md'))
+        );
         const file = getQueryParam('file');
         let currentIndex = posts.indexOf(file);
         if (file && currentIndex !== -1) {
-          document.getElementById('mdViewer').setAttribute('src', file);
+          document.getElementById('mdReader').setAttribute('src', `../posts/${file}`);
         } else {
-          document.getElementById('mdViewer').setAttribute('markdown', 'No file specified.');
+          document.getElementById('mdReader').setAttribute('markdown', 'No file specified.');
           currentIndex = 0;
         }
         function navigate(offset) {

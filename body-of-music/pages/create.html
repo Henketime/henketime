@@ -3,8 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <title>Create a Post</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
+  <script src="../components/blog-navbar.js"></script>
+  <link rel="stylesheet" href="../styles/variables.css">
+  <link rel="stylesheet" href="../styles/styles.css">
+  <!-- EasyMDE -->
+  <script src="../../lib/marked.min.js"></script>
+  <link rel="stylesheet" href="../../lib/easymde.min.css">
   <style>
     body { font-family: sans-serif; background: #f9f9f9; margin: 2em; }
     .container { max-width: 700px; margin: auto; background: #fff; padding: 2em; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
@@ -16,6 +20,14 @@
   </style>
 </head>
 <body>
+  <blog-navbar title="Posts Index">
+    <button id="leftButton" slot="left-button">
+      Left
+    </button>
+    <button id="rightButton" slot="right-button">
+      Right
+    </button>
+  </blog-navbar>
   <div class="container">
     <h1>Create a Markdown Post</h1>
     <form id="postForm">
@@ -37,7 +49,7 @@
       const filename = title.replace(/\s+/g, '_') + '.md';
       const fileHandle = await dirHandle.getFileHandle(filename, { create: true });
       const writable = await fileHandle.createWritable();
-      await writable.write(`# ${title}\n\n${content}`);
+      await writable.write(`---\ntitle: "${title}"\ndate: ${new Date().toISOString().slice(0,10)}\n---\n\n${content}`);
       await writable.close();
       return filename;
     }
@@ -51,12 +63,14 @@
         }
       }
       // Create index content
-      let indexContent = '# Posts Index\n\n';
-      files.forEach(f => {
-        indexContent += `- [${f.replace('.md', '').replace(/_/g, ' ')}](${f})\n`;
+      let indexContent = 'title,filename,date\n';
+      files.forEach(file => {
+        const filename = file.replace('.md', '').slice(11).replace(/_/g, ' ').split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+        const date = file.slice(0, 10);
+        indexContent += `${filename},${file},${date}\n`;
       });
-      // Write to index.md
-      const indexHandle = await dirHandle.getFileHandle('index.md', { create: true });
+      // Write to index.csv
+      const indexHandle = await dirHandle.getFileHandle('index.csv', { create: true });
       const writable = await indexHandle.createWritable();
       await writable.write(indexContent);
       await writable.close();

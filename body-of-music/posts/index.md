@@ -1,3 +1,0 @@
-- [First Sample Post](2025-08-14-first-sample-post.md)
-- [Second Example Post](2025-08-20-second-example-post.md)
-- [Third Demo Entry](2025-08-30-third-demo-entry.md)

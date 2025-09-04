@@ -10,5 +10,6 @@
   --v-three: 36px;
 
   --border-radius: var(--v-half);
+  --half-border-radius: var(--v-quarter);
   --box-shadow: 0 var(--v-one-sixth) var(--v-one) rgba(0,0,0,0.07);
 }

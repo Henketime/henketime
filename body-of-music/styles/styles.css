@@ -1,0 +1,57 @@
+@import url('./variables.css');
+
+body {
+  font-family: sans-serif;
+  background: #f9f9f9;
+  margin: 0;
+}
+h1, h2, h3 {
+  color: #333;
+}
+pre, code {
+  background: #eee;
+  border-radius: var(--half-border-radius);
+  padding: var(--v-one-eighth) var(--v-quarter);
+}
+a, button {
+  color: #007acc;
+  text-decoration: none;
+  font-size: var(--v-one);
+}
+button {
+  background: #007acc;
+  color: #fff;
+  border: none;
+  border-radius: var(--half-border-radius);
+  padding: var(--v-one-and-a-half) var(--v-two);
+  cursor: pointer;
+  font-size: var(--v-one);
+  transition: background 0.2s;
+}
+button:hover {
+  background: #005fa3;
+}
+.container {
+  max-width: 700px;
+  margin: auto;
+  background: #fff;
+  padding: 2em;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+}
+.button-row {
+  display: flex;
+  gap: var(--v-one);
+  margin-top: var(--v-two);
+}
+.preview-title {
+  margin-bottom: var(--v-one-eighth);
+}
+.preview-date {
+  color: #888;
+  font-size: 0.95em;
+  margin-bottom: var(--v-one);
+}
+.preview-content {
+  margin-bottom: var(--v-one);
+}

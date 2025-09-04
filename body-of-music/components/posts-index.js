@@ -14,27 +14,32 @@ class PostsIndex extends HTMLElement {
   connectedCallback() {
     const src = this.getAttribute('src');
     if (src) {
-      this.loadMarkdown(src);
+      this.loadCSV(src);
     }
   }
 
-  async loadMarkdown(url) {
+  async loadCSV(url) {
     try {
       const response = await fetch(url);
-      if (!response.ok) throw new Error('Failed to fetch markdown');
+      if (!response.ok) throw new Error('Failed to fetch CSV');
       const text = await response.text();
-      this.renderMarkdown(text);
+      this.renderLinks(text);
     } catch (err) {
       this.shadowRoot.querySelector('.posts-index').textContent = 'Error: ' + err.message;
     }
   }
 
-  renderMarkdown(mdText) {
-    if (window.marked) {
-      this.shadowRoot.querySelector('.posts-index').innerHTML = window.marked.parse(mdText);
-    } else {
-      this.shadowRoot.querySelector('.posts-index').textContent = mdText;
+  renderLinks(csvText) {
+    const posts = csvText.trim().split('\n').slice(1);
+    if (posts.length < 2) {
+      this.shadowRoot.querySelector('.posts-index').innerHTML = '<p>No posts available.</p>';
+      return;
     }
+    const links = posts.map(post => {
+      const [title, filename, date] = post.split(',');
+      return `<li><a href="reader.html?file=${encodeURIComponent(filename)}">${title}</a> <small>${date}</small></li>`;
+    }).join('');
+    this.shadowRoot.querySelector('.posts-index').innerHTML = `<ul>${links}</ul>`;
   }
 }
 
