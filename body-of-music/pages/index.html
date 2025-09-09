@@ -3,22 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <title>Body of Music Blog</title>
-  <script src="../components/blog-navbar.js"></script>
+  <script src="../components/blog-nav/blog-nav.js"></script>
   <link rel="stylesheet" href="../styles/styles.css">
-  <!-- EasyMDE -->
-  <link rel="stylesheet" href="../lib/easymde.min.css">
-  <script src="../lib/marked.min.js"></script>
+  <!-- Markdown libraries -->
+  <link rel="stylesheet" href="../../lib/easymde.min.css">
+  <script src="../../lib/marked.min.js"></script>
 </head>
 <body>
-  <blog-navbar title="Posts Index">
-    <button id="leftButton" slot="left-button">
-      Left
+  <blog-nav title="Home Page">
+    <button
+      slot="left-button"
+      id="leftButton"
+      class="button button--nav"
+      onclick="location.href='posts.html'"
+    >
+      All Posts
     </button>
-    <button id="rightButton" slot="right-button">
-      Right
+    <button
+      slot="right-button"
+      id="rightButton"
+      class="button button--nav"
+      onclick="location.href='reader.html?file=2023-06-05-im-losing-myself.md'"
+    >
+      Read First Post
     </button>
-  </blog-navbar>
-  <div class="container">
+  </blog-nav>
+  <section>
     <h1>Body of Music</h1>
     <div id="postPreview">
       <!-- Post preview will be rendered here -->
@@ -27,7 +37,7 @@
       <button onclick="location.href='posts.html'">View All Posts</button>
       <button onclick="location.href='create.html'">Write a Bodyfeel Post</button>
     </div>
-  </div>
+  </section>
   <script>
     // Sample post markdown
     const sampleMarkdown = `# Third Demo Entry\n\nThis is the third sample markdown post, created for demonstration purposes.\n\n- Date: August 30, 2025\n- Markdown: Supported\n\nThanks for checking out these samples!`;
@@ -38,6 +48,14 @@
       <div class="preview-date">August 30, 2025</div>
       <div class="preview-content">${html}</div>
     `;
+  </script>
+  <script>
+    document.getElementById('leftButton').addEventListener('click', () => {
+      window.location.href = '../pages/create.html'
+    });
+    document.getElementById('rightButton').addEventListener('click', () => {
+      window.location.href = '../pages/reader.html'
+    });
   </script>
 </body>
 </html>

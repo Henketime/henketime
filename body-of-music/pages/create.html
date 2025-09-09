@@ -3,32 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <title>Create a Post</title>
-  <script src="../components/blog-navbar.js"></script>
+  <script src="../components/blog-nav/blog-nav.js"></script>
   <link rel="stylesheet" href="../styles/variables.css">
   <link rel="stylesheet" href="../styles/styles.css">
-  <!-- EasyMDE -->
-  <script src="../../lib/marked.min.js"></script>
-  <link rel="stylesheet" href="../../lib/easymde.min.css">
-  <style>
-    body { font-family: sans-serif; background: #f9f9f9; margin: 2em; }
-    .container { max-width: 700px; margin: auto; background: #fff; padding: 2em; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-    h1 { color: #333; }
-    label { display: block; margin-top: 1em; }
-    input[type="text"] { width: 100%; padding: 0.5em; margin-bottom: 1em; }
-    button { padding: 0.5em 1em; background: #007acc; color: #fff; border: none; border-radius: 4px; cursor: pointer; }
-    button:hover { background: #005fa3; }
-  </style>
+  <!-- Markdown libraries -->
+  <script src="../../../lib/marked.min.js"></script>
+  <link rel="stylesheet" href="../../../lib/easymde.min.css">
 </head>
 <body>
-  <blog-navbar title="Posts Index">
-    <button id="leftButton" slot="left-button">
-      Left
+  <blog-nav title="Create Post">
+    <button
+      slot="left-button"
+      id="leftButton"
+      class="button button--nav"
+      onclick="location.href='posts.html'"
+    >
+      All Posts
     </button>
-    <button id="rightButton" slot="right-button">
-      Right
+    <button
+      slot="right-button"
+      id="rightButton"
+      class="button button--nav"
+      onclick="location.href='reader.html?file=2023-06-05-im-losing-myself.md'"
+    >
+      Read First Post
     </button>
-  </blog-navbar>
-  <div class="container">
+  </blog-nav>
+  <section>
     <h1>Create a Markdown Post</h1>
     <form id="postForm">
       <label>Title: <input type="text" id="title" required></label>
@@ -36,7 +37,7 @@
       <textarea id="content"></textarea>
       <button type="submit">Save Post</button>
     </form>
-  </div>
+  </section>
   <script>
     var easyMDE = new EasyMDE({ element: document.getElementById('content') });
 
@@ -85,6 +86,14 @@
       await updateIndexFile(dirHandle, filename);
       alert('Post saved and index updated!');
     };
+  </script>
+  <script>
+    document.getElementById('leftButton').addEventListener('click', () => {
+      window.location.href = '../pages/create.html'
+    });
+    document.getElementById('rightButton').addEventListener('click', () => {
+      window.location.href = '../pages/reader.html'
+    });
   </script>
 </body>
 </html>

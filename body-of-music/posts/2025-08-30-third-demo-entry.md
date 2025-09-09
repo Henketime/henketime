@@ -10,4 +10,6 @@ This is the third sample markdown post, created for demonstration purposes.
 - Date: August 30, 2025
 - Markdown: Supported
 
+----- embed -----
+
 Thanks for checking out these samples!

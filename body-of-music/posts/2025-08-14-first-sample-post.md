@@ -10,4 +10,6 @@ This is the first sample post. It demonstrates the markdown format for posts in 
 - Written on August 14, 2025
 - Markdown supported
 
+----- embed -----
+
 Enjoy reading!

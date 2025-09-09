@@ -10,4 +10,6 @@ Here is another example post, created to show how multiple markdown files can be
 - Date: August 20, 2025
 - Features: Example content, markdown formatting
 
+----- embed -----
+
 Feel free to edit or expand!

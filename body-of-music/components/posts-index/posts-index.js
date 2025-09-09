@@ -4,8 +4,15 @@ class PostsIndex extends HTMLElement {
     this.attachShadow({ mode: 'open' });
     this.shadowRoot.innerHTML = `
       <style>
-        :host { display: block; font-family: sans-serif; }
-        .posts-index { background: #fff; padding: 1em; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
+        :host {
+          display: block;
+          font-family: sans-serif;
+        }
+        .posts-index {
+          background: #fff;
+          padding: var(--v-one, 12px);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+        }
       </style>
       <div class="posts-index"></div>
     `;

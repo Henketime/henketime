@@ -3,22 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <title>Posts Index</title>
-  <script src="../components/blog-navbar.js"></script>
-  <script src="../components/posts-index.js"></script>
+  <script src="../components/blog-nav/blog-nav.js"></script>
+  <script src="../components/posts-index/posts-index.js"></script>
   <link rel="stylesheet" href="../styles/variables.css">
   <link rel="stylesheet" href="../styles/styles.css">
-  <!-- EasyMDE -->
-  <script src="../../lib/marked.min.js"></script>
+  <!-- Markdown libraries -->
+  <script src="../../../lib/marked.min.js"></script>
 </head>
 <body>
-  <blog-navbar title="Posts Index">
-    <button id="leftButton" slot="left-button">
-      Left
+  <blog-nav title="Posts Index">
+    <button
+      slot="left-button"
+      id="leftButton"
+      class="button button--nav"
+      onclick="location.href='posts.html'"
+    >
+      All Posts
     </button>
-    <button id="rightButton" slot="right-button">
-      Right
+    <button
+      slot="right-button"
+      id="rightButton"
+      class="button button--nav"
+      onclick="location.href='reader.html?file=2023-06-05-im-losing-myself.md'"
+    >
+      Read First Post
     </button>
-  </blog-navbar>
+  </blog-nav>
   <posts-index id="postsIndex" src="blogs-index.csv"></posts-index>
 </body>
 <script>
