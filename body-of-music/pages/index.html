@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Body of Music Blog</title>
+  <script src="../components/blog-nav/blog-nav.js"></script>
+  <link rel="stylesheet" href="../styles/styles.css">
+  <!-- Markdown libraries -->
+  <link rel="stylesheet" href="../../lib/easymde.min.css">
+  <script src="../../lib/marked.min.js"></script>
+</head>
+<body>
+  <blog-nav title="Home Page">
+    <button
+      slot="left-button"
+      id="leftButton"
+      class="button button--nav"
+      onclick="location.href='posts.html'"
+    >
+      All Posts
+    </button>
+    <button
+      slot="right-button"
+      id="rightButton"
+      class="button button--nav"
+      onclick="location.href='reader.html'"
+    >
+      Read First Post
+    </button>
+  </blog-nav>
+  <section>
+    <h1>Body of Music</h1>
+    <div id="postPreview">
+      <!-- Post preview will be rendered here -->
+    </div>
+    <div class="button-row">
+      <button onclick="location.href='posts.html'" class="button">View All Posts</button>
+      <button onclick="location.href='create.html'" class="button">Write a Bodyfeel Post</button>
+    </div>
+  </section>
+  <script>
+    // TODO: Create post preview web component
+    const sampleMarkdown = `# Third Demo Entry\n\nThis is the third sample markdown post, created for demonstration purposes.\n\n- Date: August 30, 2025\n- Markdown: Supported\n\nThanks for checking out these samples!`;
+    const html = marked.parse(sampleMarkdown);
+    document.getElementById('postPreview').innerHTML = `
+      <div class="preview-title"><strong>Third Demo Entry</strong></div>
+      <div class="preview-date">August 30, 2025</div>
+      <div class="preview-content">${html}</div>
+    `;
+  </script>
+</body>
+</html>

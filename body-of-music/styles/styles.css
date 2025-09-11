@@ -1,0 +1,109 @@
+@import url('./variables.css');
+
+html body * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+html {
+  font-size: var(--v-one) !important;
+}
+body {
+  touch-action: manipulation;
+  height: 100%;
+  margin: 0;
+  font-family: Roboto, Segoe UI, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: var(--v-one-and-a-half);
+  line-height: 1.6;
+  background: #f9f9f9;
+}
+html body blog-nav {
+  position: sticky;
+  top: 0;
+  display: block;
+  margin-bottom: var(--v-one, 12px);
+  padding: var(--v-one, 12px) 0;
+  background: #fff;
+  box-shadow: var(--box-shadow-level-2);
+  z-index: 1;
+}
+html body section {
+  max-width: 720px;
+  margin: auto;
+  background: #fff;
+  padding: var(--v-one, 12px);
+  box-shadow: var(--box-shadow-level-1);
+}
+section {
+  margin-bottom: var(--v-two, 24px);
+}
+h1, h2, h3 {
+  color: #333;
+}
+h1 {
+  font-size: var(--v-three);
+  margin-top: var(--v-two);
+  margin-bottom: var(--v-one);
+}
+h2 {
+  font-size: var(--v-two-and-a-half);
+  margin-top: var(--v-two);
+  margin-bottom: var(--v-one-half);
+}
+h3 {
+  font-size: var(--v-one-and-a-half);
+  margin-top: var(--v-one);
+  margin-bottom: var(--v-one-quarter);
+}
+pre, code {
+  background: #eee;
+  padding: var(--v-one-eighth) var(--v-one-quarter);
+}
+a {
+  color: transparent;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+img {
+  display: block;
+  max-width: 100%;
+}
+/* Global class styles */
+.button-row {
+  display: flex;
+  margin: var(--v-one) 0;
+  gap: var(--v-one);
+}
+.button-row--full-width {
+  width: 100%;
+  justify-content: space-between;
+}
+.button-row--right {
+  justify-content: end;
+}
+.button {
+  background: transparent;
+  color: #336699;
+  border: 1px solid #99ccff;
+  padding: var(--v-one-and-a-half) var(--v-two);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.button:hover {
+  background: #f9f9f9;
+}
+.button--shadow {
+  padding: unset;
+}
+.preview-title {
+  margin-bottom: var(--v-one-eighth);
+}
+.preview-date {
+  color: #888;
+  margin-bottom: var(--v-one);
+}
+.preview-content {
+  margin-bottom: var(--v-one);
+}
