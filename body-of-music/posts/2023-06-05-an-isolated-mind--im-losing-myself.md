@@ -4,7 +4,6 @@ album-artist: AN ISOLATED MIND
 post-author: Kevin Henke
 date: 2023-05-22
 image-filename: an-isolated-minds-im-losing-myself.png
-media-source: bandcamp
 embed-info: {"url":"https://i-voidhangerrecords.bandcamp.com/album/im-losing-myself","title":"Im Losing Myself, by AN ISOLATED MIND","description":"7 track album","thumbnail_url":"https://substack-post-media.s3.amazonaws.com/public/images/8449c99b-39f5-484c-9e56-f3dca2298185_700x700.jpeg","author":"I, Voidhanger Records","embed_url":"https://bandcamp.com/EmbeddedPlayer/album=1506319974/size=large/bgcol=ffffff/linkcol=333333/artwork=small/transparent=true/","is_album":true}
 ---
 

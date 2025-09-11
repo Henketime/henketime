@@ -23,7 +23,7 @@
       slot="right-button"
       id="rightButton"
       class="button button--nav"
-      onclick="location.href='reader.html?file=2023-06-05-im-losing-myself.md'"
+      onclick="location.href='reader.html'"
     >
       Read First Post
     </button>
@@ -34,28 +34,19 @@
       <!-- Post preview will be rendered here -->
     </div>
     <div class="button-row">
-      <button onclick="location.href='posts.html'">View All Posts</button>
-      <button onclick="location.href='create.html'">Write a Bodyfeel Post</button>
+      <button onclick="location.href='posts.html'" class="button">View All Posts</button>
+      <button onclick="location.href='create.html'" class="button">Write a Bodyfeel Post</button>
     </div>
   </section>
   <script>
-    // Sample post markdown
+    // TODO: Create post preview web component
     const sampleMarkdown = `# Third Demo Entry\n\nThis is the third sample markdown post, created for demonstration purposes.\n\n- Date: August 30, 2025\n- Markdown: Supported\n\nThanks for checking out these samples!`;
-    // Render preview (first 2 paragraphs and list)
     const html = marked.parse(sampleMarkdown);
     document.getElementById('postPreview').innerHTML = `
       <div class="preview-title"><strong>Third Demo Entry</strong></div>
       <div class="preview-date">August 30, 2025</div>
       <div class="preview-content">${html}</div>
     `;
-  </script>
-  <script>
-    document.getElementById('leftButton').addEventListener('click', () => {
-      window.location.href = '../pages/create.html'
-    });
-    document.getElementById('rightButton').addEventListener('click', () => {
-      window.location.href = '../pages/reader.html'
-    });
   </script>
 </body>
 </html>

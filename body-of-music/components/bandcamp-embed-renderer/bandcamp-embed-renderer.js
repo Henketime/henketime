@@ -14,16 +14,13 @@ class BandcampEmbedRenderer extends HTMLElement {
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
-    console.log ('bandcamp-embed-renderer attributeChangedCallback', name, newValue);
     if (name === 'embed-info' && newValue) {
       this.renderEmbed(newValue);
     }
   }
 
   renderEmbed(embedInfoString) {
-    console.log ('renderEmbed called with', embedInfoString);
     try {
-      // If embedInfoString uses single quotes, replace them with double quotes
       const jsonString = embedInfoString.replace(/'/g, '"');
       this.embedInfo = JSON.parse(jsonString);
     } catch (error) {

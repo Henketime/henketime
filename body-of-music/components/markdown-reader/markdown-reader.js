@@ -7,7 +7,6 @@ class MarkdownReader extends HTMLElement {
         :host {
           display: block;
           background: #fff;
-          padding-top: var(--v-one, 12px);
         }
         .markdown-content {
           padding: 1em;
@@ -19,6 +18,13 @@ class MarkdownReader extends HTMLElement {
           height: auto;
           display: block;
           margin: 20px auto;
+        }
+        .markdown-content h1 {
+          margin-top: 0;
+          margin-bottom: 0;
+        }
+        .markdown-content h1 + h2 {
+          margin-top: 0;
         }
       </style>
       <div class="markdown-content"></div>

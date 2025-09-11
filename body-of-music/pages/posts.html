@@ -24,19 +24,11 @@
       slot="right-button"
       id="rightButton"
       class="button button--nav"
-      onclick="location.href='reader.html?file=2023-06-05-im-losing-myself.md'"
+      onclick="location.href='reader.html'"
     >
       Read First Post
     </button>
   </blog-nav>
   <posts-index id="postsIndex" src="blogs-index.csv"></posts-index>
 </body>
-<script>
-  document.getElementById('leftButton').addEventListener('click', () => {
-    window.location.href = '../pages/create.html'
-  });
-  document.getElementById('rightButton').addEventListener('click', () => {
-    window.location.href = '../pages/reader.html'
-  });
-</script>
 </html>

@@ -26,18 +26,21 @@
       slot="right-button"
       id="rightButton"
       class="button button--nav"
-      onclick="location.href='reader.html?file=2023-06-05-im-losing-myself.md'"
+      onclick="location.href='reader.html'"
     >
       Read First Post
     </button>
   </blog-nav>
   <section>
-    <h1>Post Reader</h1>
     <div class="button-row button-row--full-width">
       <button id="prevBtn" class="button">Previous</button>
       <button id="nextBtn" class="button">Next</button>
     </div>
     <post-reader id="postReader"></post-reader>
+    <div class="button-row button-row--full-width">
+      <button id="prevBtn" class="button">Previous</button>
+      <button id="nextBtn" class="button">Next</button>
+    </div>
   </section>
 
   <script>
@@ -62,11 +65,12 @@
           .filter(Boolean)
           .filter(filename => filename.endsWith('.md'))
         );
-        // Initialize the post reader with the specified file or the first post
+
         const file = getQueryParam('file');
-        let currentIndex = posts.indexOf(file);
-        if (file && currentIndex !== -1) {
-          document.getElementById('postReader').setAttribute('src', `../posts/${file}`);
+        let currentIndex = file ? posts.indexOf(file) : 0;
+        console.log (file, currentIndex, posts);
+        if (currentIndex !== -1) {
+          document.getElementById('postReader').setAttribute('src', `../posts/${posts[currentIndex]}`);
         } else {
           document.getElementById('postReader').setAttribute('markdown', 'No file specified.');
           currentIndex = 0;
@@ -79,14 +83,6 @@
         document.getElementById('prevBtn').onclick = () => navigate(-1);
         document.getElementById('nextBtn').onclick = () => navigate(1);
       });
-  </script>
-  <script>
-    document.getElementById('leftButton').addEventListener('click', () => {
-      window.location.href = '../pages/create.html'
-    });
-    document.getElementById('rightButton').addEventListener('click', () => {
-      window.location.href = '../pages/reader.html'
-    });
   </script>
 </body>
 </html>

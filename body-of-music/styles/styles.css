@@ -80,6 +80,9 @@ img {
   width: 100%;
   justify-content: space-between;
 }
+.button-row--right {
+  justify-content: end;
+}
 .button {
   background: transparent;
   color: #336699;

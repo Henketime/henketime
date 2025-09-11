@@ -4,10 +4,12 @@
   <meta charset="UTF-8">
   <title>Create a Post</title>
   <script src="../components/blog-nav/blog-nav.js"></script>
+  <script src="../components/markdown-editor/markdown-editor.js"></script>
+  <script src="../components/post-editor/post-editor.js"></script>
   <link rel="stylesheet" href="../styles/variables.css">
   <link rel="stylesheet" href="../styles/styles.css">
   <!-- Markdown libraries -->
-  <script src="../../../lib/marked.min.js"></script>
+  <script src="../../../lib/easymde.min.js"></script>
   <link rel="stylesheet" href="../../../lib/easymde.min.css">
 </head>
 <body>
@@ -24,76 +26,14 @@
       slot="right-button"
       id="rightButton"
       class="button button--nav"
-      onclick="location.href='reader.html?file=2023-06-05-im-losing-myself.md'"
+      onclick="location.href='reader.html'"
     >
       Read First Post
     </button>
   </blog-nav>
   <section>
     <h1>Create a Markdown Post</h1>
-    <form id="postForm">
-      <label>Title: <input type="text" id="title" required></label>
-      <label>Content:</label>
-      <textarea id="content"></textarea>
-      <button type="submit">Save Post</button>
-    </form>
+    <post-editor></post-editor>
   </section>
-  <script>
-    var easyMDE = new EasyMDE({ element: document.getElementById('content') });
-
-    async function getPostsDirHandle() {
-      // Prompt user to select the 'posts' folder
-      return await window.showDirectoryPicker();
-    }
-
-    async function saveMarkdownFile(dirHandle, title, content) {
-      const filename = title.replace(/\s+/g, '_') + '.md';
-      const fileHandle = await dirHandle.getFileHandle(filename, { create: true });
-      const writable = await fileHandle.createWritable();
-      await writable.write(`---\ntitle: "${title}"\ndate: ${new Date().toISOString().slice(0,10)}\n---\n\n${content}`);
-      await writable.close();
-      return filename;
-    }
-
-    async function updateIndexFile(dirHandle, filename) {
-      // Read all markdown files in the directory
-      let files = [];
-      for await (const entry of dirHandle.values()) {
-        if (entry.kind === 'file' && entry.name.endsWith('.md') && entry.name !== 'index.md') {
-          files.push(entry.name);
-        }
-      }
-      // Create index content
-      let indexContent = 'title,filename,date\n';
-      files.forEach(file => {
-        const filename = file.replace('.md', '').slice(11).replace(/_/g, ' ').split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-        const date = file.slice(0, 10);
-        indexContent += `${filename},${file},${date}\n`;
-      });
-      // Write to index.csv
-      const indexHandle = await dirHandle.getFileHandle('index.csv', { create: true });
-      const writable = await indexHandle.createWritable();
-      await writable.write(indexContent);
-      await writable.close();
-    }
-
-    document.getElementById('postForm').onsubmit = async (e) => {
-      e.preventDefault();
-      const title = document.getElementById('title').value;
-      const content = easyMDE.value();
-      const dirHandle = await getPostsDirHandle();
-      const filename = await saveMarkdownFile(dirHandle, title, content);
-      await updateIndexFile(dirHandle, filename);
-      alert('Post saved and index updated!');
-    };
-  </script>
-  <script>
-    document.getElementById('leftButton').addEventListener('click', () => {
-      window.location.href = '../pages/create.html'
-    });
-    document.getElementById('rightButton').addEventListener('click', () => {
-      window.location.href = '../pages/reader.html'
-    });
-  </script>
 </body>
 </html>

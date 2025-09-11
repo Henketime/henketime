@@ -31,8 +31,8 @@ class PostsIndex extends HTMLElement {
       if (!response.ok) throw new Error('Failed to fetch CSV');
       const text = await response.text();
       this.renderLinks(text);
-    } catch (err) {
-      this.shadowRoot.querySelector('.posts-index').textContent = 'Error: ' + err.message;
+    } catch (error) {
+      this.shadowRoot.querySelector('.posts-index').textContent = 'Error: ' + error.message;
     }
   }
 
