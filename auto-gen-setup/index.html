@@ -1,0 +1,1734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoGen AgentChat Cheatsheet</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #e8ecef;
+            --bg-secondary: #f5f7f9;
+            --bg-sidebar: #d4dce3;
+            --text-primary: #1a2a3a;
+            --text-secondary: #3d5266;
+            --text-muted: #677b8f;
+            --border-color: #b8c5d1;
+            --accent-primary: #4a7ba7;
+            --accent-hover: #3a5f85;
+            --code-bg: #2d3748;
+            --shadow: rgba(26, 42, 58, 0.1);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a2a3a;
+            --bg-secondary: #243447;
+            --bg-sidebar: #0f1a26;
+            --text-primary: #e8ecef;
+            --text-secondary: #b8c5d1;
+            --text-muted: #8899aa;
+            --border-color: #3d5266;
+            --accent-primary: #6fa3d8;
+            --accent-hover: #8bb9e3;
+            --code-bg: #0d1117;
+            --shadow: rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0.625rem 1.25rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 4px var(--shadow);
+        }
+
+        .header-content {
+            max-width: 1800px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1.25rem;
+        }
+
+        .header-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .header-subtitle {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 0.125rem;
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-box input {
+            padding: 0.375rem 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 0.75rem;
+            width: 200px;
+            transition: border-color 0.2s;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+        }
+
+        .search-box input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .btn {
+            padding: 0.375rem 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .btn:hover {
+            background: var(--accent-primary);
+            color: white;
+            border-color: var(--accent-primary);
+        }
+
+        .switch-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .switch-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 20px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--border-color);
+            transition: 0.3s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 14px;
+            width: 14px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--accent-primary);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+
+        .search-message {
+            padding: 0.625rem;
+            margin: 0.625rem 0;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            color: var(--text-secondary);
+            text-align: center;
+            display: none;
+            font-size: 0.75rem;
+        }
+
+        .search-message.visible {
+            display: block;
+        }
+
+        /* Layout */
+        .layout {
+            display: flex;
+            max-width: 1800px;
+            margin: 0 auto;
+            min-height: calc(100vh - 80px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 200px;
+            background: var(--bg-sidebar);
+            border-right: 1px solid var(--border-color);
+            padding: 0.75rem 0;
+            position: sticky;
+            top: 60px;
+            height: calc(100vh - 60px);
+            overflow-y: auto;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 0.25rem;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 0.75rem;
+            border-left: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .nav-item:hover {
+            background: var(--bg-primary);
+        }
+
+        .nav-item.active {
+            background: var(--bg-primary);
+            border-left-color: var(--accent-primary);
+        }
+
+        .nav-checkbox {
+            width: 14px;
+            height: 14px;
+            margin-right: 0.5rem;
+            cursor: pointer;
+            flex-shrink: 0;
+            accent-color: var(--accent-primary);
+        }
+
+        .sidebar-nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.75rem;
+            flex: 1;
+        }
+
+        .nav-item:hover a {
+            color: var(--text-primary);
+        }
+
+        .nav-item.active a {
+            color: var(--accent-primary);
+            font-weight: 500;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+        }
+
+        .section {
+            margin-bottom: 1.5rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .section-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .toggle-icon {
+            color: var(--text-muted);
+            transition: transform 0.2s;
+        }
+
+        .section.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .section-content {
+            display: block;
+        }
+
+        .section.collapsed .section-content {
+            display: none;
+        }
+
+        .subsection {
+            margin-bottom: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 4px;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .subsection-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0;
+            margin-bottom: 0.5rem;
+        }
+
+        .subsection-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .subsection-content {
+            padding-left: 0;
+        }
+
+        .content-block {
+            margin-bottom: 0.75rem;
+        }
+
+        .content-block p {
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+        }
+
+        pre {
+            background: var(--code-bg);
+            border-radius: 4px;
+            padding: 0.625rem;
+            overflow-x: auto;
+            margin: 0;
+            border: 1px solid var(--border-color);
+        }
+
+        [data-theme="light"] pre {
+            background: #f6f8fa;
+        }
+
+        [data-theme="light"] code {
+            color: var(--text-primary);
+        }
+
+        [data-theme="dark"] pre {
+            background: #0d1117;
+        }
+
+        [data-theme="dark"] code {
+            color: #e8ecef;
+        }
+
+        code {
+            font-family: 'Courier New', monospace;
+            font-size: 0.7rem;
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+            border-radius: 0;
+        }
+
+        .highlight {
+            background: rgba(255, 255, 0, 0.2);
+            padding: 0.125rem 0.25rem;
+            border-radius: 3px;
+        }
+
+        /* Scrollbar */
+        .sidebar::-webkit-scrollbar,
+        .main-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .sidebar::-webkit-scrollbar-track,
+        .main-content::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+
+        .sidebar::-webkit-scrollbar-thumb,
+        .main-content::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb:hover,
+        .main-content::-webkit-scrollbar-thumb:hover {
+            background: var(--text-muted);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 180px;
+            }
+
+            .header-controls {
+                flex-wrap: wrap;
+            }
+
+            .search-box input {
+                width: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div>
+                <h1 class="header-title">AutoGen AgentChat + GPT-4o Cheatsheet</h1>
+                <p class="header-subtitle">Complete Command Reference for Building a Medium SaaS Project</p>
+            </div>
+            <div class="header-controls">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search commands..." autocomplete="off">
+                </div>
+                <div class="switch-container">
+                    <span class="switch-label">Dark</span>
+                    <label class="switch">
+                        <input type="checkbox" id="themeToggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <button class="btn" id="resetState">Reset View</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="layout">
+        <nav class="sidebar">
+            <ul class="sidebar-nav" id="sidebarNav">
+                <li>
+                    <div class="nav-item" data-section="initial-setup">
+                        <input type="checkbox" class="nav-checkbox" data-section="initial-setup">
+                        <a href="#initial-setup" data-section="initial-setup">Initial Setup</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="nav-item" data-section="core-agent-patterns">
+                        <input type="checkbox" class="nav-checkbox" data-section="core-agent-patterns">
+                        <a href="#core-agent-patterns" data-section="core-agent-patterns">Core Agent Patterns</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="nav-item" data-section="cli-commands">
+                        <input type="checkbox" class="nav-checkbox" data-section="cli-commands">
+                        <a href="#cli-commands" data-section="cli-commands">CLI Commands</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="nav-item" data-section="repo-builder-example">
+                        <input type="checkbox" class="nav-checkbox" data-section="repo-builder-example">
+                        <a href="#repo-builder-example" data-section="repo-builder-example">repo_builder.py Example</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="nav-item" data-section="iteration-patterns">
+                        <input type="checkbox" class="nav-checkbox" data-section="iteration-patterns">
+                        <a href="#iteration-patterns" data-section="iteration-patterns">Iteration Workflow Patterns</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="nav-item" data-section="monitoring-logging">
+                        <input type="checkbox" class="nav-checkbox" data-section="monitoring-logging">
+                        <a href="#monitoring-logging" data-section="monitoring-logging">Monitoring & Logging</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="nav-item" data-section="debugging">
+                        <input type="checkbox" class="nav-checkbox" data-section="debugging">
+                        <a href="#debugging" data-section="debugging">Debugging & Troubleshooting</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="nav-item" data-section="git-workflow">
+                        <input type="checkbox" class="nav-checkbox" data-section="git-workflow">
+                        <a href="#git-workflow" data-section="git-workflow">Git Workflow Integration</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="nav-item" data-section="monthly-workflow">
+                        <input type="checkbox" class="nav-checkbox" data-section="monthly-workflow">
+                        <a href="#monthly-workflow" data-section="monthly-workflow">Monthly Workflow Summary</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="nav-item" data-section="cost-tracking">
+                        <input type="checkbox" class="nav-checkbox" data-section="cost-tracking">
+                        <a href="#cost-tracking" data-section="cost-tracking">Cost Tracking</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="nav-item" data-section="quick-reference">
+                        <input type="checkbox" class="nav-checkbox" data-section="quick-reference">
+                        <a href="#quick-reference" data-section="quick-reference">Quick Reference</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="nav-item" data-section="resources">
+                        <input type="checkbox" class="nav-checkbox" data-section="resources">
+                        <a href="#resources" data-section="resources">Additional Resources</a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+
+        <main class="main-content" id="mainContent">
+            <div id="searchMessage" class="search-message"></div>
+            <section class="section" id="initial-setup" data-section="initial-setup">
+                <div class="section-header">
+                    <h2 class="section-title">Initial Setup (Day 1)</h2>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="section-content">
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <h3 class="subsection-title">1. Environment Setup</h3>
+                        </div>
+                        <div class="subsection-content">
+                            <pre><code class="language-bash"># Create project directory
+mkdir saas-builder && cd saas-builder
+
+# Create Python virtual environment (recommended)
+python3 -m venv .venv
+source .venv/bin/activate  # Linux/Mac
+# .venv\Scripts\activate.bat  # Windows
+
+# Verify Python version (3.10+ required)
+python --version</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <h3 class="subsection-title">2. Install AutoGen Stack</h3>
+                        </div>
+                        <div class="subsection-content">
+                            <pre><code class="language-bash"># Install core AgentChat package
+pip install -U "autogen-agentchat"
+
+# Install OpenAI extension
+pip install "autogen-ext[openai]"
+
+# Optional: Install additional executors
+pip install "autogen-ext[docker]"  # For Docker code execution</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <h3 class="subsection-title">3. OpenAI API Configuration</h3>
+                        </div>
+                        <div class="subsection-content">
+                            <pre><code class="language-bash"># Create .env file
+touch .env
+
+# Add to .env file:
+# OPENAI_API_KEY=sk-proj-your-key-here
+# OPENAI_MODEL=gpt-4o
+
+# Install python-dotenv for environment variable management
+pip install python-dotenv
+
+# Verify API key works
+python -c "import openai; print('OpenAI configured')"</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <h3 class="subsection-title">4. Project Structure Setup</h3>
+                        </div>
+                        <div class="subsection-content">
+                            <pre><code class="language-bash"># Create directory structure
+mkdir -p agents workflows output logs requirements
+
+# Create core files
+touch requirements.txt
+touch repo_builder.py
+touch config.yaml
+touch .gitignore
+
+# Initialize git (for generated repositories)
+git init output/generated_repo</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <h3 class="subsection-title">5. Dependencies File</h3>
+                        </div>
+                        <div class="subsection-content">
+                            <pre><code class="language-bash">cat > requirements.txt << EOF
+autogen-agentchat>=0.4.0
+autogen-ext[openai]>=0.4.0
+python-dotenv>=1.0.0
+pyyaml>=6.0
+gitpython>=3.1.0
+rich>=13.0.0
+EOF
+
+pip install -r requirements.txt</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" id="core-agent-patterns" data-section="core-agent-patterns">
+                <div class="section-header">
+                    <h2 class="section-title">Core Agent Patterns</h2>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="section-content">
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <h3 class="subsection-title">Basic Agent Creation</h3>
+                        </div>
+                        <div class="subsection-content">
+                            <pre><code class="language-python">from autogen_agentchat.agents import AssistantAgent
+from autogen_ext.models.openai import OpenAIChatCompletionClient
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+# Configure model client
+model_client = OpenAIChatCompletionClient(
+    model="gpt-4o",
+    api_key=os.getenv("OPENAI_API_KEY")
+)
+
+# Create specialized agent
+requirements_analyst = AssistantAgent(
+    name="requirements_analyst",
+    model_client=model_client,
+    system_message="""You are a Requirements Analyst. Your role:
+    - Parse technical requirements documents
+    - Extract functional and non-functional requirements
+    - Identify missing specifications
+    - Structure requirements for development teams""",
+    description="Analyzes and structures technical requirements"
+)</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <h3 class="subsection-title">Multi-Agent Team Setup</h3>
+                        </div>
+                        <div class="subsection-content">
+                            <pre><code class="language-python">from autogen_agentchat.teams import RoundRobinGroupChat
+from autogen_agentchat.conditions import TextMentionTermination
+
+# Create agent team
+agents = [
+    requirements_analyst,
+    system_architect,
+    backend_engineer,
+    frontend_engineer,
+    qa_engineer,
+    devops_engineer
+]
+
+# Define termination condition
+termination = TextMentionTermination("TASK_COMPLETE")
+
+# Create team with round-robin coordination
+team = RoundRobinGroupChat(
+    agents,
+    termination_condition=termination
+)
+
+# Execute team workflow
+result = await team.run(task="Build SaaS app from requirements.md")</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" id="cli-commands" data-section="cli-commands">
+                <div class="section-header">
+                    <h2 class="section-title">CLI Commands for Daily Workflow</h2>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="section-content">
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <h3 class="subsection-title">Week 1: Initial Build</h3>
+                        </div>
+                        <div class="subsection-content">
+                            <pre><code class="language-bash"># Day 1: Parse requirements and create architecture
+python repo_builder.py init --spec requirements/spec_v1.md --output output/generated_repo
+
+# Day 2: Generate backend scaffolding
+python repo_builder.py generate backend --spec requirements/spec_v1.md
+
+# Day 3: Generate frontend scaffolding
+python repo_builder.py generate frontend --spec requirements/spec_v1.md
+
+# Day 4: Generate database schema and migrations
+python repo_builder.py generate database --spec requirements/spec_v1.md
+
+# Day 5: Generate tests and documentation
+python repo_builder.py generate tests --spec requirements/spec_v1.md
+python repo_builder.py generate docs --spec requirements/spec_v1.md</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <h3 class="subsection-title">Week 2-4: Iterative Development</h3>
+                        </div>
+                        <div class="subsection-content">
+                            <pre><code class="language-bash"># Update requirements document
+vim requirements/spec_v2.md
+
+# Run targeted update (only affected agents execute)
+python repo_builder.py update \
+  --spec requirements/spec_v2.md \
+  --target backend \
+  --files "src/api/users.py,src/models/user.py"
+
+# Run full system update (all agents review and update)
+python repo_builder.py update --spec requirements/spec_v2.md --full
+
+# Add new feature with specific agents
+python repo_builder.py feature add \
+  --name "payment-integration" \
+  --agents backend,frontend,qa
+
+# Run tests through QA agent
+python repo_builder.py test --target output/generated_repo
+
+# Generate summary of all agent actions
+python repo_builder.py summary --output logs/agent_summary_$(date +%Y%m%d).md</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <h3 class="subsection-title">Specialized Commands</h3>
+                        </div>
+                        <div class="subsection-content">
+                            <pre><code class="language-bash"># Architecture review (architect + PM agents only)
+python repo_builder.py review architecture --spec requirements/spec_v3.md
+
+# Security audit (security specialist agent)
+python repo_builder.py audit security --target output/generated_repo
+
+# Performance optimization (backend + devops agents)
+python repo_builder.py optimize performance
+
+# Dependency updates (devops agent)
+python repo_builder.py deps update
+
+# Generate deployment configs (devops agent)
+python repo_builder.py deploy config --env production
+
+# Code quality check (all agents)
+python repo_builder.py quality check --output logs/quality_report.md
+
+# Rollback to previous iteration
+python repo_builder.py rollback --iteration 12
+
+# Compare iterations
+python repo_builder.py diff --from 12 --to 15</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" id="repo-builder-example" data-section="repo-builder-example">
+                <div class="section-header">
+                    <h2 class="section-title">repo_builder.py (Main CLI Entry Point)</h2>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="section-content">
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <h3 class="subsection-title">Complete Implementation</h3>
+                        </div>
+                        <div class="subsection-content">
+                            <pre><code class="language-python">#!/usr/bin/env python3
+"""
+Main CLI for multi-agent SaaS repository builder
+Usage: python repo_builder.py &lt;command&gt; [options]
+"""
+
+import asyncio
+import argparse
+from pathlib import Path
+from autogen_agentchat.agents import AssistantAgent
+from autogen_agentchat.teams import RoundRobinGroupChat
+from autogen_agentchat.conditions import TextMentionTermination
+from autogen_ext.models.openai import OpenAIChatCompletionClient
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+class RepoBuilder:
+    def __init__(self, spec_file: str, output_dir: str):
+        self.spec_file = Path(spec_file)
+        self.output_dir = Path(output_dir)
+        self.model_client = OpenAIChatCompletionClient(
+            model="gpt-4o",
+            api_key=os.getenv("OPENAI_API_KEY")
+        )
+        self.agents = self._create_agents()
+    
+    def _create_agents(self):
+        """Create specialized agent team"""
+        return {
+            "pm": AssistantAgent(
+                name="product_manager",
+                model_client=self.model_client,
+                system_message="You are a Product Manager..."
+            ),
+            "architect": AssistantAgent(
+                name="architect",
+                model_client=self.model_client,
+                system_message="You are a System Architect..."
+            ),
+            "backend": AssistantAgent(
+                name="backend_engineer",
+                model_client=self.model_client,
+                system_message="You are a Backend Engineer..."
+            ),
+            "frontend": AssistantAgent(
+                name="frontend_engineer",
+                model_client=self.model_client,
+                system_message="You are a Frontend Engineer..."
+            ),
+            "qa": AssistantAgent(
+                name="qa_engineer",
+                model_client=self.model_client,
+                system_message="You are a QA Engineer..."
+            ),
+            "devops": AssistantAgent(
+                name="devops_engineer",
+                model_client=self.model_client,
+                system_message="You are a DevOps Engineer..."
+            )
+        }
+    
+    async def init_project(self):
+        """Initialize new project from requirements"""
+        spec_content = self.spec_file.read_text()
+        
+        team = RoundRobinGroupChat(
+            list(self.agents.values()),
+            termination_condition=TextMentionTermination("INITIALIZATION_COMPLETE")
+        )
+        
+        task = f"""Create a new SaaS application based on these requirements:
+
+{spec_content}
+
+Output structure:
+1. Project architecture document
+2. Backend scaffolding (API routes, models, services)
+3. Frontend scaffolding (components, pages, state management)
+4. Database schema and migrations
+5. Test suites
+6. Documentation (README, API docs)
+7. Deployment configuration
+
+INITIALIZATION_COMPLETE when all files are generated."""
+
+        result = await team.run(task=task)
+        self._save_results(result)
+        return result
+    
+    async def update_feature(self, target_agents: list, description: str):
+        """Update specific feature with targeted agents"""
+        spec_content = self.spec_file.read_text()
+        
+        # Select only required agents
+        selected_agents = [self.agents[name] for name in target_agents]
+        
+        team = RoundRobinGroupChat(
+            selected_agents,
+            termination_condition=TextMentionTermination("UPDATE_COMPLETE")
+        )
+        
+        task = f"""Update the following feature:
+
+{description}
+
+Current requirements: {spec_content}
+
+Only modify files related to this feature. Preserve all other code.
+UPDATE_COMPLETE when changes are implemented and tested."""
+
+        result = await team.run(task=task)
+        self._save_results(result)
+        return result
+    
+    def _save_results(self, result):
+        """Save agent outputs and summaries"""
+        # Implementation: parse result.messages and write to files
+        pass
+
+def main():
+    parser = argparse.ArgumentParser(description="Multi-agent SaaS repository builder")
+    subparsers = parser.add_subparsers(dest="command", help="Commands")
+    
+    # init command
+    init_parser = subparsers.add_parser("init", help="Initialize new project")
+    init_parser.add_argument("--spec", required=True, help="Requirements document")
+    init_parser.add_argument("--output", required=True, help="Output directory")
+    
+    # update command
+    update_parser = subparsers.add_parser("update", help="Update existing project")
+    update_parser.add_argument("--spec", required=True, help="Updated requirements")
+    update_parser.add_argument("--target", help="Target agents (comma-separated)")
+    update_parser.add_argument("--full", action="store_true", help="Full system update")
+    
+    # feature command
+    feature_parser = subparsers.add_parser("feature", help="Add new feature")
+    feature_parser.add_argument("action", choices=["add", "remove", "modify"])
+    feature_parser.add_argument("--name", required=True, help="Feature name")
+    feature_parser.add_argument("--agents", help="Required agents (comma-separated)")
+    
+    args = parser.parse_args()
+    
+    builder = RepoBuilder(args.spec, args.output)
+    
+    if args.command == "init":
+        asyncio.run(builder.init_project())
+    elif args.command == "update":
+        target_agents = args.target.split(",") if args.target else list(builder.agents.keys())
+        asyncio.run(builder.update_feature(target_agents, "Update from spec"))
+    
+    print("✓ Operation completed successfully")
+
+if __name__ == "__main__":
+    main()</code></pre>
+                            <pre><code class="language-bash"># Make executable
+chmod +x repo_builder.py</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" id="iteration-patterns" data-section="iteration-patterns">
+                <div class="section-header">
+                    <h2 class="section-title">Iteration Workflow Patterns</h2>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="section-content">
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <h3 class="subsection-title">Pattern 1: Full Multi-Agent Run (10x/month)</h3>
+                        </div>
+                        <div class="subsection-content">
+                            <pre><code class="language-bash"># Update requirements document
+vim requirements/spec_v3.md
+
+# Run all agents for comprehensive rebuild
+python repo_builder.py update --spec requirements/spec_v3.md --full
+
+# Review generated summary
+cat logs/agent_summary_latest.md
+
+# Test generated code
+cd output/generated_repo && npm test && pytest
+
+# Commit iteration
+git add . && git commit -m "Iteration 15: Added payment gateway"</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <h3 class="subsection-title">Pattern 2: Targeted Update (20x/month)</h3>
+                        </div>
+                        <div class="subsection-content">
+                            <pre><code class="language-bash"># Small feature addition - only backend + QA
+python repo_builder.py feature add \
+  --name "user-profile-avatar" \
+  --agents backend,qa \
+  --spec requirements/spec_v3.md
+
+# Bug fix - only relevant agent
+python repo_builder.py fix \
+  --issue "API rate limiting not working" \
+  --agent backend
+
+# UI change - only frontend
+python repo_builder.py update \
+  --target frontend \
+  --files "src/components/Dashboard.tsx"</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <h3 class="subsection-title">Pattern 3: Trickle-Down Delegation</h3>
+                        </div>
+                        <div class="subsection-content">
+                            <pre><code class="language-bash"># PM reviews spec change → Architect approves → Engineers implement
+python repo_builder.py workflow \
+  --type hierarchical \
+  --spec requirements/spec_v4.md \
+  --approval-chain pm,architect,backend,frontend,qa
+
+# Only execute if PM and architect approve
+# Automatically delegates to relevant engineers</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" id="monitoring-logging" data-section="monitoring-logging">
+                <div class="section-header">
+                    <h2 class="section-title">Monitoring & Logging</h2>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="section-content">
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <h3 class="subsection-title">Track Token Usage</h3>
+                        </div>
+                        <div class="subsection-content">
+                            <pre><code class="language-python"># Add to your code
+from autogen_agentchat.ui import Console
+
+async def run_with_logging(team, task):
+    result = await Console(team.run_stream(task=task))
+    
+    # Log token usage
+    total_tokens = sum(msg.usage.total_tokens for msg in result.messages if hasattr(msg, 'usage'))
+    cost = (total_tokens / 1_000_000) * 2.50  # GPT-4o input pricing
+    
+    print(f"Tokens used: {total_tokens:,}")
+    print(f"Estimated cost: ${cost:.4f}")
+    
+    return result</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <h3 class="subsection-title">Generate Agent Summaries</h3>
+                        </div>
+                        <div class="subsection-content">
+                            <pre><code class="language-bash"># Export all agent actions from current iteration
+python repo_builder.py summary \
+  --format markdown \
+  --output logs/iteration_15_summary.md
+
+# Example output structure:
+# - Requirements Analyst: Parsed 15 new requirements
+# - Architect: Updated API design for payment gateway
+# - Backend Engineer: Implemented Stripe integration (3 files)
+# - Frontend Engineer: Created checkout UI (5 components)
+# - QA Engineer: Added 12 integration tests
+# - DevOps: Updated deployment config for PCI compliance</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <h3 class="subsection-title">Daily/Weekly Reports</h3>
+                        </div>
+                        <div class="subsection-content">
+                            <pre><code class="language-bash"># Generate weekly activity report
+python repo_builder.py report weekly \
+  --from 2026-02-01 \
+  --to 2026-02-07 \
+  --output reports/week_6.md
+
+# Token usage report
+python repo_builder.py report tokens \
+  --month february \
+  --output reports/cost_february.csv</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" id="debugging" data-section="debugging">
+                <div class="section-header">
+                    <h2 class="section-title">Debugging & Troubleshooting</h2>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="section-content">
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <h3 class="subsection-title">Common Commands</h3>
+                        </div>
+                        <div class="subsection-content">
+                            <pre><code class="language-bash"># Verbose output mode (see all agent messages)
+python repo_builder.py --verbose update --spec requirements/spec.md
+
+# Dry-run mode (preview without executing)
+python repo_builder.py --dry-run feature add --name "export-data"
+
+# Debug specific agent
+python repo_builder.py debug agent backend \
+  --task "Explain current API structure"
+
+# Validate requirements document
+python repo_builder.py validate spec requirements/spec_v5.md
+
+# Check agent health
+python repo_builder.py health check
+
+# Reset agent context (clear memory)
+python repo_builder.py reset context --agent all</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <h3 class="subsection-title">Environment Management</h3>
+                        </div>
+                        <div class="subsection-content">
+                            <pre><code class="language-bash"># Check installed versions
+pip list | grep autogen
+
+# Update AutoGen to latest
+pip install -U autogen-agentchat autogen-ext[openai]
+
+# Verify OpenAI API connectivity
+python -c "from autogen_ext.models.openai import OpenAIChatCompletionClient; import os; client = OpenAIChatCompletionClient(model='gpt-4o', api_key=os.getenv('OPENAI_API_KEY')); print('✓ API connected')"
+
+# Check Python version
+python --version  # Should be 3.10+
+
+# Reinstall if issues
+pip uninstall autogen-agentchat autogen-ext -y
+pip install autogen-agentchat autogen-ext[openai]</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" id="git-workflow" data-section="git-workflow">
+                <div class="section-header">
+                    <h2 class="section-title">Git Workflow Integration</h2>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="section-content">
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <h3 class="subsection-title">Track Iterations with Git</h3>
+                        </div>
+                        <div class="subsection-content">
+                            <pre><code class="language-bash"># After each iteration, commit generated code
+cd output/generated_repo
+
+git add .
+git commit -m "Iteration $(date +%Y%m%d): Feature XYZ - Agents: backend,frontend,qa"
+
+# Tag major iterations
+git tag -a v0.1.0 -m "Initial MVP - Iteration 10"
+
+# Branch for experimental features
+git checkout -b feature/payment-gateway
+python ../../repo_builder.py feature add --name "stripe-integration"
+
+# Merge when approved
+git checkout main && git merge feature/payment-gateway</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <h3 class="subsection-title">Diff Between Iterations</h3>
+                        </div>
+                        <div class="subsection-content">
+                            <pre><code class="language-bash"># Compare generated code across iterations
+git diff iteration-12..iteration-15 > diffs/12_to_15.patch
+
+# Show what changed in specific file
+git log --follow src/api/payments.py
+
+# Blame: which agent/iteration created this line
+git blame src/models/user.py</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" id="monthly-workflow" data-section="monthly-workflow">
+                <div class="section-header">
+                    <h2 class="section-title">Monthly Workflow Summary</h2>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="section-content">
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <h3 class="subsection-title">Week 1: Foundation</h3>
+                        </div>
+                        <div class="subsection-content">
+                            <pre><code class="language-bash"># Day 1-2: Initial requirements & architecture
+python repo_builder.py init --spec requirements/mvp_spec.md --output output/saas_app
+
+# Day 3-5: Core feature implementation
+for feature in auth dashboard api-core; do
+  python repo_builder.py feature add --name $feature --spec requirements/mvp_spec.md
+done</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <h3 class="subsection-title">Week 2-3: Feature Iteration (20-25 updates)</h3>
+                        </div>
+                        <div class="subsection-content">
+                            <pre><code class="language-bash"># Typical daily pattern:
+# 1. Update spec for new feature/change
+vim requirements/spec_v{2..10}.md
+
+# 2. Run targeted update
+python repo_builder.py update --target backend,frontend --spec requirements/spec_v*.md
+
+# 3. Review and test
+cd output/saas_app && npm run test:all
+
+# 4. Commit iteration
+git add . && git commit -m "Iteration X: ..."</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <h3 class="subsection-title">Week 4: Polish & Deploy (5-8 updates)</h3>
+                        </div>
+                        <div class="subsection-content">
+                            <pre><code class="language-bash"># Performance optimization
+python repo_builder.py optimize performance
+
+# Security audit
+python repo_builder.py audit security
+
+# Generate production configs
+python repo_builder.py deploy config --env production
+
+# Final documentation update
+python repo_builder.py generate docs --comprehensive
+
+# Monthly summary
+python repo_builder.py report monthly --month february --output reports/february_2026.md</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" id="cost-tracking" data-section="cost-tracking">
+                <div class="section-header">
+                    <h2 class="section-title">Cost Tracking</h2>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="section-content">
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <h3 class="subsection-title">Monitor Monthly Spend</h3>
+                        </div>
+                        <div class="subsection-content">
+                            <pre><code class="language-python"># Track token usage in real-time
+# Add to your Python scripts:
+
+import json
+from datetime import datetime
+
+def log_usage(tokens_used, cost):
+    log_entry = {
+        "timestamp": datetime.now().isoformat(),
+        "tokens": tokens_used,
+        "cost_usd": cost
+    }
+    
+    with open("logs/usage.jsonl", "a") as f:
+        f.write(json.dumps(log_entry) + "\n")
+
+# Generate monthly report
+python -c "
+import json
+total_cost = sum(json.loads(line)['cost_usd'] for line in open('logs/usage.jsonl'))
+print(f'Monthly cost: \${total_cost:.2f}')
+"</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <h3 class="subsection-title">Cost Optimization</h3>
+                        </div>
+                        <div class="subsection-content">
+                            <pre><code class="language-python"># Use cheaper models for simpler agents
+qa_agent = AssistantAgent(
+    name="qa_engineer",
+    model_client=OpenAIChatCompletionClient(model="gpt-3.5-turbo"),  # Cheaper
+    system_message="..."
+)
+
+docs_agent = AssistantAgent(
+    name="docs_writer",
+    model_client=OpenAIChatCompletionClient(model="gpt-3.5-turbo"),  # Cheaper
+    system_message="..."
+)
+
+# Use GPT-4o only for critical reasoning (architect, complex backend)
+architect = AssistantAgent(
+    name="architect",
+    model_client=OpenAIChatCompletionClient(model="gpt-4o"),  # Premium
+    system_message="..."
+)</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" id="quick-reference" data-section="quick-reference">
+                <div class="section-header">
+                    <h2 class="section-title">Quick Reference: Most Used Commands</h2>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="section-content">
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <h3 class="subsection-title">Setup (once)</h3>
+                        </div>
+                        <div class="subsection-content">
+                            <pre><code class="language-bash">python3 -m venv .venv && source .venv/bin/activate
+pip install autogen-agentchat autogen-ext[openai] python-dotenv
+echo "OPENAI_API_KEY=sk-..." > .env</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <h3 class="subsection-title">Daily Workflow</h3>
+                        </div>
+                        <div class="subsection-content">
+                            <pre><code class="language-bash">python repo_builder.py update --spec requirements/spec.md --target backend,frontend
+python repo_builder.py test
+python repo_builder.py summary --output logs/today.md
+git add . && git commit -m "Iteration X"</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <h3 class="subsection-title">Debugging</h3>
+                        </div>
+                        <div class="subsection-content">
+                            <pre><code class="language-bash">python repo_builder.py --verbose update --spec requirements/spec.md
+python repo_builder.py validate spec requirements/spec.md
+python repo_builder.py health check</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <h3 class="subsection-title">Reports</h3>
+                        </div>
+                        <div class="subsection-content">
+                            <pre><code class="language-bash">python repo_builder.py report weekly --output reports/week_N.md
+python repo_builder.py report tokens --month february</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" id="resources" data-section="resources">
+                <div class="section-header">
+                    <h2 class="section-title">Additional Resources</h2>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="section-content">
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <h3 class="subsection-title">Essential Documentation</h3>
+                        </div>
+                        <div class="subsection-content">
+                            <div class="content-block">
+                                <p><strong>AutoGen AgentChat Guide:</strong> <a href="https://microsoft.github.io/autogen/stable/user-guide/agentchat-user-guide/" target="_blank">https://microsoft.github.io/autogen/stable/user-guide/agentchat-user-guide/</a></p>
+                                <p><strong>OpenAI API Reference:</strong> <a href="https://platform.openai.com/docs/api-reference" target="_blank">https://platform.openai.com/docs/api-reference</a></p>
+                                <p><strong>AutoGen GitHub:</strong> <a href="https://github.com/microsoft/autogen" target="_blank">https://github.com/microsoft/autogen</a></p>
+                                <p><strong>Code Execution:</strong> <a href="https://microsoft.github.io/autogen/stable/user-guide/core-user-guide/components/command-line-code-executors.html" target="_blank">https://microsoft.github.io/autogen/stable/user-guide/core-user-guide/components/command-line-code-executors.html</a></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <h3 class="subsection-title">Community & Support</h3>
+                        </div>
+                        <div class="subsection-content">
+                            <div class="content-block">
+                                <p><strong>AutoGen Discord:</strong> <a href="https://discord.gg/autogen" target="_blank">https://discord.gg/autogen</a></p>
+                                <p><strong>GitHub Discussions:</strong> <a href="https://github.com/microsoft/autogen/discussions" target="_blank">https://github.com/microsoft/autogen/discussions</a></p>
+                                <p><strong>Example Projects:</strong> <a href="https://github.com/microsoft/autogen/tree/main/python/samples" target="_blank">https://github.com/microsoft/autogen/tree/main/python/samples</a></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <div class="subsection-header">
+                            <h3 class="subsection-title">Key Information</h3>
+                        </div>
+                        <div class="subsection-content">
+                            <div class="content-block">
+                                <p><strong>Cost Estimate:</strong> ~$5 USD/month for 30 iterations (GPT-4o)</p>
+                                <p><strong>Time to Prototype:</strong> 2-4 hours (setup + initial build)</p>
+                                <p><strong>Recommended Python:</strong> 3.10 or 3.11 (3.12 works but some deps may lag)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // State management (in-memory only - no localStorage due to sandbox)
+        const state = {
+            theme: 'light',
+            collapsedSections: [],
+            checkedSections: []
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeTheme();
+            initializeCollapsedState();
+            initializeCheckedState();
+            initializeEventListeners();
+            updateActiveNavLink();
+        });
+
+        // Theme management
+        function initializeTheme() {
+            document.documentElement.setAttribute('data-theme', state.theme);
+            updateThemeButton();
+        }
+
+        function toggleTheme() {
+            state.theme = state.theme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', state.theme);
+            updateThemeButton();
+        }
+
+        function updateThemeButton() {
+            const toggle = document.getElementById('themeToggle');
+            toggle.checked = state.theme === 'dark';
+        }
+
+        // Collapse state management
+        function initializeCollapsedState() {
+            state.collapsedSections.forEach(id => {
+                const section = document.getElementById(id);
+                if (section) section.classList.add('collapsed');
+            });
+        }
+
+        function saveCollapsedState() {
+            const collapsedSections = Array.from(document.querySelectorAll('.section.collapsed'))
+                .map(el => el.id)
+                .filter(id => id);
+
+            state.collapsedSections = collapsedSections;
+        }
+
+        // Checkbox state management
+        function initializeCheckedState() {
+            state.checkedSections.forEach(sectionId => {
+                const checkbox = document.querySelector(`.nav-checkbox[data-section="${sectionId}"]`);
+                if (checkbox) checkbox.checked = true;
+            });
+        }
+
+        function saveCheckedState() {
+            const checkedSections = Array.from(document.querySelectorAll('.nav-checkbox:checked'))
+                .map(el => el.getAttribute('data-section'))
+                .filter(id => id);
+
+            state.checkedSections = checkedSections;
+        }
+
+        function resetState() {
+            // Reset arrays
+            state.collapsedSections = [];
+            state.checkedSections = [];
+            
+            // Expand all sections
+            document.querySelectorAll('.section.collapsed').forEach(el => {
+                el.classList.remove('collapsed');
+            });
+
+            // Uncheck all checkboxes
+            document.querySelectorAll('.nav-checkbox').forEach(checkbox => {
+                checkbox.checked = false;
+            });
+
+            // Clear search
+            const searchInput = document.getElementById('searchInput');
+            searchInput.value = '';
+            clearSearch();
+        }
+
+        // Event listeners
+        function initializeEventListeners() {
+            // Theme toggle
+            document.getElementById('themeToggle').addEventListener('change', toggleTheme);
+
+            // Reset state
+            document.getElementById('resetState').addEventListener('click', () => {
+                resetState();
+            });
+
+            // Section headers
+            document.querySelectorAll('.section-header').forEach(header => {
+                header.addEventListener('click', () => {
+                    const section = header.parentElement;
+                    section.classList.toggle('collapsed');
+                    saveCollapsedState();
+                });
+            });
+
+            // Sidebar navigation
+            document.querySelectorAll('.sidebar-nav a').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const sectionId = link.getAttribute('data-section');
+                    const section = document.getElementById(sectionId);
+                    if (section) {
+                        const headerHeight = document.querySelector('.header').offsetHeight;
+                        const elementPosition = section.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerHeight - 20;
+                        
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+                        updateActiveNavLink(sectionId);
+                    }
+                });
+            });
+
+            // Checkbox functionality
+            document.querySelectorAll('.nav-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', (e) => {
+                    const sectionId = e.target.getAttribute('data-section');
+                    const section = document.getElementById(sectionId);
+                    
+                    if (e.target.checked && section) {
+                        // Collapse section when checked
+                        section.classList.add('collapsed');
+                    }
+                    
+                    saveCheckedState();
+                    saveCollapsedState();
+                });
+            });
+
+            // Search
+            const searchInput = document.getElementById('searchInput');
+            let searchTimeout;
+            
+            searchInput.addEventListener('input', (e) => {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    if (e.target.value) {
+                        performSearch(e.target.value);
+                    } else {
+                        clearSearch();
+                    }
+                }, 300);
+            });
+
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    performSearch(e.target.value);
+                }
+            });
+
+            // Scroll spy for sidebar
+            window.addEventListener('scroll', updateActiveNavLink);
+        }
+
+        // Search functionality
+        function performSearch(query) {
+            if (!query) {
+                clearSearch();
+                return;
+            }
+
+            const lowerQuery = query.toLowerCase().trim();
+            let matchCount = 0;
+            let firstMatch = null;
+
+            // Collapse all sections first
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.add('collapsed');
+            });
+
+            // Search in all text content
+            document.querySelectorAll('.section').forEach(section => {
+                let sectionHasMatch = false;
+                
+                // Search in subsections
+                section.querySelectorAll('.subsection').forEach(subsection => {
+                    const codeBlocks = subsection.querySelectorAll('code');
+                    const textBlocks = subsection.querySelectorAll('p');
+
+                    // Check code blocks
+                    codeBlocks.forEach(code => {
+                        if (code.textContent.toLowerCase().includes(lowerQuery)) {
+                            sectionHasMatch = true;
+                            matchCount++;
+                            if (!firstMatch) firstMatch = subsection;
+                        }
+                    });
+
+                    // Check text blocks
+                    textBlocks.forEach(text => {
+                        if (text.textContent.toLowerCase().includes(lowerQuery)) {
+                            sectionHasMatch = true;
+                            matchCount++;
+                            if (!firstMatch) firstMatch = subsection;
+                        }
+                    });
+                });
+
+                // Expand section if it has matches
+                if (sectionHasMatch) {
+                    section.classList.remove('collapsed');
+                }
+            });
+
+            // Show message
+            const messageEl = document.getElementById('searchMessage');
+            if (matchCount === 0) {
+                messageEl.textContent = `No matches found for "${query}"`;
+                messageEl.classList.add('visible');
+            } else {
+                messageEl.textContent = `Found ${matchCount} match${matchCount !== 1 ? 'es' : ''} for "${query}"`;
+                messageEl.classList.add('visible');
+                
+                // Scroll to first match
+                if (firstMatch) {
+                    setTimeout(() => {
+                        const section = firstMatch.closest('.section');
+                        if (section) {
+                            const headerHeight = document.querySelector('.header').offsetHeight;
+                            const elementPosition = section.getBoundingClientRect().top;
+                            const offsetPosition = elementPosition + window.pageYOffset - headerHeight - 20;
+                            
+                            window.scrollTo({
+                                top: offsetPosition,
+                                behavior: 'smooth'
+                            });
+                        }
+                    }, 100);
+                }
+            }
+        }
+
+        function clearSearch() {
+            // Hide message
+            const messageEl = document.getElementById('searchMessage');
+            messageEl.classList.remove('visible');
+            
+            // Restore previous collapsed state
+            initializeCollapsedState();
+        }
+
+        // Active nav link
+        function updateActiveNavLink(forcedSection = null) {
+            const navItems = document.querySelectorAll('.nav-item');
+            
+            if (forcedSection) {
+                navItems.forEach(item => {
+                    item.classList.toggle('active', item.getAttribute('data-section') === forcedSection);
+                });
+                return;
+            }
+
+            const sections = document.querySelectorAll('.section');
+            let currentSection = null;
+
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= 150 && rect.bottom >= 150) {
+                    currentSection = section.id;
+                }
+            });
+
+            if (currentSection) {
+                navItems.forEach(item => {
+                    item.classList.toggle('active', item.getAttribute('data-section') === currentSection);
+                });
+            }
+        }
+    </script>
+</body>
+</html>
+
