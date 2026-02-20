@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
     <title>AutoGen Mini-PC Setup Guide | Henketime</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
@@ -50,6 +51,86 @@
             color: var(--text-primary);
             line-height: 1.6;
             overflow-x: hidden;
+        }
+
+        body.locked .page-content {
+            display: none;
+        }
+
+        .password-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-primary);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        body.locked .password-overlay {
+            display: flex;
+        }
+
+        .password-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px var(--shadow);
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .password-box h2 {
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+        }
+
+        .password-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .password-input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+        }
+
+        .password-submit {
+            width: 100%;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 4px;
+            background: var(--accent-primary);
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .password-submit:hover {
+            background: var(--accent-hover);
+        }
+
+        .password-error {
+            color: #e74c3c;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .password-error.show {
+            display: block;
         }
 
         .header {
@@ -361,7 +442,17 @@
         }
     </style>
 </head>
-<body>
+<body class="locked">
+    <div class="password-overlay">
+        <div class="password-box">
+            <h2>Protected Content</h2>
+            <p style="margin-bottom: 1rem; color: var(--text-secondary);">Please enter the password to view this page.</p>
+            <input type="password" id="passwordInput" class="password-input" placeholder="Enter password" autocomplete="off">
+            <button onclick="checkPassword()" class="password-submit">Submit</button>
+            <div id="passwordError" class="password-error">Incorrect password. Please try again.</div>
+        </div>
+    </div>
+    <div class="page-content">
     <header class="header">
         <div class="header-content">
             <div>
@@ -1237,6 +1328,7 @@ pip install --upgrade <package-name>
             </section>
         </main>
     </div>
+    </div>
 
     <script>
         // Theme toggle
@@ -1300,6 +1392,45 @@ pip install --upgrade <package-name>
                     link.classList.add('active');
                 }
             });
+        });
+
+        // Password protection
+        const PASSWORD_HASH = '2b657b282063794ff7cf169b1f03383e3657c3fd08c736c1be42b0c9853e3a7e';
+        
+        async function hashPassword(password) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(password);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        async function checkPassword() {
+            const input = document.getElementById('passwordInput');
+            const error = document.getElementById('passwordError');
+            const hash = await hashPassword(input.value);
+            
+            if (hash === PASSWORD_HASH) {
+                document.body.classList.remove('locked');
+                sessionStorage.setItem('authenticated', 'true');
+                error.classList.remove('show');
+            } else {
+                error.classList.add('show');
+                input.value = '';
+                input.focus();
+            }
+        }
+
+        // Check if already authenticated in this session
+        if (sessionStorage.getItem('authenticated') === 'true') {
+            document.body.classList.remove('locked');
+        }
+
+        // Allow enter key to submit password
+        document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
         });
     </script>
 </body>
