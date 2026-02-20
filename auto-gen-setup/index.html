@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoGen AgentChat Cheatsheet</title>
+    <title>AutoGen Mini-PC Setup Guide | Henketime</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/bash.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/yaml.min.js"></script>
     <style>
         :root {
             --bg-primary: #e8ecef;
@@ -51,7 +52,6 @@
             overflow-x: hidden;
         }
 
-        /* Header */
         .header {
             background: var(--bg-secondary);
             border-bottom: 1px solid var(--border-color);
@@ -87,30 +87,6 @@
             display: flex;
             gap: 1rem;
             align-items: center;
-        }
-
-        .search-box {
-            position: relative;
-        }
-
-        .search-box input {
-            padding: 0.375rem 0.75rem;
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            font-size: 0.75rem;
-            width: 200px;
-            transition: border-color 0.2s;
-        }
-
-        .search-box input:focus {
-            outline: none;
-            border-color: var(--accent-primary);
-        }
-
-        .search-box input::placeholder {
-            color: var(--text-muted);
         }
 
         .btn {
@@ -187,249 +163,200 @@
             transform: translateX(20px);
         }
 
-        .search-message {
-            padding: 0.625rem;
-            margin: 0.625rem 0;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            color: var(--text-secondary);
-            text-align: center;
-            display: none;
-            font-size: 0.75rem;
-        }
-
-        .search-message.visible {
-            display: block;
-        }
-
-        /* Layout */
-        .layout {
+        .container {
             display: flex;
             max-width: 1800px;
             margin: 0 auto;
-            min-height: calc(100vh - 80px);
         }
 
-        /* Sidebar */
         .sidebar {
-            width: 200px;
+            width: 240px;
             background: var(--bg-sidebar);
             border-right: 1px solid var(--border-color);
-            padding: 0.75rem 0;
             position: sticky;
-            top: 60px;
-            height: calc(100vh - 60px);
+            top: 50px;
+            height: calc(100vh - 50px);
             overflow-y: auto;
-        }
-
-        .sidebar-nav {
-            list-style: none;
-        }
-
-        .sidebar-nav li {
-            margin-bottom: 0.25rem;
-        }
-
-        .nav-item {
-            display: flex;
-            align-items: center;
-            padding: 0.5rem 0.75rem;
-            border-left: 2px solid transparent;
-            transition: all 0.2s;
-        }
-
-        .nav-item:hover {
-            background: var(--bg-primary);
-        }
-
-        .nav-item.active {
-            background: var(--bg-primary);
-            border-left-color: var(--accent-primary);
-        }
-
-        .nav-checkbox {
-            width: 14px;
-            height: 14px;
-            margin-right: 0.5rem;
-            cursor: pointer;
-            flex-shrink: 0;
-            accent-color: var(--accent-primary);
-        }
-
-        .sidebar-nav a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 0.75rem;
-            flex: 1;
-        }
-
-        .nav-item:hover a {
-            color: var(--text-primary);
-        }
-
-        .nav-item.active a {
-            color: var(--accent-primary);
-            font-weight: 500;
-        }
-
-        /* Main Content */
-        .main-content {
-            flex: 1;
             padding: 1rem;
-            overflow-y: auto;
         }
 
-        .section {
+        .nav-section {
             margin-bottom: 1.5rem;
         }
 
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.5rem 0;
-            border-bottom: 1px solid var(--border-color);
-            margin-bottom: 0.75rem;
-            cursor: pointer;
-            user-select: none;
-        }
-
-        .section-title {
-            font-size: 1.125rem;
+        .nav-section-title {
+            font-size: 0.75rem;
             font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .toggle-icon {
+            text-transform: uppercase;
             color: var(--text-muted);
-            transition: transform 0.2s;
-        }
-
-        .section.collapsed .toggle-icon {
-            transform: rotate(-90deg);
-        }
-
-        .section-content {
-            display: block;
-        }
-
-        .section.collapsed .section-content {
-            display: none;
-        }
-
-        .subsection {
-            margin-bottom: 1rem;
-            background: var(--bg-secondary);
-            border-radius: 4px;
-            padding: 0.75rem;
-            border: 1px solid var(--border-color);
-        }
-
-        .subsection-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0;
             margin-bottom: 0.5rem;
+            letter-spacing: 0.5px;
         }
 
-        .subsection-title {
-            font-size: 0.875rem;
-            font-weight: 600;
+        .nav-link {
+            display: block;
+            padding: 0.375rem 0.5rem;
+            font-size: 0.8125rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.2s;
+            margin-bottom: 0.125rem;
+        }
+
+        .nav-link:hover {
+            background: var(--bg-secondary);
+            color: var(--accent-primary);
+        }
+
+        .nav-link.active {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+            max-width: 900px;
+        }
+
+        .content-section {
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
             color: var(--text-primary);
         }
 
-        .subsection-content {
-            padding-left: 0;
+        h2 {
+            font-size: 1.5rem;
+            margin: 2rem 0 1rem 0;
+            color: var(--text-primary);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.5rem;
         }
 
-        .content-block {
-            margin-bottom: 0.75rem;
+        h3 {
+            font-size: 1.125rem;
+            margin: 1.5rem 0 0.75rem 0;
+            color: var(--text-primary);
         }
 
-        .content-block p {
+        h4 {
+            font-size: 1rem;
+            margin: 1rem 0 0.5rem 0;
+            color: var(--text-secondary);
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        ul, ol {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+        }
+
+        li {
             margin-bottom: 0.5rem;
             color: var(--text-secondary);
-            font-size: 0.75rem;
+        }
+
+        code {
+            background: var(--code-bg);
+            color: #e8ecef;
+            padding: 0.125rem 0.375rem;
+            border-radius: 3px;
+            font-size: 0.875em;
+            font-family: 'Courier New', monospace;
         }
 
         pre {
             background: var(--code-bg);
-            border-radius: 4px;
-            padding: 0.625rem;
-            overflow-x: auto;
-            margin: 0;
             border: 1px solid var(--border-color);
-        }
-
-        [data-theme="light"] pre {
-            background: #f6f8fa;
-        }
-
-        [data-theme="light"] code {
-            color: var(--text-primary);
-        }
-
-        [data-theme="dark"] pre {
-            background: #0d1117;
-        }
-
-        [data-theme="dark"] code {
-            color: #e8ecef;
-        }
-
-        code {
-            font-family: 'Courier New', monospace;
-            font-size: 0.7rem;
+            border-radius: 6px;
+            padding: 1rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+            position: relative;
         }
 
         pre code {
-            background: transparent;
+            background: none;
             padding: 0;
-            border-radius: 0;
+            font-size: 0.8125rem;
+            line-height: 1.5;
         }
 
-        .highlight {
-            background: rgba(255, 255, 0, 0.2);
-            padding: 0.125rem 0.25rem;
-            border-radius: 3px;
-        }
-
-        /* Scrollbar */
-        .sidebar::-webkit-scrollbar,
-        .main-content::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .sidebar::-webkit-scrollbar-track,
-        .main-content::-webkit-scrollbar-track {
-            background: var(--bg-primary);
-        }
-
-        .sidebar::-webkit-scrollbar-thumb,
-        .main-content::-webkit-scrollbar-thumb {
-            background: var(--border-color);
+        .callout {
+            padding: 1rem;
+            border-left: 4px solid var(--accent-primary);
+            background: var(--bg-secondary);
+            margin: 1rem 0;
             border-radius: 4px;
         }
 
-        .sidebar::-webkit-scrollbar-thumb:hover,
-        .main-content::-webkit-scrollbar-thumb:hover {
-            background: var(--text-muted);
+        .callout-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--accent-primary);
         }
 
-        /* Responsive */
-        @media (max-width: 1024px) {
+        .callout p:last-child {
+            margin-bottom: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border: 1px solid var(--border-color);
+        }
+
+        th {
+            background: var(--bg-secondary);
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        td {
+            color: var(--text-secondary);
+        }
+
+        a {
+            color: var(--accent-primary);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .inline-code {
+            background: var(--bg-secondary);
+            padding: 0.125rem 0.375rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875em;
+            color: var(--text-primary);
+        }
+
+        @media (max-width: 768px) {
             .sidebar {
-                width: 180px;
+                display: none;
             }
 
-            .header-controls {
-                flex-wrap: wrap;
-            }
-
-            .search-box input {
-                width: 150px;
+            .main-content {
+                padding: 1rem;
             }
         }
     </style>
@@ -438,1296 +365,942 @@
     <header class="header">
         <div class="header-content">
             <div>
-                <h1 class="header-title">AutoGen AgentChat + GPT-4o Cheatsheet</h1>
-                <p class="header-subtitle">Complete Command Reference for Building a Medium SaaS Project</p>
+                <div class="header-title">AutoGen on Mini-PC | Henketime</div>
+                <div class="header-subtitle">Multi-Agent Workflows on Ubuntu with HTTP API & VS Code Remote SSH</div>
             </div>
             <div class="header-controls">
-                <div class="search-box">
-                    <input type="text" id="searchInput" placeholder="Search commands..." autocomplete="off">
-                </div>
                 <div class="switch-container">
-                    <span class="switch-label">Dark</span>
+                    <span class="switch-label">Dark Mode</span>
                     <label class="switch">
                         <input type="checkbox" id="themeToggle">
                         <span class="slider"></span>
                     </label>
                 </div>
-                <button class="btn" id="resetState">Reset View</button>
             </div>
         </div>
     </header>
 
-    <div class="layout">
+    <div class="container">
         <nav class="sidebar">
-            <ul class="sidebar-nav" id="sidebarNav">
-                <li>
-                    <div class="nav-item" data-section="initial-setup">
-                        <input type="checkbox" class="nav-checkbox" data-section="initial-setup">
-                        <a href="#initial-setup" data-section="initial-setup">Initial Setup</a>
-                    </div>
-                </li>
-                <li>
-                    <div class="nav-item" data-section="core-agent-patterns">
-                        <input type="checkbox" class="nav-checkbox" data-section="core-agent-patterns">
-                        <a href="#core-agent-patterns" data-section="core-agent-patterns">Core Agent Patterns</a>
-                    </div>
-                </li>
-                <li>
-                    <div class="nav-item" data-section="cli-commands">
-                        <input type="checkbox" class="nav-checkbox" data-section="cli-commands">
-                        <a href="#cli-commands" data-section="cli-commands">CLI Commands</a>
-                    </div>
-                </li>
-                <li>
-                    <div class="nav-item" data-section="repo-builder-example">
-                        <input type="checkbox" class="nav-checkbox" data-section="repo-builder-example">
-                        <a href="#repo-builder-example" data-section="repo-builder-example">repo_builder.py Example</a>
-                    </div>
-                </li>
-                <li>
-                    <div class="nav-item" data-section="iteration-patterns">
-                        <input type="checkbox" class="nav-checkbox" data-section="iteration-patterns">
-                        <a href="#iteration-patterns" data-section="iteration-patterns">Iteration Workflow Patterns</a>
-                    </div>
-                </li>
-                <li>
-                    <div class="nav-item" data-section="monitoring-logging">
-                        <input type="checkbox" class="nav-checkbox" data-section="monitoring-logging">
-                        <a href="#monitoring-logging" data-section="monitoring-logging">Monitoring & Logging</a>
-                    </div>
-                </li>
-                <li>
-                    <div class="nav-item" data-section="debugging">
-                        <input type="checkbox" class="nav-checkbox" data-section="debugging">
-                        <a href="#debugging" data-section="debugging">Debugging & Troubleshooting</a>
-                    </div>
-                </li>
-                <li>
-                    <div class="nav-item" data-section="git-workflow">
-                        <input type="checkbox" class="nav-checkbox" data-section="git-workflow">
-                        <a href="#git-workflow" data-section="git-workflow">Git Workflow Integration</a>
-                    </div>
-                </li>
-                <li>
-                    <div class="nav-item" data-section="monthly-workflow">
-                        <input type="checkbox" class="nav-checkbox" data-section="monthly-workflow">
-                        <a href="#monthly-workflow" data-section="monthly-workflow">Monthly Workflow Summary</a>
-                    </div>
-                </li>
-                <li>
-                    <div class="nav-item" data-section="cost-tracking">
-                        <input type="checkbox" class="nav-checkbox" data-section="cost-tracking">
-                        <a href="#cost-tracking" data-section="cost-tracking">Cost Tracking</a>
-                    </div>
-                </li>
-                <li>
-                    <div class="nav-item" data-section="quick-reference">
-                        <input type="checkbox" class="nav-checkbox" data-section="quick-reference">
-                        <a href="#quick-reference" data-section="quick-reference">Quick Reference</a>
-                    </div>
-                </li>
-                <li>
-                    <div class="nav-item" data-section="resources">
-                        <input type="checkbox" class="nav-checkbox" data-section="resources">
-                        <a href="#resources" data-section="resources">Additional Resources</a>
-                    </div>
-                </li>
-            </ul>
+            <div class="nav-section">
+                <div class="nav-section-title">Getting Started</div>
+                <a href="#introduction" class="nav-link">Introduction</a>
+                <a href="#prerequisites" class="nav-link">Prerequisites</a>
+            </div>
+            <div class="nav-section">
+                <div class="nav-section-title">Infrastructure</div>
+                <a href="#network-ssh" class="nav-link">Network & SSH Setup</a>
+                <a href="#directory-layout" class="nav-link">Directory Layout</a>
+                <a href="#prepare-minipc" class="nav-link">Prepare the Mini-PC</a>
+            </div>
+            <div class="nav-section">
+                <div class="nav-section-title">AutoGen Setup</div>
+                <a href="#autogen-environment" class="nav-link">Create Environment</a>
+                <a href="#workspace-registry" class="nav-link">Workspace Registry</a>
+                <a href="#agent-workflow" class="nav-link">Agent Workflow</a>
+            </div>
+            <div class="nav-section">
+                <div class="nav-section-title">HTTP API</div>
+                <a href="#http-api" class="nav-link">FastAPI Server</a>
+                <a href="#using-system" class="nav-link">Using the System</a>
+                <a href="#add-repo" class="nav-link">Add New Repository</a>
+            </div>
+            <div class="nav-section">
+                <div class="nav-section-title">Operations</div>
+                <a href="#operational-notes" class="nav-link">Operational Notes</a>
+                <a href="#troubleshooting" class="nav-link">Troubleshooting</a>
+                <a href="#summary" class="nav-link">Summary</a>
+            </div>
         </nav>
 
-        <main class="main-content" id="mainContent">
-            <div id="searchMessage" class="search-message"></div>
-            <section class="section" id="initial-setup" data-section="initial-setup">
-                <div class="section-header">
-                    <h2 class="section-title">Initial Setup (Day 1)</h2>
-                    <span class="toggle-icon">▼</span>
-                </div>
-                <div class="section-content">
-                    <div class="subsection">
-                        <div class="subsection-header">
-                            <h3 class="subsection-title">1. Environment Setup</h3>
-                        </div>
-                        <div class="subsection-content">
-                            <pre><code class="language-bash"># Create project directory
-mkdir saas-builder && cd saas-builder
+        <main class="main-content">
+            <h1>AutoGen Multi-Agent Server on Ubuntu Mini-PC</h1>
+            <p>This guide shows how to run AutoGen-based multi-agent workflows on a dedicated Ubuntu mini-PC (Beelink N100) acting as an "AI build/agent server," controlled remotely from your laptop via VS Code Remote SSH and a minimal HTTP API.</p>
 
-# Create Python virtual environment (recommended)
-python3 -m venv .venv
-source .venv/bin/activate  # Linux/Mac
-# .venv\Scripts\activate.bat  # Windows
+            <section id="introduction" class="content-section">
+                <h2>Introduction</h2>
+                <p>This setup enables you to:</p>
+                <ul>
+                    <li>Run AutoGen agent workflows on a low-power, always-on mini-PC with Ubuntu</li>
+                    <li>Edit code on the mini-PC directly from your laptop using <strong>VS Code Remote SSH</strong></li>
+                    <li>Trigger agent runs via a lightweight <strong>HTTP API</strong> without needing to SSH in</li>
+                    <li>Easily <strong>switch between multiple repositories</strong> (workspaces) with a simple config file</li>
+                </ul>
+                
+                <p>The primary example workspace is <code>best-of-ui</code>, but the architecture is designed to support any number of repositories by adding entries to a workspace registry.</p>
+
+                <div class="callout">
+                    <div class="callout-title">Why This Architecture?</div>
+                    <p>Code lives locally on the mini-PC SSD for fast random I/O during builds and tests. Network shares (SMB/NFS) introduce latency that degrades build tool performance. VS Code Remote SSH provides a native editing experience while keeping the codebase local to the execution environment.</p>
+                </div>
+            </section>
+
+            <section id="prerequisites" class="content-section">
+                <h2>Prerequisites</h2>
+
+                <h3>Hardware</h3>
+                <ul>
+                    <li><strong>Mini-PC:</strong> Beelink MINIS 12 PRO (Intel N100, 16 GB RAM, 500 GB SSD) or similar x86 mini-PC</li>
+                    <li><strong>Laptop:</strong> Your primary development machine (any OS with VS Code)</li>
+                    <li><strong>Network:</strong> Both on the same LAN (Ethernet recommended for stability, Wi-Fi acceptable)</li>
+                </ul>
+
+                <h3>Software</h3>
+                <ul>
+                    <li><strong>Mini-PC OS:</strong> Ubuntu 24.04 LTS (or recent LTS version)</li>
+                    <li><strong>Laptop:</strong> VS Code with the "Remote - SSH" extension</li>
+                    <li><strong>Both machines:</strong> Git installed</li>
+                    <li><strong>Python:</strong> Python 3.10+ on the mini-PC</li>
+                </ul>
+
+                <h3>Accounts</h3>
+                <ul>
+                    <li>Git hosting account (GitHub, GitLab, etc.) for your repositories</li>
+                    <li>LLM provider API keys (OpenAI, Anthropic, etc.) as required by your AutoGen agents</li>
+                </ul>
+            </section>
+
+            <section id="network-ssh" class="content-section">
+                <h2>Network and SSH Setup</h2>
+
+                <h3>Mini-PC Configuration</h3>
+                <p>SSH into or physically access your mini-PC and run the following:</p>
+
+                <pre><code class="language-bash"># Update system packages
+sudo apt update && sudo apt upgrade -y
+
+# Install OpenSSH server if not already installed
+sudo apt install -y openssh-server
+
+# Enable and start SSH service
+sudo systemctl enable ssh
+sudo systemctl start ssh
+
+# Create a non-root developer user (if you don't have one)
+sudo adduser devuser
+sudo usermod -aG sudo devuser
+
+# Set a static IP or configure DHCP reservation in your router
+# Example static IP configuration (edit /etc/netplan/01-netcfg.yaml):
+# network:
+#   version: 2
+#   ethernets:
+#     eth0:
+#       dhcp4: no
+#       addresses: [192.168.1.100/24]
+#       gateway4: 192.168.1.1
+#       nameservers:
+#         addresses: [8.8.8.8, 8.8.4.4]
+# Then apply: sudo netplan apply
+
+# Verify SSH is listening
+sudo ss -tulpn | grep :22
+</code></pre>
+
+                <h3>Laptop SSH Key Setup</h3>
+                <p>On your laptop, generate an SSH key if you don't have one:</p>
+
+                <pre><code class="language-bash"># Generate SSH key (if needed)
+ssh-keygen -t ed25519 -C "your_email@example.com"
+
+# Copy public key to mini-PC
+ssh-copy-id devuser@192.168.1.100
+
+# Test SSH connection
+ssh devuser@192.168.1.100
+</code></pre>
+
+                <h3>VS Code Remote SSH</h3>
+                <p>On your laptop, open VS Code and install the <strong>Remote - SSH</strong> extension. Then configure the SSH host:</p>
+
+                <pre><code class="language-bash"># Edit SSH config (on laptop)
+# ~/.ssh/config
+
+Host minipc-autogen
+    HostName 192.168.1.100
+    User devuser
+    IdentityFile ~/.ssh/id_ed25519
+</code></pre>
+
+                <p>In VS Code, press <code>Cmd+Shift+P</code> (Mac) or <code>Ctrl+Shift+P</code> (Windows/Linux), type "Remote-SSH: Connect to Host," and select <code>minipc-autogen</code>. You can now edit files on the mini-PC as if they were local.</p>
+            </section>
+
+            <section id="directory-layout" class="content-section">
+                <h2>Directory Layout and Workspace Concept</h2>
+
+                <p>This setup uses a clear directory structure that supports multiple repositories without code changes:</p>
+
+                <pre><code>/srv/
+├── projects/              # Git repositories (workspaces)
+│   ├── best-of-ui/       # Primary example workspace
+│   ├── another-repo/     # Additional workspace
+│   └── ...
+└── autogen/              # AutoGen code and API
+    ├── .venv/            # Python virtual environment
+    ├── workspaces.yaml   # Workspace registry
+    ├── api_server.py     # FastAPI HTTP server
+    ├── agents.py         # AutoGen agent definitions
+    ├── .env              # API keys and secrets
+    ├── logs/             # Per-workspace job logs
+    │   ├── best-of-ui/
+    │   │   └── job_001.log
+    │   └── another-repo/
+    └── runs/             # Optional per-job artifacts
+        └── best-of-ui/
+</code></pre>
+
+                <div class="callout">
+                    <div class="callout-title">Workspace Definition</div>
+                    <p>A <strong>workspace</strong> is a logical name that maps directly to <code>/srv/projects/&lt;workspace&gt;/</code>. The HTTP API accepts a workspace name in each request, allowing you to switch repositories simply by changing the workspace parameter—no code changes required.</p>
+                </div>
+            </section>
+
+            <section id="prepare-minipc" class="content-section">
+                <h2>Preparing the Mini-PC</h2>
+
+                <h3>System Dependencies</h3>
+                <p>SSH into the mini-PC (or use VS Code terminal) and install required packages:</p>
+
+                <pre><code class="language-bash"># Install Python and build tools
+sudo apt install -y python3 python3-venv python3-pip git build-essential
 
 # Verify Python version (3.10+ required)
-python --version</code></pre>
-                        </div>
-                    </div>
+python3 --version
+</code></pre>
 
-                    <div class="subsection">
-                        <div class="subsection-header">
-                            <h3 class="subsection-title">2. Install AutoGen Stack</h3>
-                        </div>
-                        <div class="subsection-content">
-                            <pre><code class="language-bash"># Install core AgentChat package
-pip install -U "autogen-agentchat"
+                <h3>Create Directory Structure</h3>
+                <pre><code class="language-bash"># Create base directories
+sudo mkdir -p /srv/projects /srv/autogen
+sudo chown -R devuser:devuser /srv/projects /srv/autogen
+</code></pre>
 
-# Install OpenAI extension
-pip install "autogen-ext[openai]"
+                <h3>Clone Primary Repository</h3>
+                <pre><code class="language-bash"># Clone best-of-ui as the first workspace
+git clone https://github.com/yourusername/best-of-ui.git /srv/projects/best-of-ui
 
-# Optional: Install additional executors
-pip install "autogen-ext[docker]"  # For Docker code execution</code></pre>
-                        </div>
-                    </div>
+# Verify clone
+ls -la /srv/projects/best-of-ui
+</code></pre>
 
-                    <div class="subsection">
-                        <div class="subsection-header">
-                            <h3 class="subsection-title">3. OpenAI API Configuration</h3>
-                        </div>
-                        <div class="subsection-content">
-                            <pre><code class="language-bash"># Create .env file
-touch .env
-
-# Add to .env file:
-# OPENAI_API_KEY=sk-proj-your-key-here
-# OPENAI_MODEL=gpt-4o
-
-# Install python-dotenv for environment variable management
-pip install python-dotenv
-
-# Verify API key works
-python -c "import openai; print('OpenAI configured')"</code></pre>
-                        </div>
-                    </div>
-
-                    <div class="subsection">
-                        <div class="subsection-header">
-                            <h3 class="subsection-title">4. Project Structure Setup</h3>
-                        </div>
-                        <div class="subsection-content">
-                            <pre><code class="language-bash"># Create directory structure
-mkdir -p agents workflows output logs requirements
-
-# Create core files
-touch requirements.txt
-touch repo_builder.py
-touch config.yaml
-touch .gitignore
-
-# Initialize git (for generated repositories)
-git init output/generated_repo</code></pre>
-                        </div>
-                    </div>
-
-                    <div class="subsection">
-                        <div class="subsection-header">
-                            <h3 class="subsection-title">5. Dependencies File</h3>
-                        </div>
-                        <div class="subsection-content">
-                            <pre><code class="language-bash">cat > requirements.txt << EOF
-autogen-agentchat>=0.4.0
-autogen-ext[openai]>=0.4.0
-python-dotenv>=1.0.0
-pyyaml>=6.0
-gitpython>=3.1.0
-rich>=13.0.0
-EOF
-
-pip install -r requirements.txt</code></pre>
-                        </div>
-                    </div>
+                <div class="callout">
+                    <div class="callout-title">Why Local Storage?</div>
+                    <p>Keeping code on the mini-PC SSD ensures fast random I/O for npm/pip installs, test runners, and build tools. Network shares add 10–100ms latency per file operation, which compounds rapidly during builds with thousands of file reads.</p>
                 </div>
             </section>
 
-            <section class="section" id="core-agent-patterns" data-section="core-agent-patterns">
-                <div class="section-header">
-                    <h2 class="section-title">Core Agent Patterns</h2>
-                    <span class="toggle-icon">▼</span>
+            <section id="autogen-environment" class="content-section">
+                <h2>Creating the AutoGen Environment</h2>
+
+                <h3>Virtual Environment Setup</h3>
+                <pre><code class="language-bash"># Navigate to AutoGen directory
+cd /srv/autogen
+
+# Create virtual environment
+python3 -m venv .venv
+
+# Activate virtual environment
+source .venv/bin/activate
+
+# Upgrade pip
+pip install --upgrade pip
+</code></pre>
+
+                <h3>Install AutoGen and Dependencies</h3>
+                <pre><code class="language-bash"># Install AutoGen packages
+pip install -U "autogen-agentchat>=0.4.0"
+pip install "autogen-ext[openai]>=0.4.0"
+
+# Install FastAPI and server dependencies
+pip install "fastapi>=0.104.0" "uvicorn[standard]>=0.24.0"
+
+# Install additional utilities
+pip install python-dotenv pyyaml gitpython
+</code></pre>
+
+                <h3>Configure Secrets</h3>
+                <p>Create a <code>.env</code> file in <code>/srv/autogen/</code> with your API keys:</p>
+
+                <pre><code class="language-bash"># /srv/autogen/.env
+OPENAI_API_KEY=sk-proj-your-key-here
+OPENAI_MODEL=gpt-4o
+ANTHROPIC_API_KEY=your-anthropic-key-here
+</code></pre>
+
+                <p>Make sure this file is not committed to Git:</p>
+                <pre><code class="language-bash">echo ".env" >> /srv/autogen/.gitignore
+</code></pre>
+            </section>
+
+            <section id="workspace-registry" class="content-section">
+                <h2>Workspace Registry and Configuration</h2>
+
+                <p>The workspace registry is a YAML file that maps workspace names to repository paths and repo-specific commands. This design allows the AutoGen agents and HTTP API to operate on any repository without hardcoded paths.</p>
+
+                <h3>Create workspaces.yaml</h3>
+                <pre><code class="language-yaml"># /srv/autogen/workspaces.yaml
+workspaces:
+  best-of-ui:
+    path: /srv/projects/best-of-ui
+    language: javascript
+    test_command: "npm test"
+    build_command: "npm run build"
+    install_command: "npm install"
+    description: "UI component library with design system"
+    
+  another-repo:
+    path: /srv/projects/another-repo
+    language: python
+    test_command: "pytest"
+    build_command: ""
+    install_command: "pip install -r requirements.txt"
+    description: "Python data processing pipeline"
+</code></pre>
+
+                <div class="callout">
+                    <div class="callout-title">Registry Design</div>
+                    <p>Each workspace entry defines the file system path and repo-specific commands (test, build, install). AutoGen agents can read this config at runtime to execute the correct commands for each workspace. Adding a new repository requires only a config entry and a <code>git clone</code>—no code changes.</p>
                 </div>
-                <div class="section-content">
-                    <div class="subsection">
-                        <div class="subsection-header">
-                            <h3 class="subsection-title">Basic Agent Creation</h3>
-                        </div>
-                        <div class="subsection-content">
-                            <pre><code class="language-python">from autogen_agentchat.agents import AssistantAgent
-from autogen_ext.models.openai import OpenAIChatCompletionClient
+            </section>
+
+            <section id="agent-workflow" class="content-section">
+                <h2>Defining the AutoGen Multi-Agent Workflow</h2>
+
+                <p>Create a Python module that defines your AutoGen agents and orchestration logic, parameterized by workspace.</p>
+
+                <h3>agents.py</h3>
+                <pre><code class="language-python"># /srv/autogen/agents.py
 import os
-from dotenv import load_dotenv
-
-load_dotenv()
-
-# Configure model client
-model_client = OpenAIChatCompletionClient(
-    model="gpt-4o",
-    api_key=os.getenv("OPENAI_API_KEY")
-)
-
-# Create specialized agent
-requirements_analyst = AssistantAgent(
-    name="requirements_analyst",
-    model_client=model_client,
-    system_message="""You are a Requirements Analyst. Your role:
-    - Parse technical requirements documents
-    - Extract functional and non-functional requirements
-    - Identify missing specifications
-    - Structure requirements for development teams""",
-    description="Analyzes and structures technical requirements"
-)</code></pre>
-                        </div>
-                    </div>
-
-                    <div class="subsection">
-                        <div class="subsection-header">
-                            <h3 class="subsection-title">Multi-Agent Team Setup</h3>
-                        </div>
-                        <div class="subsection-content">
-                            <pre><code class="language-python">from autogen_agentchat.teams import RoundRobinGroupChat
-from autogen_agentchat.conditions import TextMentionTermination
-
-# Create agent team
-agents = [
-    requirements_analyst,
-    system_architect,
-    backend_engineer,
-    frontend_engineer,
-    qa_engineer,
-    devops_engineer
-]
-
-# Define termination condition
-termination = TextMentionTermination("TASK_COMPLETE")
-
-# Create team with round-robin coordination
-team = RoundRobinGroupChat(
-    agents,
-    termination_condition=termination
-)
-
-# Execute team workflow
-result = await team.run(task="Build SaaS app from requirements.md")</code></pre>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="section" id="cli-commands" data-section="cli-commands">
-                <div class="section-header">
-                    <h2 class="section-title">CLI Commands for Daily Workflow</h2>
-                    <span class="toggle-icon">▼</span>
-                </div>
-                <div class="section-content">
-                    <div class="subsection">
-                        <div class="subsection-header">
-                            <h3 class="subsection-title">Week 1: Initial Build</h3>
-                        </div>
-                        <div class="subsection-content">
-                            <pre><code class="language-bash"># Day 1: Parse requirements and create architecture
-python repo_builder.py init --spec requirements/spec_v1.md --output output/generated_repo
-
-# Day 2: Generate backend scaffolding
-python repo_builder.py generate backend --spec requirements/spec_v1.md
-
-# Day 3: Generate frontend scaffolding
-python repo_builder.py generate frontend --spec requirements/spec_v1.md
-
-# Day 4: Generate database schema and migrations
-python repo_builder.py generate database --spec requirements/spec_v1.md
-
-# Day 5: Generate tests and documentation
-python repo_builder.py generate tests --spec requirements/spec_v1.md
-python repo_builder.py generate docs --spec requirements/spec_v1.md</code></pre>
-                        </div>
-                    </div>
-
-                    <div class="subsection">
-                        <div class="subsection-header">
-                            <h3 class="subsection-title">Week 2-4: Iterative Development</h3>
-                        </div>
-                        <div class="subsection-content">
-                            <pre><code class="language-bash"># Update requirements document
-vim requirements/spec_v2.md
-
-# Run targeted update (only affected agents execute)
-python repo_builder.py update \
-  --spec requirements/spec_v2.md \
-  --target backend \
-  --files "src/api/users.py,src/models/user.py"
-
-# Run full system update (all agents review and update)
-python repo_builder.py update --spec requirements/spec_v2.md --full
-
-# Add new feature with specific agents
-python repo_builder.py feature add \
-  --name "payment-integration" \
-  --agents backend,frontend,qa
-
-# Run tests through QA agent
-python repo_builder.py test --target output/generated_repo
-
-# Generate summary of all agent actions
-python repo_builder.py summary --output logs/agent_summary_$(date +%Y%m%d).md</code></pre>
-                        </div>
-                    </div>
-
-                    <div class="subsection">
-                        <div class="subsection-header">
-                            <h3 class="subsection-title">Specialized Commands</h3>
-                        </div>
-                        <div class="subsection-content">
-                            <pre><code class="language-bash"># Architecture review (architect + PM agents only)
-python repo_builder.py review architecture --spec requirements/spec_v3.md
-
-# Security audit (security specialist agent)
-python repo_builder.py audit security --target output/generated_repo
-
-# Performance optimization (backend + devops agents)
-python repo_builder.py optimize performance
-
-# Dependency updates (devops agent)
-python repo_builder.py deps update
-
-# Generate deployment configs (devops agent)
-python repo_builder.py deploy config --env production
-
-# Code quality check (all agents)
-python repo_builder.py quality check --output logs/quality_report.md
-
-# Rollback to previous iteration
-python repo_builder.py rollback --iteration 12
-
-# Compare iterations
-python repo_builder.py diff --from 12 --to 15</code></pre>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="section" id="repo-builder-example" data-section="repo-builder-example">
-                <div class="section-header">
-                    <h2 class="section-title">repo_builder.py (Main CLI Entry Point)</h2>
-                    <span class="toggle-icon">▼</span>
-                </div>
-                <div class="section-content">
-                    <div class="subsection">
-                        <div class="subsection-header">
-                            <h3 class="subsection-title">Complete Implementation</h3>
-                        </div>
-                        <div class="subsection-content">
-                            <pre><code class="language-python">#!/usr/bin/env python3
-"""
-Main CLI for multi-agent SaaS repository builder
-Usage: python repo_builder.py &lt;command&gt; [options]
-"""
-
-import asyncio
-import argparse
+import yaml
 from pathlib import Path
+from dotenv import load_dotenv
 from autogen_agentchat.agents import AssistantAgent
 from autogen_agentchat.teams import RoundRobinGroupChat
-from autogen_agentchat.conditions import TextMentionTermination
-from autogen_ext.models.openai import OpenAIChatCompletionClient
-import os
-from dotenv import load_dotenv
+from autogen_ext.models import OpenAIChatCompletionClient
 
 load_dotenv()
 
-class RepoBuilder:
-    def __init__(self, spec_file: str, output_dir: str):
-        self.spec_file = Path(spec_file)
-        self.output_dir = Path(output_dir)
-        self.model_client = OpenAIChatCompletionClient(
-            model="gpt-4o",
-            api_key=os.getenv("OPENAI_API_KEY")
-        )
-        self.agents = self._create_agents()
-    
-    def _create_agents(self):
-        """Create specialized agent team"""
-        return {
-            "pm": AssistantAgent(
-                name="product_manager",
-                model_client=self.model_client,
-                system_message="You are a Product Manager..."
-            ),
-            "architect": AssistantAgent(
-                name="architect",
-                model_client=self.model_client,
-                system_message="You are a System Architect..."
-            ),
-            "backend": AssistantAgent(
-                name="backend_engineer",
-                model_client=self.model_client,
-                system_message="You are a Backend Engineer..."
-            ),
-            "frontend": AssistantAgent(
-                name="frontend_engineer",
-                model_client=self.model_client,
-                system_message="You are a Frontend Engineer..."
-            ),
-            "qa": AssistantAgent(
-                name="qa_engineer",
-                model_client=self.model_client,
-                system_message="You are a QA Engineer..."
-            ),
-            "devops": AssistantAgent(
-                name="devops_engineer",
-                model_client=self.model_client,
-                system_message="You are a DevOps Engineer..."
-            )
-        }
-    
-    async def init_project(self):
-        """Initialize new project from requirements"""
-        spec_content = self.spec_file.read_text()
-        
-        team = RoundRobinGroupChat(
-            list(self.agents.values()),
-            termination_condition=TextMentionTermination("INITIALIZATION_COMPLETE")
-        )
-        
-        task = f"""Create a new SaaS application based on these requirements:
+def load_workspace_config():
+    """Load workspace registry from YAML."""
+    config_path = Path("/srv/autogen/workspaces.yaml")
+    with open(config_path) as f:
+        return yaml.safe_load(f)
 
-{spec_content}
+def get_workspace_info(workspace_name):
+    """Get workspace configuration by name."""
+    config = load_workspace_config()
+    if workspace_name not in config["workspaces"]:
+        raise ValueError(f"Workspace '{workspace_name}' not found in registry")
+    return config["workspaces"][workspace_name]
 
-Output structure:
-1. Project architecture document
-2. Backend scaffolding (API routes, models, services)
-3. Frontend scaffolding (components, pages, state management)
-4. Database schema and migrations
-5. Test suites
-6. Documentation (README, API docs)
-7. Deployment configuration
+async def run_autogen_workflow(workspace: str, prompt: str, branch: str = "main"):
+    """
+    Run AutoGen multi-agent workflow on a specific workspace.
+    
+    Args:
+        workspace: Workspace name from workspaces.yaml
+        prompt: User task description for agents
+        branch: Git branch to work on
+    
+    Returns:
+        Workflow result and metadata
+    """
+    # Load workspace config
+    ws_config = get_workspace_info(workspace)
+    repo_path = Path(ws_config["path"])
+    
+    # Verify workspace exists
+    if not repo_path.exists():
+        raise FileNotFoundError(f"Workspace path does not exist: {repo_path}")
+    
+    # Initialize model client
+    model_client = OpenAIChatCompletionClient(
+        model=os.getenv("OPENAI_MODEL", "gpt-4o"),
+        api_key=os.getenv("OPENAI_API_KEY")
+    )
+    
+    # Define agents with workspace context
+    architect = AssistantAgent(
+        name="Architect",
+        model_client=model_client,
+        system_message=f"""You are a software architect analyzing code in the {workspace} repository.
+        Repository path: {repo_path}
+        Language: {ws_config['language']}
+        Task: Review the codebase and propose architectural improvements."""
+    )
+    
+    senior_dev = AssistantAgent(
+        name="SeniorDev",
+        model_client=model_client,
+        system_message=f"""You are a senior developer implementing changes in {workspace}.
+        You have access to:
+        - Test command: {ws_config.get('test_command', 'N/A')}
+        - Build command: {ws_config.get('build_command', 'N/A')}
+        Working directory: {repo_path}
+        Task: Implement the proposed changes with high code quality."""
+    )
+    
+    reviewer = AssistantAgent(
+        name="Reviewer",
+        model_client=model_client,
+        system_message=f"""You are a code reviewer for {workspace}.
+        Review all changes for:
+        - Code quality and style
+        - Test coverage
+        - Performance implications
+        Repository: {repo_path}"""
+    )
+    
+    # Create team chat
+    team = RoundRobinGroupChat([architect, senior_dev, reviewer])
+    
+    # Change to workspace directory
+    os.chdir(repo_path)
+    
+    # Run the workflow
+    result = await team.run(task=prompt)
+    
+    return {
+        "workspace": workspace,
+        "result": result,
+        "repo_path": str(repo_path),
+        "branch": branch
+    }
+</code></pre>
 
-INITIALIZATION_COMPLETE when all files are generated."""
-
-        result = await team.run(task=task)
-        self._save_results(result)
-        return result
-    
-    async def update_feature(self, target_agents: list, description: str):
-        """Update specific feature with targeted agents"""
-        spec_content = self.spec_file.read_text()
-        
-        # Select only required agents
-        selected_agents = [self.agents[name] for name in target_agents]
-        
-        team = RoundRobinGroupChat(
-            selected_agents,
-            termination_condition=TextMentionTermination("UPDATE_COMPLETE")
-        )
-        
-        task = f"""Update the following feature:
-
-{description}
-
-Current requirements: {spec_content}
-
-Only modify files related to this feature. Preserve all other code.
-UPDATE_COMPLETE when changes are implemented and tested."""
-
-        result = await team.run(task=task)
-        self._save_results(result)
-        return result
-    
-    def _save_results(self, result):
-        """Save agent outputs and summaries"""
-        # Implementation: parse result.messages and write to files
-        pass
-
-def main():
-    parser = argparse.ArgumentParser(description="Multi-agent SaaS repository builder")
-    subparsers = parser.add_subparsers(dest="command", help="Commands")
-    
-    # init command
-    init_parser = subparsers.add_parser("init", help="Initialize new project")
-    init_parser.add_argument("--spec", required=True, help="Requirements document")
-    init_parser.add_argument("--output", required=True, help="Output directory")
-    
-    # update command
-    update_parser = subparsers.add_parser("update", help="Update existing project")
-    update_parser.add_argument("--spec", required=True, help="Updated requirements")
-    update_parser.add_argument("--target", help="Target agents (comma-separated)")
-    update_parser.add_argument("--full", action="store_true", help="Full system update")
-    
-    # feature command
-    feature_parser = subparsers.add_parser("feature", help="Add new feature")
-    feature_parser.add_argument("action", choices=["add", "remove", "modify"])
-    feature_parser.add_argument("--name", required=True, help="Feature name")
-    feature_parser.add_argument("--agents", help="Required agents (comma-separated)")
-    
-    args = parser.parse_args()
-    
-    builder = RepoBuilder(args.spec, args.output)
-    
-    if args.command == "init":
-        asyncio.run(builder.init_project())
-    elif args.command == "update":
-        target_agents = args.target.split(",") if args.target else list(builder.agents.keys())
-        asyncio.run(builder.update_feature(target_agents, "Update from spec"))
-    
-    print("✓ Operation completed successfully")
-
-if __name__ == "__main__":
-    main()</code></pre>
-                            <pre><code class="language-bash"># Make executable
-chmod +x repo_builder.py</code></pre>
-                        </div>
-                    </div>
+                <div class="callout">
+                    <div class="callout-title">Agent Parameterization</div>
+                    <p>This design loads workspace metadata from <code>workspaces.yaml</code> and injects it into agent system messages and working directories. The same agent code works for any workspace—only the configuration changes.</p>
                 </div>
             </section>
 
-            <section class="section" id="iteration-patterns" data-section="iteration-patterns">
-                <div class="section-header">
-                    <h2 class="section-title">Iteration Workflow Patterns</h2>
-                    <span class="toggle-icon">▼</span>
-                </div>
-                <div class="section-content">
-                    <div class="subsection">
-                        <div class="subsection-header">
-                            <h3 class="subsection-title">Pattern 1: Full Multi-Agent Run (10x/month)</h3>
-                        </div>
-                        <div class="subsection-content">
-                            <pre><code class="language-bash"># Update requirements document
-vim requirements/spec_v3.md
+            <section id="http-api" class="content-section">
+                <h2>HTTP API with Workspace Parameter</h2>
 
-# Run all agents for comprehensive rebuild
-python repo_builder.py update --spec requirements/spec_v3.md --full
+                <p>Build a FastAPI server that exposes workspace-aware endpoints for triggering AutoGen runs and querying status.</p>
 
-# Review generated summary
-cat logs/agent_summary_latest.md
-
-# Test generated code
-cd output/generated_repo && npm test && pytest
-
-# Commit iteration
-git add . && git commit -m "Iteration 15: Added payment gateway"</code></pre>
-                        </div>
-                    </div>
-
-                    <div class="subsection">
-                        <div class="subsection-header">
-                            <h3 class="subsection-title">Pattern 2: Targeted Update (20x/month)</h3>
-                        </div>
-                        <div class="subsection-content">
-                            <pre><code class="language-bash"># Small feature addition - only backend + QA
-python repo_builder.py feature add \
-  --name "user-profile-avatar" \
-  --agents backend,qa \
-  --spec requirements/spec_v3.md
-
-# Bug fix - only relevant agent
-python repo_builder.py fix \
-  --issue "API rate limiting not working" \
-  --agent backend
-
-# UI change - only frontend
-python repo_builder.py update \
-  --target frontend \
-  --files "src/components/Dashboard.tsx"</code></pre>
-                        </div>
-                    </div>
-
-                    <div class="subsection">
-                        <div class="subsection-header">
-                            <h3 class="subsection-title">Pattern 3: Trickle-Down Delegation</h3>
-                        </div>
-                        <div class="subsection-content">
-                            <pre><code class="language-bash"># PM reviews spec change → Architect approves → Engineers implement
-python repo_builder.py workflow \
-  --type hierarchical \
-  --spec requirements/spec_v4.md \
-  --approval-chain pm,architect,backend,frontend,qa
-
-# Only execute if PM and architect approve
-# Automatically delegates to relevant engineers</code></pre>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="section" id="monitoring-logging" data-section="monitoring-logging">
-                <div class="section-header">
-                    <h2 class="section-title">Monitoring & Logging</h2>
-                    <span class="toggle-icon">▼</span>
-                </div>
-                <div class="section-content">
-                    <div class="subsection">
-                        <div class="subsection-header">
-                            <h3 class="subsection-title">Track Token Usage</h3>
-                        </div>
-                        <div class="subsection-content">
-                            <pre><code class="language-python"># Add to your code
-from autogen_agentchat.ui import Console
-
-async def run_with_logging(team, task):
-    result = await Console(team.run_stream(task=task))
-    
-    # Log token usage
-    total_tokens = sum(msg.usage.total_tokens for msg in result.messages if hasattr(msg, 'usage'))
-    cost = (total_tokens / 1_000_000) * 2.50  # GPT-4o input pricing
-    
-    print(f"Tokens used: {total_tokens:,}")
-    print(f"Estimated cost: ${cost:.4f}")
-    
-    return result</code></pre>
-                        </div>
-                    </div>
-
-                    <div class="subsection">
-                        <div class="subsection-header">
-                            <h3 class="subsection-title">Generate Agent Summaries</h3>
-                        </div>
-                        <div class="subsection-content">
-                            <pre><code class="language-bash"># Export all agent actions from current iteration
-python repo_builder.py summary \
-  --format markdown \
-  --output logs/iteration_15_summary.md
-
-# Example output structure:
-# - Requirements Analyst: Parsed 15 new requirements
-# - Architect: Updated API design for payment gateway
-# - Backend Engineer: Implemented Stripe integration (3 files)
-# - Frontend Engineer: Created checkout UI (5 components)
-# - QA Engineer: Added 12 integration tests
-# - DevOps: Updated deployment config for PCI compliance</code></pre>
-                        </div>
-                    </div>
-
-                    <div class="subsection">
-                        <div class="subsection-header">
-                            <h3 class="subsection-title">Daily/Weekly Reports</h3>
-                        </div>
-                        <div class="subsection-content">
-                            <pre><code class="language-bash"># Generate weekly activity report
-python repo_builder.py report weekly \
-  --from 2026-02-01 \
-  --to 2026-02-07 \
-  --output reports/week_6.md
-
-# Token usage report
-python repo_builder.py report tokens \
-  --month february \
-  --output reports/cost_february.csv</code></pre>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="section" id="debugging" data-section="debugging">
-                <div class="section-header">
-                    <h2 class="section-title">Debugging & Troubleshooting</h2>
-                    <span class="toggle-icon">▼</span>
-                </div>
-                <div class="section-content">
-                    <div class="subsection">
-                        <div class="subsection-header">
-                            <h3 class="subsection-title">Common Commands</h3>
-                        </div>
-                        <div class="subsection-content">
-                            <pre><code class="language-bash"># Verbose output mode (see all agent messages)
-python repo_builder.py --verbose update --spec requirements/spec.md
-
-# Dry-run mode (preview without executing)
-python repo_builder.py --dry-run feature add --name "export-data"
-
-# Debug specific agent
-python repo_builder.py debug agent backend \
-  --task "Explain current API structure"
-
-# Validate requirements document
-python repo_builder.py validate spec requirements/spec_v5.md
-
-# Check agent health
-python repo_builder.py health check
-
-# Reset agent context (clear memory)
-python repo_builder.py reset context --agent all</code></pre>
-                        </div>
-                    </div>
-
-                    <div class="subsection">
-                        <div class="subsection-header">
-                            <h3 class="subsection-title">Environment Management</h3>
-                        </div>
-                        <div class="subsection-content">
-                            <pre><code class="language-bash"># Check installed versions
-pip list | grep autogen
-
-# Update AutoGen to latest
-pip install -U autogen-agentchat autogen-ext[openai]
-
-# Verify OpenAI API connectivity
-python -c "from autogen_ext.models.openai import OpenAIChatCompletionClient; import os; client = OpenAIChatCompletionClient(model='gpt-4o', api_key=os.getenv('OPENAI_API_KEY')); print('✓ API connected')"
-
-# Check Python version
-python --version  # Should be 3.10+
-
-# Reinstall if issues
-pip uninstall autogen-agentchat autogen-ext -y
-pip install autogen-agentchat autogen-ext[openai]</code></pre>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="section" id="git-workflow" data-section="git-workflow">
-                <div class="section-header">
-                    <h2 class="section-title">Git Workflow Integration</h2>
-                    <span class="toggle-icon">▼</span>
-                </div>
-                <div class="section-content">
-                    <div class="subsection">
-                        <div class="subsection-header">
-                            <h3 class="subsection-title">Track Iterations with Git</h3>
-                        </div>
-                        <div class="subsection-content">
-                            <pre><code class="language-bash"># After each iteration, commit generated code
-cd output/generated_repo
-
-git add .
-git commit -m "Iteration $(date +%Y%m%d): Feature XYZ - Agents: backend,frontend,qa"
-
-# Tag major iterations
-git tag -a v0.1.0 -m "Initial MVP - Iteration 10"
-
-# Branch for experimental features
-git checkout -b feature/payment-gateway
-python ../../repo_builder.py feature add --name "stripe-integration"
-
-# Merge when approved
-git checkout main && git merge feature/payment-gateway</code></pre>
-                        </div>
-                    </div>
-
-                    <div class="subsection">
-                        <div class="subsection-header">
-                            <h3 class="subsection-title">Diff Between Iterations</h3>
-                        </div>
-                        <div class="subsection-content">
-                            <pre><code class="language-bash"># Compare generated code across iterations
-git diff iteration-12..iteration-15 > diffs/12_to_15.patch
-
-# Show what changed in specific file
-git log --follow src/api/payments.py
-
-# Blame: which agent/iteration created this line
-git blame src/models/user.py</code></pre>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="section" id="monthly-workflow" data-section="monthly-workflow">
-                <div class="section-header">
-                    <h2 class="section-title">Monthly Workflow Summary</h2>
-                    <span class="toggle-icon">▼</span>
-                </div>
-                <div class="section-content">
-                    <div class="subsection">
-                        <div class="subsection-header">
-                            <h3 class="subsection-title">Week 1: Foundation</h3>
-                        </div>
-                        <div class="subsection-content">
-                            <pre><code class="language-bash"># Day 1-2: Initial requirements & architecture
-python repo_builder.py init --spec requirements/mvp_spec.md --output output/saas_app
-
-# Day 3-5: Core feature implementation
-for feature in auth dashboard api-core; do
-  python repo_builder.py feature add --name $feature --spec requirements/mvp_spec.md
-done</code></pre>
-                        </div>
-                    </div>
-
-                    <div class="subsection">
-                        <div class="subsection-header">
-                            <h3 class="subsection-title">Week 2-3: Feature Iteration (20-25 updates)</h3>
-                        </div>
-                        <div class="subsection-content">
-                            <pre><code class="language-bash"># Typical daily pattern:
-# 1. Update spec for new feature/change
-vim requirements/spec_v{2..10}.md
-
-# 2. Run targeted update
-python repo_builder.py update --target backend,frontend --spec requirements/spec_v*.md
-
-# 3. Review and test
-cd output/saas_app && npm run test:all
-
-# 4. Commit iteration
-git add . && git commit -m "Iteration X: ..."</code></pre>
-                        </div>
-                    </div>
-
-                    <div class="subsection">
-                        <div class="subsection-header">
-                            <h3 class="subsection-title">Week 4: Polish & Deploy (5-8 updates)</h3>
-                        </div>
-                        <div class="subsection-content">
-                            <pre><code class="language-bash"># Performance optimization
-python repo_builder.py optimize performance
-
-# Security audit
-python repo_builder.py audit security
-
-# Generate production configs
-python repo_builder.py deploy config --env production
-
-# Final documentation update
-python repo_builder.py generate docs --comprehensive
-
-# Monthly summary
-python repo_builder.py report monthly --month february --output reports/february_2026.md</code></pre>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="section" id="cost-tracking" data-section="cost-tracking">
-                <div class="section-header">
-                    <h2 class="section-title">Cost Tracking</h2>
-                    <span class="toggle-icon">▼</span>
-                </div>
-                <div class="section-content">
-                    <div class="subsection">
-                        <div class="subsection-header">
-                            <h3 class="subsection-title">Monitor Monthly Spend</h3>
-                        </div>
-                        <div class="subsection-content">
-                            <pre><code class="language-python"># Track token usage in real-time
-# Add to your Python scripts:
-
-import json
+                <h3>api_server.py</h3>
+                <pre><code class="language-python"># /srv/autogen/api_server.py
+import asyncio
+import uuid
 from datetime import datetime
+from pathlib import Path
+from typing import Optional
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
+import yaml
 
-def log_usage(tokens_used, cost):
-    log_entry = {
-        "timestamp": datetime.now().isoformat(),
-        "tokens": tokens_used,
-        "cost_usd": cost
+from agents import run_autogen_workflow, load_workspace_config
+
+app = FastAPI(title="AutoGen Workspace API")
+
+# In-memory job store (use Redis/DB for production)
+jobs = {}
+
+class RunRequest(BaseModel):
+    workspace: str
+    prompt: str
+    branch: str = "main"
+
+class JobStatus(BaseModel):
+    job_id: str
+    workspace: str
+    status: str  # pending, running, completed, failed
+    created_at: str
+    completed_at: Optional[str] = None
+    error: Optional[str] = None
+
+@app.get("/")
+def root():
+    return {"service": "AutoGen Workspace API", "version": "1.0"}
+
+@app.get("/workspaces")
+def list_workspaces():
+    """List all available workspaces."""
+    config = load_workspace_config()
+    return {
+        "workspaces": {
+            name: {
+                "path": ws["path"],
+                "language": ws["language"],
+                "description": ws.get("description", "")
+            }
+            for name, ws in config["workspaces"].items()
+        }
+    }
+
+@app.post("/run")
+async def run_job(request: RunRequest):
+    """
+    Trigger an AutoGen workflow on a specific workspace.
+    Returns job_id for status tracking.
+    """
+    # Validate workspace exists
+    config = load_workspace_config()
+    if request.workspace not in config["workspaces"]:
+        raise HTTPException(status_code=404, detail=f"Workspace '{request.workspace}' not found")
+    
+    # Generate job ID
+    job_id = str(uuid.uuid4())[:8]
+    
+    # Create log directory
+    log_dir = Path(f"/srv/autogen/logs/{request.workspace}")
+    log_dir.mkdir(parents=True, exist_ok=True)
+    log_file = log_dir / f"{job_id}.log"
+    
+    # Initialize job status
+    jobs[job_id] = {
+        "job_id": job_id,
+        "workspace": request.workspace,
+        "prompt": request.prompt,
+        "branch": request.branch,
+        "status": "running",
+        "created_at": datetime.utcnow().isoformat(),
+        "log_file": str(log_file)
     }
     
-    with open("logs/usage.jsonl", "a") as f:
-        f.write(json.dumps(log_entry) + "\n")
+    # Run workflow in background (for async version, use background tasks)
+    try:
+        result = await run_autogen_workflow(
+            workspace=request.workspace,
+            prompt=request.prompt,
+            branch=request.branch
+        )
+        
+        # Write log
+        with open(log_file, "w") as f:
+            f.write(f"Job ID: {job_id}\n")
+            f.write(f"Workspace: {request.workspace}\n")
+            f.write(f"Prompt: {request.prompt}\n")
+            f.write(f"Result: {result}\n")
+        
+        jobs[job_id]["status"] = "completed"
+        jobs[job_id]["completed_at"] = datetime.utcnow().isoformat()
+        jobs[job_id]["result"] = result
+        
+    except Exception as e:
+        jobs[job_id]["status"] = "failed"
+        jobs[job_id]["error"] = str(e)
+        jobs[job_id]["completed_at"] = datetime.utcnow().isoformat()
+        
+        with open(log_file, "w") as f:
+            f.write(f"Job ID: {job_id}\n")
+            f.write(f"Error: {str(e)}\n")
+    
+    return {"job_id": job_id, "status": "running"}
 
-# Generate monthly report
-python -c "
-import json
-total_cost = sum(json.loads(line)['cost_usd'] for line in open('logs/usage.jsonl'))
-print(f'Monthly cost: \${total_cost:.2f}')
-"</code></pre>
-                        </div>
-                    </div>
+@app.get("/status/{job_id}")
+def get_status(job_id: str):
+    """Get status of a specific job."""
+    if job_id not in jobs:
+        raise HTTPException(status_code=404, detail="Job not found")
+    
+    job = jobs[job_id]
+    return JobStatus(
+        job_id=job["job_id"],
+        workspace=job["workspace"],
+        status=job["status"],
+        created_at=job["created_at"],
+        completed_at=job.get("completed_at"),
+        error=job.get("error")
+    )
 
-                    <div class="subsection">
-                        <div class="subsection-header">
-                            <h3 class="subsection-title">Cost Optimization</h3>
-                        </div>
-                        <div class="subsection-content">
-                            <pre><code class="language-python"># Use cheaper models for simpler agents
-qa_agent = AssistantAgent(
-    name="qa_engineer",
-    model_client=OpenAIChatCompletionClient(model="gpt-3.5-turbo"),  # Cheaper
-    system_message="..."
-)
+@app.get("/logs/{job_id}")
+def get_logs(job_id: str):
+    """Retrieve logs for a specific job."""
+    if job_id not in jobs:
+        raise HTTPException(status_code=404, detail="Job not found")
+    
+    log_file = Path(jobs[job_id]["log_file"])
+    if not log_file.exists():
+        raise HTTPException(status_code=404, detail="Log file not found")
+    
+    with open(log_file) as f:
+        return {"job_id": job_id, "logs": f.read()}
+</code></pre>
 
-docs_agent = AssistantAgent(
-    name="docs_writer",
-    model_client=OpenAIChatCompletionClient(model="gpt-3.5-turbo"),  # Cheaper
-    system_message="..."
-)
+                <h3>Running the API Server</h3>
+                <pre><code class="language-bash"># Activate venv
+cd /srv/autogen
+source .venv/bin/activate
 
-# Use GPT-4o only for critical reasoning (architect, complex backend)
-architect = AssistantAgent(
-    name="architect",
-    model_client=OpenAIChatCompletionClient(model="gpt-4o"),  # Premium
-    system_message="..."
-)</code></pre>
-                        </div>
-                    </div>
+# Run FastAPI with Uvicorn
+uvicorn api_server:app --host 0.0.0.0 --port 8000 --reload
+
+# For production, use a process manager (see operational notes)
+</code></pre>
+
+                <p>The API is now accessible at <code>http://192.168.1.100:8000</code> from your laptop.</p>
+            </section>
+
+            <section id="using-system" class="content-section">
+                <h2>Using the System from the Laptop</h2>
+
+                <h3>Editing Code</h3>
+                <p>Use VS Code Remote SSH to open any workspace directory and edit as if it were local:</p>
+                <ol>
+                    <li>In VS Code, connect to <code>minipc-autogen</code> (Remote SSH)</li>
+                    <li>Open folder: <code>/srv/projects/best-of-ui</code></li>
+                    <li>Edit files, commit changes, and push to Git as normal</li>
+                </ol>
+
+                <h3>Triggering Agent Runs</h3>
+                <p>From your laptop terminal, use curl to interact with the API:</p>
+
+                <pre><code class="language-bash"># List available workspaces
+curl http://192.168.1.100:8000/workspaces
+
+# Trigger an AutoGen run on best-of-ui
+curl -X POST http://192.168.1.100:8000/run \
+  -H "Content-Type: application/json" \
+  -d '{
+    "workspace": "best-of-ui",
+    "prompt": "Refactor the authentication module to use JWT tokens",
+    "branch": "feature/jwt-auth"
+  }'
+
+# Response: {"job_id": "a3b2c1d4", "status": "running"}
+
+# Check job status
+curl http://192.168.1.100:8000/status/a3b2c1d4
+
+# Retrieve logs
+curl http://192.168.1.100:8000/logs/a3b2c1d4
+</code></pre>
+
+                <h3>CLI Helper Script (Optional)</h3>
+                <p>Create a simple Python CLI on your laptop for easier interaction:</p>
+
+                <pre><code class="language-python"># run_agent.py (on laptop)
+import requests
+import sys
+import time
+
+API_URL = "http://192.168.1.100:8000"
+
+def trigger_run(workspace, prompt, branch="main"):
+    response = requests.post(f"{API_URL}/run", json={
+        "workspace": workspace,
+        "prompt": prompt,
+        "branch": branch
+    })
+    response.raise_for_status()
+    return response.json()["job_id"]
+
+def poll_status(job_id):
+    while True:
+        response = requests.get(f"{API_URL}/status/{job_id}")
+        status = response.json()
+        print(f"Status: {status['status']}")
+        
+        if status["status"] in ["completed", "failed"]:
+            return status
+        
+        time.sleep(5)
+
+if __name__ == "__main__":
+    workspace = input("Workspace: ")
+    prompt = input("Task prompt: ")
+    branch = input("Branch (default: main): ") or "main"
+    
+    print(f"Starting job on {workspace}...")
+    job_id = trigger_run(workspace, prompt, branch)
+    print(f"Job ID: {job_id}")
+    
+    final_status = poll_status(job_id)
+    print(f"Final status: {final_status}")
+</code></pre>
+
+                <p>Run with: <code>python run_agent.py</code></p>
+            </section>
+
+            <section id="add-repo" class="content-section">
+                <h2>Adding a New Repository</h2>
+
+                <p>The workspace registry design makes adding new repositories trivial—no code changes required.</p>
+
+                <h3>Step-by-Step Process</h3>
+
+                <h4>1. Clone the Repository</h4>
+                <pre><code class="language-bash"># SSH into mini-PC or use VS Code terminal
+ssh devuser@192.168.1.100
+cd /srv/projects
+
+# Clone new repo
+git clone https://github.com/yourusername/new-project.git new-project
+</code></pre>
+
+                <h4>2. Add Workspace Entry</h4>
+                <p>Edit <code>/srv/autogen/workspaces.yaml</code> and add a new entry:</p>
+
+                <pre><code class="language-yaml">workspaces:
+  best-of-ui:
+    path: /srv/projects/best-of-ui
+    language: javascript
+    test_command: "npm test"
+    build_command: "npm run build"
+    install_command: "npm install"
+    
+  new-project:
+    path: /srv/projects/new-project
+    language: python
+    test_command: "pytest tests/"
+    build_command: "python setup.py build"
+    install_command: "pip install -e ."
+    description: "New Python project for data analysis"
+</code></pre>
+
+                <h4>3. Restart API Server (if needed)</h4>
+                <p>If the API server caches the config, restart it:</p>
+                <pre><code class="language-bash"># Find and kill existing process
+pkill -f api_server
+
+# Restart
+cd /srv/autogen
+source .venv/bin/activate
+uvicorn api_server:app --host 0.0.0.0 --port 8000
+</code></pre>
+
+                <h4>4. Trigger Run on New Workspace</h4>
+                <pre><code class="language-bash"># From laptop
+curl -X POST http://192.168.1.100:8000/run \
+  -H "Content-Type: application/json" \
+  -d '{
+    "workspace": "new-project",
+    "prompt": "Analyze the codebase and suggest improvements"
+  }'
+</code></pre>
+
+                <div class="callout">
+                    <div class="callout-title">Zero-Code Workspace Addition</div>
+                    <p>Adding a new repository requires only:</p>
+                    <ul>
+                        <li><code>git clone</code> into <code>/srv/projects/</code></li>
+                        <li>New entry in <code>workspaces.yaml</code></li>
+                        <li>Optional API server restart</li>
+                    </ul>
+                    <p>No changes to <code>agents.py</code> or <code>api_server.py</code> are needed.</p>
                 </div>
             </section>
 
-            <section class="section" id="quick-reference" data-section="quick-reference">
-                <div class="section-header">
-                    <h2 class="section-title">Quick Reference: Most Used Commands</h2>
-                    <span class="toggle-icon">▼</span>
-                </div>
-                <div class="section-content">
-                    <div class="subsection">
-                        <div class="subsection-header">
-                            <h3 class="subsection-title">Setup (once)</h3>
-                        </div>
-                        <div class="subsection-content">
-                            <pre><code class="language-bash">python3 -m venv .venv && source .venv/bin/activate
-pip install autogen-agentchat autogen-ext[openai] python-dotenv
-echo "OPENAI_API_KEY=sk-..." > .env</code></pre>
-                        </div>
-                    </div>
+            <section id="operational-notes" class="content-section">
+                <h2>Operational Notes</h2>
 
-                    <div class="subsection">
-                        <div class="subsection-header">
-                            <h3 class="subsection-title">Daily Workflow</h3>
-                        </div>
-                        <div class="subsection-content">
-                            <pre><code class="language-bash">python repo_builder.py update --spec requirements/spec.md --target backend,frontend
-python repo_builder.py test
-python repo_builder.py summary --output logs/today.md
-git add . && git commit -m "Iteration X"</code></pre>
-                        </div>
-                    </div>
+                <h3>Running API Server as a Service</h3>
+                <p>For persistent operation, use systemd to manage the API server:</p>
 
-                    <div class="subsection">
-                        <div class="subsection-header">
-                            <h3 class="subsection-title">Debugging</h3>
-                        </div>
-                        <div class="subsection-content">
-                            <pre><code class="language-bash">python repo_builder.py --verbose update --spec requirements/spec.md
-python repo_builder.py validate spec requirements/spec.md
-python repo_builder.py health check</code></pre>
-                        </div>
-                    </div>
+                <pre><code class="language-bash"># Create systemd service file
+sudo nano /etc/systemd/system/autogen-api.service
+</code></pre>
 
-                    <div class="subsection">
-                        <div class="subsection-header">
-                            <h3 class="subsection-title">Reports</h3>
-                        </div>
-                        <div class="subsection-content">
-                            <pre><code class="language-bash">python repo_builder.py report weekly --output reports/week_N.md
-python repo_builder.py report tokens --month february</code></pre>
-                        </div>
-                    </div>
-                </div>
+                <pre><code class="language-ini">[Unit]
+Description=AutoGen Workspace API
+After=network.target
+
+[Service]
+Type=simple
+User=devuser
+WorkingDirectory=/srv/autogen
+Environment="PATH=/srv/autogen/.venv/bin"
+ExecStart=/srv/autogen/.venv/bin/uvicorn api_server:app --host 0.0.0.0 --port 8000
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+
+                <pre><code class="language-bash"># Enable and start service
+sudo systemctl daemon-reload
+sudo systemctl enable autogen-api
+sudo systemctl start autogen-api
+
+# Check status
+sudo systemctl status autogen-api
+
+# View logs
+sudo journalctl -u autogen-api -f
+</code></pre>
+
+                <h3>Managing Concurrency</h3>
+                <p>The Intel N100 is a low-power quad-core CPU. To avoid resource contention:</p>
+                <ul>
+                    <li>Limit concurrent jobs to 1–2 at a time</li>
+                    <li>Implement a job queue (e.g., with Celery + Redis) for production use</li>
+                    <li>Monitor CPU/memory usage: <code>htop</code> or <code>glances</code></li>
+                </ul>
+
+                <h3>Log Management</h3>
+                <pre><code class="language-bash"># View logs for a specific workspace
+ls -lh /srv/autogen/logs/best-of-ui/
+
+# Clean old logs (example: delete logs older than 30 days)
+find /srv/autogen/logs -name "*.log" -mtime +30 -delete
+</code></pre>
+
+                <h3>Updating Dependencies</h3>
+                <pre><code class="language-bash"># Activate venv
+cd /srv/autogen
+source .venv/bin/activate
+
+# Update AutoGen packages
+pip install --upgrade autogen-agentchat autogen-ext
+
+# Update all dependencies
+pip list --outdated
+pip install --upgrade <package-name>
+</code></pre>
             </section>
 
-            <section class="section" id="resources" data-section="resources">
-                <div class="section-header">
-                    <h2 class="section-title">Additional Resources</h2>
-                    <span class="toggle-icon">▼</span>
-                </div>
-                <div class="section-content">
-                    <div class="subsection">
-                        <div class="subsection-header">
-                            <h3 class="subsection-title">Essential Documentation</h3>
-                        </div>
-                        <div class="subsection-content">
-                            <div class="content-block">
-                                <p><strong>AutoGen AgentChat Guide:</strong> <a href="https://microsoft.github.io/autogen/stable/user-guide/agentchat-user-guide/" target="_blank">https://microsoft.github.io/autogen/stable/user-guide/agentchat-user-guide/</a></p>
-                                <p><strong>OpenAI API Reference:</strong> <a href="https://platform.openai.com/docs/api-reference" target="_blank">https://platform.openai.com/docs/api-reference</a></p>
-                                <p><strong>AutoGen GitHub:</strong> <a href="https://github.com/microsoft/autogen" target="_blank">https://github.com/microsoft/autogen</a></p>
-                                <p><strong>Code Execution:</strong> <a href="https://microsoft.github.io/autogen/stable/user-guide/core-user-guide/components/command-line-code-executors.html" target="_blank">https://microsoft.github.io/autogen/stable/user-guide/core-user-guide/components/command-line-code-executors.html</a></p>
-                            </div>
-                        </div>
-                    </div>
+            <section id="troubleshooting" class="content-section">
+                <h2>Troubleshooting</h2>
 
-                    <div class="subsection">
-                        <div class="subsection-header">
-                            <h3 class="subsection-title">Community & Support</h3>
-                        </div>
-                        <div class="subsection-content">
-                            <div class="content-block">
-                                <p><strong>AutoGen Discord:</strong> <a href="https://discord.gg/autogen" target="_blank">https://discord.gg/autogen</a></p>
-                                <p><strong>GitHub Discussions:</strong> <a href="https://github.com/microsoft/autogen/discussions" target="_blank">https://github.com/microsoft/autogen/discussions</a></p>
-                                <p><strong>Example Projects:</strong> <a href="https://github.com/microsoft/autogen/tree/main/python/samples" target="_blank">https://github.com/microsoft/autogen/tree/main/python/samples</a></p>
-                            </div>
-                        </div>
-                    </div>
+                <h3>VS Code Remote SSH Connection Issues</h3>
+                <ul>
+                    <li><strong>Symptom:</strong> "Could not establish connection to host"</li>
+                    <li><strong>Fix:</strong> Verify SSH works from terminal: <code>ssh devuser@192.168.1.100</code></li>
+                    <li>Check SSH config in <code>~/.ssh/config</code></li>
+                    <li>Ensure SSH key is added: <code>ssh-add -l</code></li>
+                </ul>
 
-                    <div class="subsection">
-                        <div class="subsection-header">
-                            <h3 class="subsection-title">Key Information</h3>
-                        </div>
-                        <div class="subsection-content">
-                            <div class="content-block">
-                                <p><strong>Cost Estimate:</strong> ~$5 USD/month for 30 iterations (GPT-4o)</p>
-                                <p><strong>Time to Prototype:</strong> 2-4 hours (setup + initial build)</p>
-                                <p><strong>Recommended Python:</strong> 3.10 or 3.11 (3.12 works but some deps may lag)</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <h3>Workspace Not Found Error</h3>
+                <ul>
+                    <li><strong>Symptom:</strong> HTTP 404 when calling <code>/run</code></li>
+                    <li><strong>Fix:</strong> Verify workspace name matches exactly in <code>workspaces.yaml</code></li>
+                    <li>Check for typos in workspace name</li>
+                    <li>Restart API server after config changes</li>
+                </ul>
+
+                <h3>Path Mismatch</h3>
+                <ul>
+                    <li><strong>Symptom:</strong> "FileNotFoundError: Workspace path does not exist"</li>
+                    <li><strong>Fix:</strong> Verify the path in <code>workspaces.yaml</code> matches actual location</li>
+                    <li>Check: <code>ls -la /srv/projects/&lt;workspace&gt;</code></li>
+                </ul>
+
+                <h3>LLM API Failures</h3>
+                <ul>
+                    <li><strong>Symptom:</strong> "AuthenticationError" or "RateLimitError"</li>
+                    <li><strong>Fix:</strong> Verify <code>.env</code> file has correct API keys</li>
+                    <li>Check API key permissions and quotas</li>
+                    <li>Test: <code>curl https://api.openai.com/v1/models -H "Authorization: Bearer $OPENAI_API_KEY"</code></li>
+                </ul>
+
+                <h3>Python Virtual Environment Issues</h3>
+                <ul>
+                    <li><strong>Symptom:</strong> "ModuleNotFoundError" for autogen packages</li>
+                    <li><strong>Fix:</strong> Ensure venv is activated: <code>source /srv/autogen/.venv/bin/activate</code></li>
+                    <li>Verify correct Python: <code>which python</code> should show <code>/srv/autogen/.venv/bin/python</code></li>
+                    <li>Reinstall dependencies: <code>pip install -r requirements.txt</code></li>
+                </ul>
+
+                <h3>API Server Not Responding</h3>
+                <ul>
+                    <li><strong>Symptom:</strong> Connection refused on port 8000</li>
+                    <li><strong>Fix:</strong> Check if server is running: <code>sudo systemctl status autogen-api</code></li>
+                    <li>Verify port is listening: <code>sudo ss -tulpn | grep 8000</code></li>
+                    <li>Check firewall rules: <code>sudo ufw status</code></li>
+                </ul>
+
+                <h3>Job Hangs or Times Out</h3>
+                <ul>
+                    <li><strong>Symptom:</strong> Job status stuck in "running"</li>
+                    <li><strong>Fix:</strong> Check logs: <code>cat /srv/autogen/logs/&lt;workspace&gt;/&lt;job_id&gt;.log</code></li>
+                    <li>Monitor resource usage: <code>htop</code></li>
+                    <li>Reduce complexity of agent tasks or add timeouts</li>
+                </ul>
+            </section>
+
+            <section id="summary" class="content-section">
+                <h2>Summary</h2>
+
+                <p>This guide establishes a flexible, multi-workspace AutoGen architecture on a low-power Ubuntu mini-PC. The key design decisions are:</p>
+
+                <ul>
+                    <li><strong>Code on mini-PC SSD:</strong> Fast local I/O for builds and tests, edited remotely via VS Code Remote SSH</li>
+                    <li><strong>HTTP API:</strong> Trigger AutoGen workflows without SSH, using a simple REST interface</li>
+                    <li><strong>Workspace registry:</strong> Add new repositories by cloning and updating a config file—no code changes required</li>
+                    <li><strong>Parameterized agents:</strong> AutoGen agents load workspace metadata at runtime, making them repo-agnostic</li>
+                </ul>
+
+                <p>Starting with <code>best-of-ui</code> as the primary workspace, this system scales to dozens of repositories with minimal overhead. The architecture separates infrastructure (API, agents) from data (repos), allowing clean addition of workspaces as your projects grow.</p>
+
+                <p>For production use, consider adding:</p>
+                <ul>
+                    <li>Job queue (Celery + Redis) for async processing</li>
+                    <li>Database for job metadata (SQLite or PostgreSQL)</li>
+                    <li>Authentication on API endpoints</li>
+                    <li>Monitoring and alerting (Prometheus, Grafana)</li>
+                    <li>Automated backups of <code>/srv/projects</code> and <code>/srv/autogen</code></li>
+                </ul>
+
+                <p>This setup provides a stable foundation for AutoGen-driven development on dedicated hardware, with clear paths to scale both compute resources and repository coverage.</p>
             </section>
         </main>
     </div>
 
     <script>
-        // State management (in-memory only - no localStorage due to sandbox)
-        const state = {
-            theme: 'light',
-            collapsedSections: [],
-            checkedSections: []
-        };
+        // Theme toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const htmlElement = document.documentElement;
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            initializeTheme();
-            initializeCollapsedState();
-            initializeCheckedState();
-            initializeEventListeners();
-            updateActiveNavLink();
+        // Check for saved theme preference or default to light mode
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        if (currentTheme === 'dark') {
+            htmlElement.setAttribute('data-theme', 'dark');
+            themeToggle.checked = true;
+        }
+
+        themeToggle.addEventListener('change', function() {
+            if (this.checked) {
+                htmlElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                htmlElement.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+            }
         });
 
-        // Theme management
-        function initializeTheme() {
-            document.documentElement.setAttribute('data-theme', state.theme);
-            updateThemeButton();
-        }
+        // Highlight.js initialization
+        hljs.highlightAll();
 
-        function toggleTheme() {
-            state.theme = state.theme === 'light' ? 'dark' : 'light';
-            document.documentElement.setAttribute('data-theme', state.theme);
-            updateThemeButton();
-        }
-
-        function updateThemeButton() {
-            const toggle = document.getElementById('themeToggle');
-            toggle.checked = state.theme === 'dark';
-        }
-
-        // Collapse state management
-        function initializeCollapsedState() {
-            state.collapsedSections.forEach(id => {
-                const section = document.getElementById(id);
-                if (section) section.classList.add('collapsed');
-            });
-        }
-
-        function saveCollapsedState() {
-            const collapsedSections = Array.from(document.querySelectorAll('.section.collapsed'))
-                .map(el => el.id)
-                .filter(id => id);
-
-            state.collapsedSections = collapsedSections;
-        }
-
-        // Checkbox state management
-        function initializeCheckedState() {
-            state.checkedSections.forEach(sectionId => {
-                const checkbox = document.querySelector(`.nav-checkbox[data-section="${sectionId}"]`);
-                if (checkbox) checkbox.checked = true;
-            });
-        }
-
-        function saveCheckedState() {
-            const checkedSections = Array.from(document.querySelectorAll('.nav-checkbox:checked'))
-                .map(el => el.getAttribute('data-section'))
-                .filter(id => id);
-
-            state.checkedSections = checkedSections;
-        }
-
-        function resetState() {
-            // Reset arrays
-            state.collapsedSections = [];
-            state.checkedSections = [];
-            
-            // Expand all sections
-            document.querySelectorAll('.section.collapsed').forEach(el => {
-                el.classList.remove('collapsed');
-            });
-
-            // Uncheck all checkboxes
-            document.querySelectorAll('.nav-checkbox').forEach(checkbox => {
-                checkbox.checked = false;
-            });
-
-            // Clear search
-            const searchInput = document.getElementById('searchInput');
-            searchInput.value = '';
-            clearSearch();
-        }
-
-        // Event listeners
-        function initializeEventListeners() {
-            // Theme toggle
-            document.getElementById('themeToggle').addEventListener('change', toggleTheme);
-
-            // Reset state
-            document.getElementById('resetState').addEventListener('click', () => {
-                resetState();
-            });
-
-            // Section headers
-            document.querySelectorAll('.section-header').forEach(header => {
-                header.addEventListener('click', () => {
-                    const section = header.parentElement;
-                    section.classList.toggle('collapsed');
-                    saveCollapsedState();
-                });
-            });
-
-            // Sidebar navigation
-            document.querySelectorAll('.sidebar-nav a').forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const sectionId = link.getAttribute('data-section');
-                    const section = document.getElementById(sectionId);
-                    if (section) {
-                        const headerHeight = document.querySelector('.header').offsetHeight;
-                        const elementPosition = section.getBoundingClientRect().top;
-                        const offsetPosition = elementPosition + window.pageYOffset - headerHeight - 20;
-                        
-                        window.scrollTo({
-                            top: offsetPosition,
-                            behavior: 'smooth'
-                        });
-                        updateActiveNavLink(sectionId);
-                    }
-                });
-            });
-
-            // Checkbox functionality
-            document.querySelectorAll('.nav-checkbox').forEach(checkbox => {
-                checkbox.addEventListener('change', (e) => {
-                    const sectionId = e.target.getAttribute('data-section');
-                    const section = document.getElementById(sectionId);
-                    
-                    if (e.target.checked && section) {
-                        // Collapse section when checked
-                        section.classList.add('collapsed');
-                    }
-                    
-                    saveCheckedState();
-                    saveCollapsedState();
-                });
-            });
-
-            // Search
-            const searchInput = document.getElementById('searchInput');
-            let searchTimeout;
-            
-            searchInput.addEventListener('input', (e) => {
-                clearTimeout(searchTimeout);
-                searchTimeout = setTimeout(() => {
-                    if (e.target.value) {
-                        performSearch(e.target.value);
-                    } else {
-                        clearSearch();
-                    }
-                }, 300);
-            });
-
-            searchInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    performSearch(e.target.value);
-                }
-            });
-
-            // Scroll spy for sidebar
-            window.addEventListener('scroll', updateActiveNavLink);
-        }
-
-        // Search functionality
-        function performSearch(query) {
-            if (!query) {
-                clearSearch();
-                return;
-            }
-
-            const lowerQuery = query.toLowerCase().trim();
-            let matchCount = 0;
-            let firstMatch = null;
-
-            // Collapse all sections first
-            document.querySelectorAll('.section').forEach(section => {
-                section.classList.add('collapsed');
-            });
-
-            // Search in all text content
-            document.querySelectorAll('.section').forEach(section => {
-                let sectionHasMatch = false;
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
                 
-                // Search in subsections
-                section.querySelectorAll('.subsection').forEach(subsection => {
-                    const codeBlocks = subsection.querySelectorAll('code');
-                    const textBlocks = subsection.querySelectorAll('p');
-
-                    // Check code blocks
-                    codeBlocks.forEach(code => {
-                        if (code.textContent.toLowerCase().includes(lowerQuery)) {
-                            sectionHasMatch = true;
-                            matchCount++;
-                            if (!firstMatch) firstMatch = subsection;
-                        }
-                    });
-
-                    // Check text blocks
-                    textBlocks.forEach(text => {
-                        if (text.textContent.toLowerCase().includes(lowerQuery)) {
-                            sectionHasMatch = true;
-                            matchCount++;
-                            if (!firstMatch) firstMatch = subsection;
-                        }
-                    });
-                });
-
-                // Expand section if it has matches
-                if (sectionHasMatch) {
-                    section.classList.remove('collapsed');
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    
+                    // Update active state
+                    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
                 }
             });
+        });
 
-            // Show message
-            const messageEl = document.getElementById('searchMessage');
-            if (matchCount === 0) {
-                messageEl.textContent = `No matches found for "${query}"`;
-                messageEl.classList.add('visible');
-            } else {
-                messageEl.textContent = `Found ${matchCount} match${matchCount !== 1 ? 'es' : ''} for "${query}"`;
-                messageEl.classList.add('visible');
-                
-                // Scroll to first match
-                if (firstMatch) {
-                    setTimeout(() => {
-                        const section = firstMatch.closest('.section');
-                        if (section) {
-                            const headerHeight = document.querySelector('.header').offsetHeight;
-                            const elementPosition = section.getBoundingClientRect().top;
-                            const offsetPosition = elementPosition + window.pageYOffset - headerHeight - 20;
-                            
-                            window.scrollTo({
-                                top: offsetPosition,
-                                behavior: 'smooth'
-                            });
-                        }
-                    }, 100);
-                }
-            }
-        }
+        // Update active nav link on scroll
+        const sections = document.querySelectorAll('.content-section');
+        const navLinks = document.querySelectorAll('.nav-link');
 
-        function clearSearch() {
-            // Hide message
-            const messageEl = document.getElementById('searchMessage');
-            messageEl.classList.remove('visible');
-            
-            // Restore previous collapsed state
-            initializeCollapsedState();
-        }
-
-        // Active nav link
-        function updateActiveNavLink(forcedSection = null) {
-            const navItems = document.querySelectorAll('.nav-item');
-            
-            if (forcedSection) {
-                navItems.forEach(item => {
-                    item.classList.toggle('active', item.getAttribute('data-section') === forcedSection);
-                });
-                return;
-            }
-
-            const sections = document.querySelectorAll('.section');
-            let currentSection = null;
-
+        window.addEventListener('scroll', () => {
+            let current = '';
             sections.forEach(section => {
-                const rect = section.getBoundingClientRect();
-                if (rect.top <= 150 && rect.bottom >= 150) {
-                    currentSection = section.id;
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= sectionTop - 100) {
+                    current = section.getAttribute('id');
                 }
             });
 
-            if (currentSection) {
-                navItems.forEach(item => {
-                    item.classList.toggle('active', item.getAttribute('data-section') === currentSection);
-                });
-            }
-        }
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
     </script>
 </body>
 </html>
