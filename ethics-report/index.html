@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Data Center Ethics: What You Need to Know</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    :root {
+      --primary: #1a4d6d;
+      --secondary: #2a7a9e;
+      --accent: #3fa7c7;
+      --success: #2d8f6f;
+      --warning: #c89f2e;
+      --danger: #a84d2e;
+      --neutral-light: #f5f7f9;
+      --neutral-mid: #d4dce5;
+      --neutral-dark: #4a5568;
+      --text: #1a202c;
+      --text-light: #6b7280;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      color: var(--text);
+      background: white;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      padding: 60px 0;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    header p {
+      font-size: 1.1em;
+      opacity: 0.95;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    nav {
+      background: var(--primary);
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    nav .container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      padding: 12px 20px;
+      border-right: 1px solid rgba(255,255,255,0.2);
+      font-size: 0.95em;
+      transition: background 0.3s;
+    }
+
+    nav a:last-child {
+      border-right: none;
+    }
+
+    nav a:hover {
+      background: var(--secondary);
+    }
+
+    main {
+      padding: 60px 0;
+    }
+
+    section {
+      margin-bottom: 80px;
+      scroll-margin-top: 80px;
+    }
+
+    h2 {
+      font-size: 2em;
+      margin-bottom: 10px;
+      color: var(--primary);
+      border-bottom: 3px solid var(--accent);
+      padding-bottom: 10px;
+      display: inline-block;
+    }
+
+    h3 {
+      font-size: 1.4em;
+      margin-top: 30px;
+      margin-bottom: 15px;
+      color: var(--secondary);
+    }
+
+    p, li {
+      margin-bottom: 15px;
+      line-height: 1.8;
+      color: var(--text-light);
+    }
+
+    .intro-box {
+      background: var(--neutral-light);
+      padding: 30px;
+      border-left: 4px solid var(--accent);
+      margin-bottom: 40px;
+      border-radius: 4px;
+    }
+
+    .intro-box p {
+      color: var(--text);
+      font-size: 1.05em;
+      margin: 0;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin: 40px 0;
+    }
+
+    .card {
+      background: white;
+      border: 1px solid var(--neutral-mid);
+      border-radius: 6px;
+      padding: 25px;
+      transition: box-shadow 0.3s, transform 0.3s;
+    }
+
+    .card:hover {
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+      transform: translateY(-2px);
+    }
+
+    .card h3 {
+      margin-top: 0;
+      color: var(--primary);
+    }
+
+    .card-highlight {
+      background: var(--neutral-light);
+      padding: 15px;
+      border-radius: 4px;
+      margin: 15px 0;
+      font-size: 0.95em;
+    }
+
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 30px 0;
+      background: white;
+      font-size: 0.95em;
+    }
+
+    .comparison-table th {
+      background: var(--primary);
+      color: white;
+      padding: 15px;
+      text-align: left;
+      font-weight: 600;
+    }
+
+    .comparison-table td {
+      padding: 15px;
+      border-bottom: 1px solid var(--neutral-mid);
+      line-height: 1.6;
+    }
+
+    .comparison-table tr:nth-child(even) {
+      background: var(--neutral-light);
+    }
+
+    .company-row {
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .metric-indicator {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border-radius: 2px;
+      margin-right: 5px;
+      vertical-align: middle;
+    }
+
+    .metric-strong {
+      background: var(--success);
+    }
+
+    .metric-partial {
+      background: var(--warning);
+    }
+
+    .metric-weak {
+      background: var(--danger);
+    }
+
+    .metric-neutral {
+      background: var(--neutral-mid);
+    }
+
+    .key-fact {
+      background: white;
+      border-left: 4px solid var(--accent);
+      padding: 15px 20px;
+      margin: 15px 0;
+      border-radius: 2px;
+    }
+
+    .key-fact strong {
+      color: var(--primary);
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    ul, ol {
+      margin-left: 20px;
+      margin-bottom: 20px;
+    }
+
+    li {
+      margin-bottom: 10px;
+    }
+
+    .checklist {
+      background: var(--neutral-light);
+      padding: 25px;
+      border-radius: 6px;
+      margin: 30px 0;
+    }
+
+    .checklist h4 {
+      color: var(--primary);
+      margin-bottom: 15px;
+      font-size: 1.1em;
+    }
+
+    .checklist ul {
+      list-style: none;
+      margin-left: 0;
+    }
+
+    .checklist li {
+      padding-left: 30px;
+      position: relative;
+      margin-bottom: 12px;
+    }
+
+    .checklist li:before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: var(--success);
+      font-weight: bold;
+    }
+
+    .warning-banner {
+      background: #fff3cd;
+      border: 1px solid #ffc107;
+      color: #856404;
+      padding: 20px;
+      border-radius: 4px;
+      margin: 30px 0;
+    }
+
+    .defense-section {
+      background: #f8f9fa;
+      border-left: 4px solid var(--danger);
+      padding: 25px;
+      border-radius: 4px;
+      margin: 30px 0;
+    }
+
+    .defense-section h3 {
+      color: var(--danger);
+      margin-top: 0;
+    }
+
+    .methodology {
+      background: var(--neutral-light);
+      padding: 25px;
+      border-radius: 6px;
+      margin: 40px 0;
+    }
+
+    .methodology h3 {
+      color: var(--primary);
+      margin-top: 0;
+    }
+
+    .footnote {
+      font-size: 0.9em;
+      color: var(--text-light);
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid var(--neutral-mid);
+    }
+
+    .footnote p {
+      margin-bottom: 8px;
+    }
+
+    .cite {
+      color: var(--secondary);
+      font-weight: 500;
+    }
+
+    footer {
+      background: var(--primary);
+      color: white;
+      padding: 40px 0;
+      text-align: center;
+      margin-top: 80px;
+    }
+
+    footer p {
+      color: rgba(255,255,255,0.9);
+    }
+
+    .metric-bar {
+      background: var(--neutral-mid);
+      height: 8px;
+      border-radius: 4px;
+      margin: 10px 0;
+      overflow: hidden;
+    }
+
+    .metric-bar-fill {
+      height: 100%;
+      background: var(--success);
+      border-radius: 4px;
+    }
+
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 1.8em;
+      }
+
+      nav .container {
+        flex-direction: column;
+      }
+
+      nav a {
+        border-right: none;
+        border-bottom: 1px solid rgba(255,255,255,0.2);
+        text-align: center;
+      }
+
+      nav a:last-child {
+        border-bottom: none;
+      }
+
+      h2 {
+        font-size: 1.5em;
+      }
+
+      h3 {
+        font-size: 1.2em;
+      }
+
+      .comparison-table {
+        font-size: 0.85em;
+      }
+
+      .comparison-table th,
+      .comparison-table td {
+        padding: 10px;
+      }
+    }
+
+    .toggle-details {
+      background: none;
+      border: none;
+      color: var(--accent);
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.95em;
+      padding: 5px 0;
+      text-decoration: underline;
+    }
+
+    .toggle-details:hover {
+      color: var(--secondary);
+    }
+
+    .details-hidden {
+      display: none;
+    }
+
+    .details-visible {
+      display: block;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>AI Data Center Ethics Tracker</h1>
+      <p>Understanding the environmental and defense implications of AI infrastructure</p>
+    </div>
+  </header>
+
+  <nav>
+    <div class="container">
+      <a href="#overview">Overview</a>
+      <a href="#comparison">Company Comparison</a>
+      <a href="#electricity">Electricity & Energy</a>
+      <a href="#water">Water & Groundwater</a>
+      <a href="#defense">Defense Contracts</a>
+      <a href="#methodology">How to Verify</a>
+    </div>
+  </nav>
+
+  <main>
+    <div class="container">
+
+      <!-- OVERVIEW SECTION -->
+      <section id="overview">
+        <h2>About This Resource</h2>
+        <div class="intro-box">
+          <p>Your team is concerned about AI adoption due to environmental and ethical questions. This guide separates marketing claims from verifiable facts—based on company sustainability reports, government contracts, and regulatory requirements—to help you speak with authority on AI infrastructure ethics.</p>
+        </div>
+
+        <h3>What's on this page?</h3>
+        <p>We've compiled facts about the six major AI/cloud companies and infrastructure providers that power most AI workloads: <strong>Amazon (AWS), Microsoft (Azure), Google (Google Cloud), Meta, OpenAI, and Perplexity.</strong></p>
+
+        <p>For each company, we've gathered information on:</p>
+        <ul>
+          <li><strong>Data center expansion:</strong> Where are they building and why?</li>
+          <li><strong>Electricity usage and plans:</strong> How much power do they use, and where does it come from?</li>
+          <li><strong>Water and groundwater:</strong> What are the local water impacts and contamination risks?</li>
+          <li><strong>US defense involvement:</strong> Are they working on military/war-related projects?</li>
+        </ul>
+
+        <div class="key-fact">
+          <strong>Key principle:</strong> Facts come from company sustainability reports, government announcements, and regulatory frameworks—not from media speculation or corporate marketing.
+        </div>
+      </section>
+
+      <!-- COMPANY COMPARISON -->
+      <section id="comparison">
+        <h2>Company Comparison at a Glance</h2>
+        <p>This table compares the six companies across four key dimensions. <span class="cite">See the detailed profiles below for full context.</span></p>
+
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Company</th>
+              <th>Data Center Buildout</th>
+              <th>Renewable Energy Status</th>
+              <th>Water Commitment</th>
+              <th>Defense Involvement</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="company-row">Amazon (AWS)</td>
+              <td><span class="metric-indicator metric-strong"></span>Rapid global expansion; $15B Indiana campus announced</td>
+              <td><span class="metric-indicator metric-strong"></span>100% renewable match claimed; investing in SMRs</td>
+              <td><span class="metric-indicator metric-strong"></span>Water-positive by 2030; 120+ sites on recycled water</td>
+              <td><span class="metric-indicator metric-strong"></span>DoD JWCC contract awardee</td>
+            </tr>
+            <tr>
+              <td class="company-row">Microsoft (Azure)</td>
+              <td><span class="metric-indicator metric-strong"></span>$3.3B Wisconsin AI campus; state-level partnerships</td>
+              <td><span class="metric-indicator metric-partial"></span>Carbon-negative by 2030 goal; heavy procurement focus</td>
+              <td><span class="metric-indicator metric-strong"></span>Water-positive by 2030; deploying closed-loop cooling</td>
+              <td><span class="metric-indicator metric-strong"></span>DoD JWCC; US Army IVAS contract (active)</td>
+            </tr>
+            <tr>
+              <td class="company-row">Google</td>
+              <td><span class="metric-indicator metric-strong"></span>Continued scaling; SMR agreement (500 MW by 2035)</td>
+              <td><span class="metric-indicator metric-strong"></span>27% YoY consumption growth; 12% emission reduction claimed</td>
+              <td><span class="metric-indicator metric-partial"></span>64% of freshwater replenished in 2024; portfolio-level focus</td>
+              <td><span class="metric-indicator metric-strong"></span>DoD JWCC awardee</td>
+            </tr>
+            <tr>
+              <td class="company-row">Meta</td>
+              <td><span class="metric-indicator metric-strong"></span>Richland Parish LA (2+ GW); multiple new sites</td>
+              <td><span class="metric-indicator metric-strong"></span>Net zero since 2020; 100% renewable match</td>
+              <td><span class="metric-indicator metric-partial"></span>Water-positive 2030; liquid-cooled designs planned</td>
+              <td><span class="metric-indicator metric-partial"></span>Llama models for US Gov/defense; partners: AWS, Anduril</td>
+            </tr>
+            <tr>
+              <td class="company-row">OpenAI (Stargate)</td>
+              <td><span class="metric-indicator metric-strong"></span>Stargate Texas, Michigan expansion; massive scale</td>
+              <td><span class="metric-indicator metric-partial"></span>"Pay its own way" on energy; menu of options (renewables, SMRs, gas+capture)</td>
+              <td><span class="metric-indicator metric-partial"></span>Claims low water use + closed-loop cooling (design intent)</td>
+              <td><span class="metric-indicator metric-strong"></span>$200M DoD CDAO contract (cyber/admin use pilot)</td>
+            </tr>
+            <tr>
+              <td class="company-row">Perplexity</td>
+              <td><span class="metric-indicator metric-neutral"></span>AWS + CoreWeave inference; no hyperscale ownership</td>
+              <td><span class="metric-indicator metric-neutral"></span>Embedded in AWS/CoreWeave footprint; no direct plan</td>
+              <td><span class="metric-indicator metric-neutral"></span>Embedded in provider water strategies</td>
+              <td><span class="metric-indicator metric-weak"></span>No public defense contracts found</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p style="margin-top: 20px; font-size: 0.9em; color: var(--text-light);"><strong>Legend:</strong> <span class="metric-indicator metric-strong"></span> = Active commitment/contract found | <span class="metric-indicator metric-partial"></span> = Partial/in-progress | <span class="metric-indicator metric-weak"></span> = Limited/none found | <span class="metric-indicator metric-neutral"></span> = Embedded in provider</p>
+      </section>
+
+      <!-- DETAILED PROFILES -->
+      <section id="profiles">
+        <h2>Detailed Company Profiles</h2>
+
+        <!-- AMAZON -->
+        <div class="card">
+          <h3>Amazon (AWS)</h3>
+
+          <h4 style="color: var(--secondary); margin-top: 20px;">Data Centers & Expansion</h4>
+          <p>AWS operates 39 global regions and 123 availability zones. Amazon announced a $15 billion investment in Northern Indiana for new AI-optimized data center campuses with multi-gigawatt capacity.</p>
+
+          <h4 style="color: var(--secondary);">Electricity & Energy</h4>
+          <p>Amazon claims to match 100% of electricity with renewable energy. To meet growing AI demand, Amazon is investing $500 million in X-energy's small modular reactors (SMRs), targeting up to 960 MW of capacity by 2039.</p>
+          <div class="key-fact">
+            <strong>What this means:</strong> AWS is committing to firm carbon-free power (nuclear) in addition to variable renewables, which is more credible than renewables-only claims for 24/7 reliability.
+          </div>
+
+          <h4 style="color: var(--secondary);">Water & Groundwater</h4>
+          <p>AWS states most sites use air cooling with no water much of the year. The company is expanding reclaimed/recycled water cooling to 120+ US data center locations by 2030 and commits to water-positive operations (replenishing more than it consumes).</p>
+          <div class="key-fact">
+            <strong>Objective baseline:</strong> Construction sites must comply with EPA NPDES stormwater permits and Stormwater Pollution Prevention Plans (SWPPPs). Facilities storing diesel for backup generators must maintain SPCC secondary containment.
+          </div>
+
+          <h4 style="color: var(--secondary);">Defense Involvement</h4>
+          <p>AWS is a named awardee in the Department of Defense's JWCC (Joint Warfighting Cloud Capability) contract, which provides cloud services to DoD customers for various applications including warfighting support.</p>
+        </div>
+
+        <!-- MICROSOFT -->
+        <div class="card">
+          <h3>Microsoft (Azure)</h3>
+
+          <h4 style="color: var(--secondary); margin-top: 20px;">Data Centers & Expansion</h4>
+          <p>Microsoft announced a $3.3 billion Wisconsin investment for an AI-focused data center campus plus workforce and community initiatives. The company continues state-level partnerships to expand cloud infrastructure.</p>
+
+          <h4 style="color: var(--secondary);">Electricity & Energy</h4>
+          <p>Microsoft targets carbon-negative operations by 2030 (removing more carbon than it emits). The strategy combines energy efficiency and large-scale clean electricity procurement as AI demand grows.</p>
+
+          <h4 style="color: var(--secondary);">Water & Groundwater</h4>
+          <p>Microsoft is deploying direct-to-chip, closed-loop cooling systems designed to eliminate evaporative cooling water use. The company commits to water-positive operations by 2030 in stressed basins.</p>
+          <div class="key-fact">
+            <strong>Key innovation:</strong> Closed-loop cooling eliminates the biggest water risk (evaporative cooling), but requires validation against actual operating data and permit compliance records.
+          </div>
+
+          <h4 style="color: var(--secondary);">Defense Involvement</h4>
+          <p>Microsoft is a JWCC awardee and also holds an active multi-year US Army contract for the IVAS (Integrated Visual Augmentation System) program—a direct military capability development vehicle.</p>
+        </div>
+
+        <!-- GOOGLE -->
+        <div class="card">
+          <h3>Google (Alphabet / Google Cloud)</h3>
+
+          <h4 style="color: var(--secondary); margin-top: 20px;">Data Centers & Expansion</h4>
+          <p>Google continues global infrastructure scaling to support AI and cloud workloads. The company emphasizes efficiency and clean energy procurement as core design principles.</p>
+
+          <h4 style="color: var(--secondary);">Electricity & Energy</h4>
+          <p>Google's data center electricity consumption increased 27% year-over-year in 2024 (AI-driven), while reported emissions fell 12%, attributed to new clean energy projects. Google signed the world's first corporate agreement to purchase electricity from multiple SMRs (Kairos Power, up to 500 MW by 2035).</p>
+          <div class="key-fact">
+            <strong>Important distinction:</strong> Google differentiates between annual renewable energy matching and 24/7 carbon-free energy (CFE). This is more honest about temporal/geographic mismatches.
+          </div>
+
+          <h4 style="color: var(--secondary);">Water & Groundwater</h4>
+          <p>Google uses alternative water sources, direct-to-chip cooling, and climate-conscious design. In 2024, water stewardship projects replenished ~64% of the company's freshwater consumption (4.5 billion gallons), spanning 112 projects in 68 watersheds.</p>
+
+          <h4 style="color: var(--secondary);">Defense Involvement</h4>
+          <p>Google is a JWCC awardee and provides cloud services to DoD customers, which may include warfighting and intelligence support depending on use.</p>
+        </div>
+
+        <!-- META -->
+        <div class="card">
+          <h3>Meta</h3>
+
+          <h4 style="color: var(--secondary); margin-top: 20px;">Data Centers & Expansion</h4>
+          <p>Meta operates a global data center fleet and is building large AI-optimized campuses, including Richland Parish, Louisiana (its largest to date, delivering 2+ GW of compute capacity for open-source LLM training).</p>
+
+          <h4 style="color: var(--secondary);">Electricity & Energy</h4>
+          <p>Meta claims net zero global operations since 2020 and matches 100% of electricity with renewable energy via a large contracted portfolio. New AI-optimized data centers support liquid-cooled hardware, which sustains upward pressure on electricity demand.</p>
+
+          <h4 style="color: var(--secondary);">Water & Groundwater</h4>
+          <p>Meta reports water withdrawal, consumption, and efficiency metrics for data centers. The company targets water-positive by 2030 with restoration projects in stressed regions. New designs support liquid cooling, which shifts water risk based on whether cooling is closed-loop.</p>
+
+          <h4 style="color: var(--secondary);">Defense Involvement</h4>
+          <p>Meta makes its Llama models available to US government agencies and defense contractors via partners including AWS, Microsoft, Oracle, Palantir, and Anduril. This represents an explicit shift toward defense-adjacent deployment pathways.</p>
+          <div class="key-fact">
+            <strong>Why this matters:</strong> Llama availability to Anduril (a defense contractor) and other national security partners means Meta's foundation models are being integrated into US military systems.
+          </div>
+        </div>
+
+        <!-- OPENAI -->
+        <div class="card">
+          <h3>OpenAI (Stargate Initiative)</h3>
+
+          <h4 style="color: var(--secondary); margin-top: 20px;">Data Centers & Expansion</h4>
+          <p>OpenAI is building Stargate, a partnership-driven AI infrastructure program with announced sites in Texas and Michigan. The Michigan expansion reuses a former paper mill site, framing siting as industrial brownfield recovery.</p>
+
+          <h4 style="color: var(--secondary);">Electricity & Energy</h4>
+          <p>OpenAI states Stargate will "pay its own way" on energy by building or contracting generation to match demand and avoid passing costs to local customers. The menu includes renewables, batteries, natural gas with carbon capture, and nuclear (depending on region).</p>
+
+          <h4 style="color: var(--secondary);">Water & Groundwater</h4>
+          <p>OpenAI states Stargate sites are planned for low water use, including closed-loop cooling and non-potable water in some locations. However, these are design intentions; performance must be validated against final as-built commissioning and permit compliance records.</p>
+
+          <h4 style="color: var(--secondary);">Defense Involvement</h4>
+          <p>OpenAI has a DoD pilot partnership with a $200 million ceiling via the Chief Digital and Artificial Intelligence Office (CDAO), focused on prototyping proactive cyber defense, healthcare/admin improvement, and intelligence support. Use is explicitly tied to OpenAI usage policies and national security applications.</p>
+        </div>
+
+        <!-- PERPLEXITY -->
+        <div class="card">
+          <h3>Perplexity</h3>
+
+          <h4 style="color: var(--secondary); margin-top: 20px;">Data Centers & Expansion</h4>
+          <p>Perplexity does not own or operate hyperscale data center campuses. Instead, the company uses AWS for core infrastructure and CoreWeave for specialized AI inference workloads (NVIDIA GB200 clusters).</p>
+
+          <h4 style="color: var(--secondary);">Electricity & Energy</h4>
+          <p>Perplexity has no direct electricity plan; impacts are embedded in the cloud provider footprints (AWS, CoreWeave). Electricity/water outcomes depend on how those vendors design and operate their facilities.</p>
+
+          <h4 style="color: var(--secondary);">Water & Groundwater</h4>
+          <p>Perplexity does not operate water-consuming data centers. Water and groundwater impacts are determined by AWS and CoreWeave's cooling designs, water sourcing, and regulatory compliance.</p>
+
+          <h4 style="color: var(--secondary);">Defense Involvement</h4>
+          <p>No public evidence of Perplexity holding DoD contracts (e.g., JWCC, IVAS, CDAO) was found in available sources.</p>
+        </div>
+
+      </section>
+
+      <!-- ELECTRICITY SECTION -->
+      <section id="electricity">
+        <h2>Electricity & Energy: What the Numbers Mean</h2>
+
+        <h3>The Challenge: AI is power-hungry</h3>
+        <p>AI training and inference consume enormous amounts of electricity. For example, Google reported a 27% year-over-year increase in data center electricity consumption in 2024, driven largely by AI adoption. This creates two ethical questions:</p>
+        <ol>
+          <li><strong>Where does the power come from?</strong> (Renewables vs fossil fuels vs nuclear)</li>
+          <li><strong>Can the grid handle it?</strong> (Are these companies helping build new generation, or just buying existing capacity?)</li>
+        </ol>
+
+        <h3>Current Claims</h3>
+        <ul>
+          <li><strong>Amazon & Meta:</strong> Claim 100% renewable energy matching (annual aggregate)</li>
+          <li><strong>Microsoft:</strong> Carbon-negative by 2030 (combines efficiency + procurement)</li>
+          <li><strong>Google:</strong> Distinguishes between annual matching and 24/7 carbon-free energy (CFE)</li>
+          <li><strong>OpenAI:</strong> "Pay its own way" on energy; menu of options including SMRs and gas-with-capture</li>
+        </ul>
+
+        <h3>What's credible?</h3>
+        <div class="checklist">
+          <h4>Red flags to watch for:</h4>
+          <ul>
+            <li>Claims of 100% renewable energy but no breakdown of capacity, location, or timeline</li>
+            <li>No distinction between annual matching and 24/7 carbon-free supply</li>
+            <li>Renewable energy contracts that are far from the data center (loose geographic nexus)</li>
+            <li>No mention of what happens on low-wind, low-solar days (grid balancing, storage, or firm power?)</li>
+          </ul>
+        </div>
+
+        <h3>What's stronger evidence?</h3>
+        <div class="key-fact">
+          <strong>Firm carbon-free power:</strong> Amazon's $500M investment in X-energy SMRs and Google's Kairos Power agreement demonstrate willingness to pay for 24/7 carbon-free dispatchable power. This is more credible than renewables-only claims because it addresses the intermittency problem head-on.
+        </div>
+
+        <div class="key-fact">
+          <strong>Transparency on 24/7 CFE:</strong> Google's distinction between "annual matching" and "hourly CFE progress" is more honest than hiding behind aggregate claims.
+        </div>
+      </section>
+
+      <!-- WATER SECTION -->
+      <section id="water">
+        <h2>Water & Groundwater: Local Impact Risk Assessment</h2>
+
+        <h3>Why water matters for data centers</h3>
+        <p>Data centers use water primarily for cooling. Evaporative cooling (cooling towers) can consume significant freshwater, especially in hot climates, and can compete with drinking water supplies or stressed agricultural regions. Contamination risks arise from chemical storage, spills, and wastewater discharge.</p>
+
+        <h3>Company Strategies</h3>
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Company</th>
+              <th>Primary Cooling Approach</th>
+              <th>Water Source</th>
+              <th>Commitment</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="company-row">Amazon</td>
+              <td>Air cooling (primary); evaporative when needed</td>
+              <td>Mix; expanding reclaimed/recycled water</td>
+              <td>Water-positive by 2030; 120+ sites on recycled water by 2030</td>
+            </tr>
+            <tr>
+              <td class="company-row">Microsoft</td>
+              <td>Closed-loop, direct-to-chip cooling (new designs)</td>
+              <td>Minimized; non-potable where possible</td>
+              <td>Water-positive by 2030</td>
+            </tr>
+            <tr>
+              <td class="company-row">Google</td>
+              <td>Alternative water sources; direct-to-chip cooling</td>
+              <td>Non-potable; recycled; climate-conscious</td>
+              <td>64% water replenishment in 2024; portfolio-level projects</td>
+            </tr>
+            <tr>
+              <td class="company-row">Meta</td>
+              <td>Liquid-cooled hardware (new sites); improving efficiency</td>
+              <td>Mix; monitoring in stressed regions</td>
+              <td>Water-positive by 2030</td>
+            </tr>
+            <tr>
+              <td class="company-row">OpenAI</td>
+              <td>Closed-loop cooling (stated design intent)</td>
+              <td>Low potable water; non-potable when available</td>
+              <td>Design for low water use (unvalidated as-yet)</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Groundwater Contamination: Regulatory Baseline</h3>
+        <p>The strongest "objective" facts about groundwater risk come from regulatory frameworks that apply to all industrial facilities:</p>
+
+        <div class="key-fact">
+          <strong>NPDES Stormwater Permits:</strong> Construction and operation of data centers in areas covered by stormwater discharge regulations require NPDES permit coverage and implementation of Stormwater Pollution Prevention Plans (SWPPPs) with erosion control, sediment filtration, and final stabilization measures.
+        </div>
+
+        <div class="key-fact">
+          <strong>SPCC (Spill Prevention, Control & Countermeasure):</strong> Facilities storing oil above specified thresholds (e.g., diesel for backup generators) must develop SPCC plans, maintain secondary containment, and establish spill response protocols to prevent discharge to navigable waters.
+        </div>
+
+        <div class="key-fact">
+          <strong>Underground Injection Control (UIC):</strong> Some data centers may inject cooling water or other fluids underground; such activities require EPA or state UIC permitting and compliance with drinking water protection standards.
+        </div>
+
+        <h3>How to verify water practices at a specific site</h3>
+        <div class="checklist">
+          <h4>Due diligence checklist:</h4>
+          <ul>
+            <li>Water source (potable vs reclaimed) and volume estimates</li>
+            <li>Cooling system type (air, closed-loop, evaporative, hybrid) and capacity</li>
+            <li>Wastewater discharge permit number and effluent limitations</li>
+            <li>Backup generator fuel type, storage volume, secondary containment details</li>
+            <li>NPDES SWPPP implementation and inspection records</li>
+            <li>Spill history and environmental audit findings (if public)</li>
+            <li>Local water stress category (World Resources Institute Water Risk Atlas or USGS data)</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- DEFENSE SECTION -->
+      <section id="defense">
+        <h2>Defense & War-Related Involvement</h2>
+
+        <div class="defense-section">
+          <h3>Why this matters for team ethics discussions</h3>
+          <p>Cloud contracts (JWCC, CDAO) and AI prototype agreements materially increase the likelihood that company infrastructure and models will be used for military command, control, intelligence, cyber defense, and other war-related functions. This is distinct from "general-purpose enterprise" framing and carries additional ethical implications.</p>
+        </div>
+
+        <h3>What we found</h3>
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Company</th>
+              <th>Contract / Agreement</th>
+              <th>Value / Timeline</th>
+              <th>Scope (as stated)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="company-row">Amazon (AWS)</td>
+              <td>DoD JWCC (Joint Warfighting Cloud Capability)</td>
+              <td>Multi-year contract</td>
+              <td>Cloud services for DoD customers (warfighting + enterprise use)</td>
+            </tr>
+            <tr>
+              <td class="company-row">Microsoft</td>
+              <td>DoD JWCC</td>
+              <td>Multi-year contract</td>
+              <td>Cloud services for DoD customers</td>
+            </tr>
+            <tr>
+              <td class="company-row">Microsoft</td>
+              <td>US Army IVAS (Integrated Visual Augmentation System)</td>
+              <td>Multi-year production contract</td>
+              <td>Military field equipment development and production</td>
+            </tr>
+            <tr>
+              <td class="company-row">Google</td>
+              <td>DoD JWCC</td>
+              <td>Multi-year contract</td>
+              <td>Cloud services for DoD customers</td>
+            </tr>
+            <tr>
+              <td class="company-row">Meta</td>
+              <td>Llama model availability (defense partners)</td>
+              <td>Ongoing; no fixed value</td>
+              <td>Foundation models available to US Gov, AWS, Anduril, Palantir, others</td>
+            </tr>
+            <tr>
+              <td class="company-row">OpenAI</td>
+              <td>DoD CDAO (Chief Digital & AI Office)</td>
+              <td>$200M ceiling pilot</td>
+              <td>Frontier AI prototyping: cyber defense, healthcare, intelligence</td>
+            </tr>
+            <tr>
+              <td class="company-row">Perplexity</td>
+              <td>None found in primary sources</td>
+              <td>—</td>
+              <td>—</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Key distinction: What "defense involvement" means</h3>
+        <p>It does not necessarily mean "building weapons." Rather, it means:</p>
+        <ul>
+          <li>Infrastructure that can be used for military command, control, and intelligence</li>
+          <li>AI models integrated into military systems (cyber defense, logistics, situational awareness)</li>
+          <li>Direct engineering partnerships with defense contractors (e.g., OpenAI + Anduril for counter-unmanned aircraft systems)</li>
+        </ul>
+
+        <h3>OpenAI + Anduril Partnership (December 2024)</h3>
+        <p>OpenAI announced a strategic partnership with Anduril Industries (a defense contractor) to develop AI for counter-unmanned aircraft systems (C-UAS). This represents direct integration of OpenAI's models into defense systems. Anduril's public statement framed the partnership as advancing "U.S. Artificial Intelligence Leadership and Protect U.S. and Allied Forces."</p>
+
+        <div class="warning-banner">
+          <strong>For your team:</strong> If your organization is considering OpenAI, Microsoft, Google, Amazon, or Meta products, all five have explicit DoD contracts or partnerships. This may be acceptable or unacceptable depending on your team's values, but it is not ambiguous—it is public record.
+        </div>
+      </section>
+
+      <!-- METHODOLOGY SECTION -->
+      <section id="methodology">
+        <h2>How to Verify Claims & Speak with Authority</h2>
+
+        <div class="methodology">
+          <h3>Primary source hierarchy</h3>
+          <p>To speak credibly, anchor your discussion in this ranking of evidence quality:</p>
+          <ol>
+            <li><strong>Official sustainability reports & audited metrics</strong> (e.g., Meta's 2024 Sustainability Report with Ernst & Young assurance; Google's Environmental Report)</li>
+            <li><strong>Government announcements & contract awards</strong> (e.g., DoD JWCC notice; X-energy partnership announcement from Amazon)</li>
+            <li><strong>Regulatory permits & filings</strong> (NPDES stormwater, SPCC plans, utility interconnection agreements)</li>
+            <li><strong>Company press releases & blog posts</strong> (credible but unaudited)</li>
+            <li><strong>News media reporting</strong> (verify against primary sources; watch for editorial spin)</li>
+          </ol>
+        </div>
+
+        <h3>How to build authority in your team</h3>
+
+        <div class="checklist">
+          <h4>Step 1: Separate marketing from substance</h4>
+          <ul>
+            <li>Does the company publish absolute electricity use (MWh) or only percentages of renewables?</li>
+            <li>Does it distinguish between annual matching and 24/7 carbon-free energy?</li>
+            <li>Does it disclose water withdrawal AND consumption separately?</li>
+            <li>Does it report environmental incidents (spills, permit violations)?</li>
+          </ul>
+        </div>
+
+        <div class="checklist">
+          <h4>Step 2: Ask for site-level data before adopting</h4>
+          <ul>
+            <li>Power Usage Effectiveness (PUE) for the specific region where your data will run</li>
+            <li>Water Usage Effectiveness (WUE) and water source breakdown (potable vs reclaimed)</li>
+            <li>Confirmation of NPDES permit coverage and SWPPP compliance</li>
+            <li>Backup generator capacity and SPCC secondary containment details</li>
+            <li>Written statement on defense-use boundaries for the specific product</li>
+          </ul>
+        </div>
+
+        <div class="checklist">
+          <h4>Step 3: Document your due diligence</h4>
+          <ul>
+            <li>Cite the sustainability report (include year and link)</li>
+            <li>Reference government contracts by name and date (e.g., DoD JWCC award, June 2025)</li>
+            <li>Note which metrics are audited vs unaudited (important for credibility)</li>
+            <li>Flag unresolved questions (e.g., "Google reports 12% emission reduction but absolute electricity use rose 27%; reconciliation unclear")</li>
+          </ul>
+        </div>
+
+        <h3>What to do when data isn't available</h3>
+        <p>If a company doesn't publish a specific metric, that's important information. You can say:</p>
+        <ul>
+          <li>"Company X does not publicly disclose data center PUE by region, which makes it difficult to assess efficiency for our specific workloads."</li>
+          <li>"Company Y claims 100% renewable energy but does not explain how it balances intermittency on low-wind, low-solar days."</li>
+          <li>"Company Z has a DoD JWCC contract but does not publish written use restrictions or audit trails for military workloads."</li>
+        </ul>
+
+        <p>Absence of evidence is not evidence of virtue—but it is evidence of opacity, which is itself an ethical concern.</p>
+      </section>
+
+      <!-- CONCLUSION -->
+      <section>
+        <h2>Key Takeaways</h2>
+        <div class="intro-box">
+          <p><strong>Your team's concerns are valid and verifiable.</strong> Every major AI cloud provider has published environmental commitments, and five of the six companies examined here have direct DoD contracts or partnerships. These are facts, not speculation.</p>
+        </div>
+
+        <h3>What you can now say with confidence:</h3>
+        <ul>
+          <li><strong>On electricity:</strong> "AWS, Meta, and Google claim 100% renewable matching, but this is annual aggregate, not 24/7 carbon-free. All three are now investing in firm carbon-free power (SMRs, nuclear) to address intermittency."</li>
+          <li><strong>On water:</strong> "All major hyperscalers commit to water-positive operations by 2030. Amazon and Microsoft are transitioning to closed-loop cooling. But these are forward commitments; current sites still use potable water in high-stress regions."</li>
+          <li><strong>On defense:</strong> "Amazon, Microsoft, and Google have DoD JWCC contracts. OpenAI has a $200M DoD prototype contract. Meta is making Llama available to Anduril and Palantir. This is not hypothetical; it's public record."</li>
+          <li><strong>On local impact:</strong> "Data center sites must comply with EPA NPDES stormwater permits and SPCC spill-prevention rules. You can verify this by checking the specific site's permit status with state environmental agencies."</li>
+        </ul>
+
+        <h3>Next steps for your team</h3>
+        <ol>
+          <li>Document which provider/product your team is considering</li>
+          <li>Request site-level data (PUE, WUE, water source, NPDES permit number)</li>
+          <li>Search for defense contracts in the DoD contract database (Federal Procurement Data System)</li>
+          <li>Review the company's sustainability report (look for audited metrics and third-party assurance)</li>
+          <li>Ask for written clarification on usage boundaries and governance (especially for sensitive workloads)</li>
+        </ol>
+
+        <div class="key-fact">
+          <strong>Bottom line:</strong> Ethical AI adoption is possible—but only with transparency. Demand site-level data, written commitments, and audited metrics. If a vendor can't provide these, that itself is the answer.
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p><strong>AI Data Center Ethics Tracker</strong></p>
+      <p>Evidence-based guide to infrastructure decisions | Updated March 2026</p>
+      <p style="font-size: 0.9em; margin-top: 20px; opacity: 0.8;">This resource synthesizes public company reports, government contracts, and regulatory frameworks. For specific updates or corrections, reference the original source documents.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Smooth scroll navigation
+    document.querySelectorAll('nav a').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = document.querySelector(link.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+
+    // Toggle details functionality
+    document.querySelectorAll('.toggle-details').forEach(button => {
+      button.addEventListener('click', () => {
+        const details = button.nextElementSibling;
+        if (details && details.classList.contains('details-hidden')) {
+          details.classList.remove('details-hidden');
+          details.classList.add('details-visible');
+          button.textContent = 'Show less ↑';
+        } else if (details) {
+          details.classList.add('details-hidden');
+          details.classList.remove('details-visible');
+          button.textContent = 'Show more ↓';
+        }
+      });
+    });
+
+    // Sticky nav highlight on scroll
+    window.addEventListener('scroll', () => {
+      const sections = document.querySelectorAll('section');
+      let current = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        if (window.pageYOffset >= sectionTop - 100) {
+          current = section.getAttribute('id');
+        }
+      });
+
+      document.querySelectorAll('nav a').forEach(link => {
+        link.style.opacity = '0.7';
+        if (link.getAttribute('href').includes(current)) {
+          link.style.opacity = '1';
+          link.style.borderBottom = '3px solid #3fa7c7';
+        } else {
+          link.style.borderBottom = 'none';
+        }
+      });
+    });
+  </script>
+</body>
+</html>
