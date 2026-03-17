@@ -3,217 +3,127 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI LLM Ethics: Data Centers, Ecosystems, & Defense Links</title>
+  <title>AI LLM Ethics: Data Centers & Defense</title>
   <style>
-    /* Reset and base styles */
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      line-height: 1.6;
-      color: #333;
-      background: #f8f9fa;
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f9fafb; color: #111827; line-height: 1.4; font-size: 14px; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 15px; }
+    header { background: #111827; color: white; padding: 25px 0; text-align: center; position: sticky; top: 0; z-index: 100; }
+    header h1 { font-size: 1.8em; margin-bottom: 5px; }
+    header p { opacity: 0.9; font-size: 1em; }
+    nav { background: #f3f4f6; padding: 15px 0; position: sticky; top: 80px; z-index: 99; border-bottom: 1px solid #e5e7eb; }
+    nav ul { display: flex; flex-wrap: wrap; list-style: none; gap: 10px; justify-content: center; }
+    nav a { color: #2563eb; text-decoration: none; font-weight: 500; padding: 8px 16px; transition: color 0.2s; }
+    nav a:hover, nav a.active { color: #1d4ed8; background: rgba(37,99,235,0.1); border-radius: 0; }
+    section { margin: 20px 0; }
+    h2 { color: #111827; margin-bottom: 15px; font-size: 1.5em; }
+    table { width: 100%; border-collapse: collapse; background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1); overflow: hidden; }
+    th, td { padding: 12px 8px; text-align: left; border-bottom: 1px solid #e5e7eb; }
+    th { background: #f3f4f6; font-weight: 600; position: sticky; top: 0; z-index: 10; }
+    .impact-cell { background-color: #fef3c7; }
+    .defense-cell { background-color: #f3e8ff; }
+    .collapsible { cursor: pointer; background: #f3f4f6; padding: 15px; border: 1px solid #e5e7eb; margin: 10px 0; }
+    .collapsible h3 { display: flex; align-items: center; font-size: 1.2em; }
+    .toggle { margin-right: 10px; font-size: 1em; transition: transform 0.2s; }
+    .content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; padding: 0 20px; }
+    .content.open { max-height: 500px; padding: 20px 20px 10px; }
+    ul.checklist { list-style: none; padding-left: 0; }
+    ul.checklist li { padding: 8px 0; position: relative; padding-left: 25px; }
+    ul.checklist li:before { content: "☐"; position: absolute; left: 0; }
+    .citation { 
+      position: relative; 
+      color: #2563eb; 
+      text-decoration: none; 
+      font-size: 0.85em; 
+      vertical-align: super; 
+      line-height: 1; 
     }
-    .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-
-    /* Header */
-    header {
-      background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
-      color: white;
-      padding: 60px 0;
-      text-align: center;
+    .citation:hover::after {
+      content: attr(data-tooltip); 
+      position: absolute; 
+      bottom: 100%; 
+      left: 50%; 
+      transform: translateX(-50%); 
+      background: #111827; 
+      color: white; 
+      padding: 8px 12px; 
+      border-radius: 0; 
+      white-space: nowrap; 
+      font-size: 12px; 
+      z-index: 1000; 
+      max-width: 300px; 
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
-    header h1 {
-      font-size: 2.5em;
-      margin-bottom: 10px;
-      font-weight: 700;
-    }
-    header p {
-      font-size: 1.2em;
-      opacity: 0.95;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-
-    /* Navigation */
-    nav {
-      position: sticky;
-      top: 0;
-      background: white;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      z-index: 100;
-      padding: 15px 0;
-    }
-    nav ul {
-      list-style: none;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-    }
-    nav a {
-      text-decoration: none;
-      color: #1e3a8a;
-      font-weight: 600;
-      padding: 10px 20px;
-      border-radius: 25px;
-      transition: all 0.3s;
-    }
-    nav a:hover, nav a.active {
-      background: #eff6ff;
-      color: #1e40af;
-    }
-
-    /* Summary Table */
-    .summary-section {
-      background: white;
-      margin: 40px 0;
-      padding: 40px;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-    }
-    .summary-section h2 { 
-      text-align: center; 
-      margin-bottom: 30px;
-      color: #1e3a8a;
-      font-size: 2em;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.95em;
-    }
-    th, td {
-      padding: 15px;
-      text-align: left;
-      border-bottom: 1px solid #e5e7eb;
-      vertical-align: top;
-    }
-    th {
-      background: #f8fafc;
-      font-weight: 600;
-      position: sticky; top: 0;
-      white-space: nowrap;
-    }
-    tbody tr:hover { background: #f8fafc; }
-    .impact-cell { max-width: 300px; }
-    .defense-cell { max-width: 350px; }
-
-    /* Collapsible LLM Sections */
-    .llm-section {
-      background: white;
-      margin: 40px 0;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-      overflow: hidden;
-    }
-    .llm-header {
-      background: #f1f5f9;
-      padding: 25px 30px;
-      cursor: pointer;
-      font-size: 1.4em;
-      font-weight: 700;
-      color: #1e3a8a;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      transition: background 0.3s;
-    }
-    .llm-header:hover { background: #e2e8f0; }
-    .llm-header .toggle { font-size: 1.5em; }
-    .llm-content {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.4s ease-out;
-    }
-    .llm-content.open { max-height: 2000px; }
-    .llm-content-inner {
-      padding: 30px;
-      line-height: 1.7;
-    }
-    .two-column {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 40px;
-      margin: 30px 0;
-    }
-    @media (max-width: 768px) { .two-column { grid-template-columns: 1fr; } }
-
-    /* Callouts */
-    .callout {
-      background: #f0f9ff;
-      border-left: 4px solid #0ea5e9;
-      padding: 20px;
-      margin: 25px 0;
-      border-radius: 8px;
-    }
-    .warning {
-      background: #fef2f2;
-      border-left-color: #ef4444;
-    }
-    .checklist {
-      background: #f0fdf4;
-      border-left-color: #10b981;
-      padding: 20px;
-      margin: 25px 0;
-    }
-    .checklist ul { list-style: none; }
-    .checklist li { 
-      padding: 8px 0;
-      position: relative;
-      padding-left: 25px;
-    }
-    .checklist li::before {
-      content: "✓";
-      position: absolute;
-      left: 0;
-      color: #10b981;
-      font-weight: bold;
-    }
-
-    /* Footer */
-    footer {
-      text-align: center;
-      padding: 40px 20px;
-      color: #6b7280;
-      border-top: 1px solid #e5e7eb;
-      margin-top: 80px;
-    }
-
-    /* Responsive */
     @media (max-width: 768px) {
-      header h1 { font-size: 2em; }
+      body { font-size: 13px; }
+      table, thead, tbody, th, td, tr { display: block; }
+      thead tr { 
+        position: absolute; 
+        top: -9999px; 
+        left: -9999px; 
+      }
+      tr { 
+        border: 1px solid #e5e7eb; 
+        margin-bottom: 10px; 
+        padding: 12px; 
+        background: white; 
+        display: block;
+      }
+      td { 
+        border: none; 
+        position: relative; 
+        padding-left: 50%; 
+        padding-top: 8px;
+        padding-bottom: 8px;
+        font-size: 13px;
+        display: block;
+        min-height: 0;
+      }
+      td:before { 
+        content: attr(data-label) ": "; 
+        position: absolute; 
+        left: 12px; 
+        top: 8px;
+        font-weight: 600; 
+        white-space: nowrap;
+        font-size: 13px;
+      }
+      .impact-cell { background-color: #fef3c7; }
+      .defense-cell { background-color: #f3e8ff; }
       nav ul { flex-direction: column; align-items: center; }
-      table { font-size: 0.85em; }
-      th, td { padding: 10px 8px; }
+      .container { padding: 10px; }
+    }
+    html { scroll-behavior: smooth; }
+    @media print { 
+      nav, .collapsible:not(.open) .content { display: none; } 
+      header { position: static; }
     }
   </style>
 </head>
 <body>
   <header>
     <div class="container">
-      <h1>AI LLM Ethics: Data Centers, Ecosystems, & Defense Links</h1>
-      <p>Understanding the real infrastructure and military connections behind the AI tools you use. Focused on effects, not promises. Single-page reference for teams and communities.</p>
+      <h1>AI LLM Ethics: Data Centers & Defense</h1>
+      <p>Infrastructure effects and military connections behind popular AI tools</p>
     </div>
   </header>
-
+  
   <nav>
-    <div class="container">
-      <ul>
-        <li><a href="#summary" class="active">Summary Table</a></li>
-        <li><a href="#gpt">GPT Family</a></li>
-        <li><a href="#claude">Claude Family</a></li>
-        <li><a href="#llama">Llama Family</a></li>
-        <li><a href="#gemini">Gemini</a></li>
-        <li><a href="#amazon">Amazon Models</a></li>
-        <li><a href="#perplexity">Perplexity</a></li>
-        <li><a href="#verify">Verify Local Impacts</a></li>
-      </ul>
-    </div>
+    <ul>
+      <li><a href="#summary" class="active">Summary</a></li>
+      <li><a href="#gpt">GPT</a></li>
+      <li><a href="#claude">Claude</a></li>
+      <li><a href="#llama">Llama</a></li>
+      <li><a href="#gemini">Gemini</a></li>
+      <li><a href="#amazon">Amazon</a></li>
+      <li><a href="#perplexity">Perplexity</a></li>
+      <li><a href="#verify">Verify</a></li>
+    </ul>
   </nav>
 
-  <main class="container">
-    <section id="summary" class="summary-section">
-      <h2>LLM Comparison at a Glance</h2>
+  <div class="container">
+    <section id="summary">
+      <h2>Summary Table</h2>
       <table>
         <thead>
           <tr>
@@ -226,262 +136,142 @@
         </thead>
         <tbody>
           <tr>
-            <td>GPT-4.1 / 4.5 / o-series</td>
-            <td>OpenAI; Microsoft (Azure OpenAI)</td>
-            <td>Microsoft Azure AI campuses, OpenAI Stargate builds</td>
-            <td class="impact-cell">Very high compute → large new US AI campuses (TX, MI) with grid strain, water needs. Closed-loop cooling intent but limited site data.</td>
-            <td class="defense-cell">$9B JWCC via Azure; OpenAI CDAO $200M prototype for nat-sec/cyber; OpenAI-Anduril counter-drone systems.</td>
+            <td data-label="LLM Family">GPT-4.1 / 4.5 / o-series</td>
+            <td data-label="Primary Operators">OpenAI; Microsoft (Azure OpenAI)</td>
+            <td data-label="Main Data-Center Power Providers">Microsoft Azure AI campuses, OpenAI Stargate builds</td>
+            <td data-label="Footprint & Ecosystem Impacts" class="impact-cell">Very high compute → large new US AI campuses (TX, MI) with grid strain, water needs. Closed-loop cooling intent but limited site data.</td>
+            <td data-label="Defense / Surveillance Links" class="defense-cell">$9B JWCC via Azure; OpenAI CDAO $200M prototype for nat-sec/cyber; OpenAI-Anduril counter-drone systems.</td>
           </tr>
           <tr>
-            <td>Claude 3 family</td>
-            <td>Anthropic</td>
-            <td>AWS (GovCloud/IL6 via Palantir)</td>
-            <td class="impact-cell">AWS expansions (IN, OH, Saudi) w/ mixed cooling. Water: air + evaporative + growing reclaimed-water sites.</td>
-            <td class="defense-cell">Palantir-Anthropic-AWS for intel/defense (IL6 classified); Pentagon feud over autonomous weapons/domestic surveillance red lines.</td>
+            <td data-label="LLM Family">Claude 3 family</td>
+            <td data-label="Primary Operators">Anthropic</td>
+            <td data-label="Main Data-Center Power Providers">AWS (GovCloud/IL6 via Palantir)</td>
+            <td data-label="Footprint & Ecosystem Impacts" class="impact-cell">AWS expansions (IN, OH, Saudi) w/ mixed cooling. Water: air + evaporative + growing reclaimed-water sites.</td>
+            <td data-label="Defense / Surveillance Links" class="defense-cell">Palantir-Anthropic-AWS for intel/defense (IL6 classified); Pentagon feud over autonomous weapons/domestic surveillance red lines.</td>
           </tr>
           <tr>
-            <td>Llama 3 / 3.1</td>
-            <td>Meta + deployers</td>
-            <td>Meta AI campuses (LA, IN, KC); user-chosen clouds</td>
-            <td class="impact-cell">Meta's greenfield AI campuses in semi-rural US → local grid/water strain; external deploys inherit cloud footprints.</td>
-            <td class="defense-cell">Marketed to DoD contractors (Palantir, Anduril, MSFT, AWS, Oracle). Open-weight → easier on-prem weaponization.</td>
+            <td data-label="LLM Family">Llama 3 / 3.1</td>
+            <td data-label="Primary Operators">Meta + deployers</td>
+            <td data-label="Main Data-Center Power Providers">Meta AI campuses (LA, IN, KC); user-chosen clouds</td>
+            <td data-label="Footprint & Ecosystem Impacts" class="impact-cell">Meta's greenfield AI campuses in semi-rural US → local grid/water strain; external deploys inherit cloud footprints.</td>
+            <td data-label="Defense / Surveillance Links" class="defense-cell">Marketed to DoD contractors (Palantir, Anduril, MSFT, AWS, Oracle). Open-weight → easier on-prem weaponization.</td>
           </tr>
           <tr>
-            <td>Gemini</td>
-            <td>Google</td>
-            <td>Google data centers</td>
-            <td class="impact-cell">27% YoY electricity growth from AI. Advanced cooling + water replenishment projects, but absolute use rising.</td>
-            <td class="defense-cell">JWCC cloud award enables DoD AI at all classifications. Limited named Gemini deployments.</td>
+            <td data-label="LLM Family">Gemini</td>
+            <td data-label="Primary Operators">Google</td>
+            <td data-label="Main Data-Center Power Providers">Google data centers</td>
+            <td data-label="Footprint & Ecosystem Impacts" class="impact-cell">27% YoY electricity growth from AI. Advanced cooling + water replenishment projects, but absolute use rising.</td>
+            <td data-label="Defense / Surveillance Links" class="defense-cell">JWCC cloud award enables DoD AI at all classifications. Limited named Gemini deployments.</td>
           </tr>
           <tr>
-            <td>Amazon Olympus / Bedrock</td>
-            <td>AWS</td>
-            <td>AWS GovCloud/Top Secret regions</td>
-            <td class="impact-cell">Multi-B$ US campuses (IN, OH). Recycled water expansion; nuclear investments for AI scale.</td>
-            <td class="defense-cell">JWCC awardee; hosts Palantir+Claude in classified envs.</td>
+            <td data-label="LLM Family">Amazon Olympus / Bedrock</td>
+            <td data-label="Primary Operators">AWS</td>
+            <td data-label="Main Data-Center Power Providers">AWS GovCloud/Top Secret regions</td>
+            <td data-label="Footprint & Ecosystem Impacts" class="impact-cell">Multi-B$ US campuses (IN, OH). Recycled water expansion; nuclear investments for AI scale.</td>
+            <td data-label="Defense / Surveillance Links" class="defense-cell">JWCC awardee; hosts Palantir+Claude in classified envs.</td>
           </tr>
           <tr>
-            <td>Perplexity models</td>
-            <td>Perplexity</td>
-            <td>AWS Bedrock, CoreWeave GPU clusters</td>
-            <td class="impact-cell">No owned campuses; inherits AWS/CoreWeave expansions.</td>
-            <td class="defense-cell">No direct contracts found.</td>
+            <td data-label="LLM Family">Perplexity models</td>
+            <td data-label="Primary Operators">Perplexity</td>
+            <td data-label="Main Data-Center Power Providers">AWS Bedrock, CoreWeave GPU clusters</td>
+            <td data-label="Footprint & Ecosystem Impacts" class="impact-cell">No owned campuses; inherits AWS/CoreWeave expansions.</td>
+            <td data-label="Defense / Surveillance Links" class="defense-cell">No direct contracts found.</td>
           </tr>
         </tbody>
       </table>
     </section>
 
-    <section id="gpt" class="llm-section">
-      <div class="llm-header" data-target="gpt-content">
-        <span>GPT Family (OpenAI + Azure OpenAI)</span>
-        <span class="toggle">▼</span>
-      </div>
-      <div id="gpt-content" class="llm-content">
-        <div class="llm-content-inner">
-          <div class="two-column">
-            <div>
-              <h3>Footprint: Who owns the land & water?</h3>
-              <p><strong>Microsoft Azure</strong> (primary for Azure OpenAI Service) + OpenAI's Stargate partner builds (TX, MI expansions).</p>
-              <ul>
-                <li>Azure: large AI campuses (e.g., WI $3.3B deal); grid + water impacts tied to MSFT siting.</li>
-                <li>Stargate: former industrial reuse (e.g., MI paper mill site); closed-loop cooling intent, non-potable water where possible.</li>
-              </ul>
-            </div>
-            <div>
-              <h3>Defense Links</h3>
-              <p><strong>JWCC via Azure:</strong> DoD's $9B cloud backbone for "tactical edge" to strategic command.</p>
-              <p><strong>OpenAI-CDAO:</strong> $200M ceiling prototype for nat-sec, cyber defense, health.</p>
-              <p><strong>OpenAI-Anduril:</strong> Counter-drone/base protection w/ AI target ID & sensor fusion.</p>
-            </div>
-          </div>
-          <div class="warning callout">
-            <strong>Local concern:</strong> New AI campuses strain grids and compete for water. Ask for site-specific NPDES/SPCC permits.
-          </div>
-        </div>
+    <section id="gpt" class="collapsible">
+      <h3><span class="toggle">▼</span>GPT</h3>
+      <div class="content">
+        <p><strong>Locations:</strong> Azure runs campuses in Texas and Michigan. Stargate project adds massive power needs.</p>
+        <p><strong>Defense Links:</strong> JWCC handles tactical edge computing. CDAO gets $200M for national security tools. Anduril uses it for counter-drone systems.</p>
       </div>
     </section>
 
-    <section id="claude" class="llm-section">
-      <div class="llm-header" data-target="claude-content">
-        <span>Claude Family (Anthropic)</span>
-        <span class="toggle">▼</span>
-      </div>
-      <div id="claude-content" class="llm-content">
-        <div class="llm-content-inner">
-          <div class="two-column">
-            <div>
-              <h3>Footprint: AWS Expansions</h3>
-              <p>Trained/served on <strong>AWS</strong> (GovCloud/IL6 via Palantir). Footprint = AWS US campuses (IN $15B, OH expansions).</p>
-              <ul>
-                <li>Cooling: Air most of year; evaporative hot periods; >120 sites w/ recycled water by 2030.</li>
-                <li>Expansions: Multi-B$ greenfield sites in semi-rural US.</li>
-              </ul>
-            </div>
-            <div>
-              <h3>Defense & Surveillance</h3>
-              <p><strong>Palantir-Anthropic-AWS:</strong> Claude in IL6 classified intel/defense envs; demos show war planning over battlefield data.</p>
-              <p><strong>Pentagon feud:</strong> Anthropic red lines (no autonomous weapons, no mass US surveillance) vs DoD "any lawful use"; led to Trump-era ban on Anthropic in fed agencies.</p>
-            </div>
-          </div>
-          <div class="warning callout">
-            <strong>Perception driver:</strong> Directly in Palantir's classified intel platform despite Anthropic's public red lines.
-          </div>
-        </div>
+    <section id="claude" class="collapsible">
+      <h3><span class="toggle">▼</span>Claude</h3>
+      <div class="content">
+        <p><strong>Locations:</strong> Palantir-Anthropic-AWS: Claude in IL6 classified intel/defense envs; demos show war planning over battlefield data.</p>
+        <p>AWS GovCloud runs via Palantir IL6 for intel and defense. Indiana site costs $15B with heavy air cooling.</p>
+        <p><strong>Defense Links:</strong> Pentagon disputes weapons and surveillance use.</p>
+        <p>Anthropic (Claude's maintainer) declared its federal use should exclude autonomous weapons and mass US surveillance. DoD maintains "any lawful use" which led to Trump-era ban on Anthropic in fed agencies. Claude technology still in use by Defense contractor Palantir</p>
       </div>
     </section>
 
-    <section id="llama" class="llm-section">
-      <div class="llm-header" data-target="llama-content">
-        <span>Llama Family (Meta)</span>
-        <span class="toggle">▼</span>
-      </div>
-      <div id="llama-content" class="llm-content">
-        <div class="llm-content-inner">
-          <div class="two-column">
-            <div>
-              <h3>Footprint: Meta + Your Cloud Choice</h3>
-              <p>Meta's internal: <strong>AI campuses</strong> (LA Richland 2GW, IN $10B, Kansas City). External: inherits your cloud's footprint.</p>
-              <ul>
-                <li>Large greenfield semi-rural sites → local grid/water strain.</li>
-                <li>Liquid cooling for AI hardware.</li>
-              </ul>
-            </div>
-            <div>
-              <h3>Defense Marketing</h3>
-              <p>Meta markets Llama to DoD contractors (Palantir, Anduril, MSFT, AWS, Oracle). Open-weight = easier classified/on-prem deployment.</p>
-            </div>
-          </div>
-        </div>
+    <section id="llama" class="collapsible">
+      <h3><span class="toggle">▼</span>Llama</h3>
+      <div class="content">
+        <p><strong>Locations:</strong> Meta builds 2GW campus in Louisiana and Indiana sites. Semi-rural areas face grid strain.</p>
+        <p><strong>Defense Links:</strong> Meta markets to Palantir and Anduril contractors.</p>
       </div>
     </section>
 
-    <section id="gemini" class="llm-section">
-      <div class="llm-header" data-target="gemini-content">
-        <span>Gemini (Google)</span>
-        <span class="toggle">▼</span>
-      </div>
-      <div id="gemini-content" class="llm-content">
-        <div class="llm-content-inner">
-          <div class="two-column">
-            <div>
-              <h3>Footprint: Google Data Centers</h3>
-              <p>27% YoY electricity growth from AI. Advanced cooling (direct-to-chip), water replenishment projects.</p>
-            </div>
-            <div>
-              <h3>Defense Links</h3>
-              <p>JWCC cloud award enables DoD AI at all classifications. Limited named Gemini deployments.</p>
-            </div>
-          </div>
-        </div>
+    <section id="gemini" class="collapsible">
+      <h3><span class="toggle">▼</span>Gemini</h3>
+      <div class="content">
+        <p><strong>Locations:</strong> Google data centers grew electricity use 27% last year.</p>
+        <p><strong>Defense Links:</strong> They bid on JWCC cloud contracts for defense.</p>
       </div>
     </section>
 
-    <section id="amazon" class="llm-section">
-      <div class="llm-header" data-target="amazon-content">
-        <span>Amazon Models / Bedrock</span>
-        <span class="toggle">▼</span>
-      </div>
-      <div id="amazon-content" class="llm-content">
-        <div class="llm-content-inner">
-          <div class="two-column">
-            <div>
-              <h3>Footprint: AWS GovCloud</h3>
-              <p>Multi-B$ US campuses (IN, OH). Recycled water expansion; nuclear for scale.</p>
-            </div>
-            <div>
-              <h3>Defense Role</h3>
-              <p>JWCC awardee; hosts Palantir+Claude in classified envs.</p>
-            </div>
-          </div>
-        </div>
+    <section id="amazon" class="collapsible">
+      <h3><span class="toggle">▼</span>Amazon</h3>
+      <div class="content">
+        <p><strong>Locations:</strong> AWS GovCloud spans Indiana and Ohio campuses. Site uses recycled water.</p>
+        <p><strong>Defense Links:</strong> Hosts Palantir and Claude models.</p>
       </div>
     </section>
 
-    <section id="perplexity" class="llm-section">
-      <div class="llm-header" data-target="perplexity-content">
-        <span>Perplexity Models</span>
-        <span class="toggle">▼</span>
-      </div>
-      <div id="perplexity-content" class="llm-content">
-        <div class="llm-content-inner">
-          <div class="two-column">
-            <div>
-              <h3>Footprint: AWS + CoreWeave</h3>
-              <p>No owned campuses; inherits AWS/CoreWeave expansions.</p>
-            </div>
-            <div>
-              <h3>Defense Links</h3>
-              <p>No direct contracts found.</p>
-            </div>
-          </div>
-        </div>
+    <section id="perplexity" class="collapsible">
+      <h3><span class="toggle">▼</span>Perplexity</h3>
+      <div class="content">
+        <p><strong>Locations:</strong> Runs inference on AWS and CoreWeave. Inherits their data center expansions.</p>
+        <p><strong>Defense Links:</strong> No known defense contracts.</p>
       </div>
     </section>
 
-    <section id="verify" class="summary-section">
-      <h2>How to Verify Local Impacts</h2>
-      <div class="checklist">
-        <h3>Ask these questions about <em>your specific deployment</em>:</h3>
-        <ul>
-          <li>Which cloud/region powers this LLM? (AWS us-east-1? Azure central-us?)</li>
-          <li>What’s the water source at that campus? (Potable? Reclaimed?)</li>
-          <li>Are site permits public? (Search [EPA ECHO](https://echo.epa.gov/) or state env agency for NPDES/SPCC.)</li>
-          <li>What’s the backup fuel? (Diesel → SPCC spill risk; HVO/biofuel → lower.)</li>
-        </ul>
-      </div>
-      <div class="callout">
-        <strong>Groundwater basics:</strong> Every major campus must have stormwater controls (SWPPP) and spill prevention (SPCC). But actual risk depends on local geology, chemicals used, and enforcement.
-      </div>
+    <section id="verify">
+      <h2>Verify Checklist</h2>
+      <ul class="checklist">
+        <li>Which cloud/region powers this LLM?</li>
+        <li>Water source at that campus? (potable/reclaimed)</li>
+        <li>Site permits public? (EPA ECHO, state env agency)</li>
+        <li>Backup fuel? (diesel=spill risk, biofuel=lower)</li>
+      </ul>
     </section>
-  </main>
-
-  <footer>
-    <div class="container">
-      <p>Built for clarity • Sources: Company reports, DoD awards, EPA regs • Mar 2026</p>
-    </div>
-  </footer>
+  </div>
 
   <script>
-    // Collapsible sections
-    document.querySelectorAll('.llm-header').forEach(header => {
-      header.addEventListener('click', () => {
-        const targetId = header.dataset.target;
-        const content = document.getElementById(targetId);
-        const toggle = header.querySelector('.toggle');
-        
-        content.classList.toggle('open');
-        toggle.textContent = content.classList.contains('open') ? '▲' : '▼';
-      });
-    });
-
-    // Smooth scroll + active nav
+    // Navigation
     document.querySelectorAll('nav a').forEach(link => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
+        document.querySelector('nav a.active').classList.remove('active');
+        link.classList.add('active');
         const target = document.querySelector(link.getAttribute('href'));
         target.scrollIntoView({ behavior: 'smooth' });
-        
-        // Update active
-        document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
-        link.classList.add('active');
       });
     });
 
-    // Table sticky header on scroll (desktop)
-    window.addEventListener('scroll', () => {
-      const table = document.querySelector('table');
-      if (table) {
-        const thead = table.querySelector('thead');
-        if (window.scrollY > 200) {
-          thead.style.position = 'sticky';
-          thead.style.top = '80px'; // nav height
-          thead.style.background = '#f8fafc';
-          thead.style.zIndex = '50';
-        } else {
-          thead.style.position = '';
+    // Collapsible sections
+    document.querySelectorAll('.collapsible').forEach(section => {
+      const toggle = section.querySelector('.toggle');
+      const content = section.querySelector('.content');
+      
+      section.addEventListener('click', (e) => {
+        if (e.target.tagName !== 'A') {
+          content.classList.toggle('open');
+          toggle.textContent = content.classList.contains('open') ? '▲' : '▼';
+          section.classList.toggle('open');
         }
-      }
+      });
     });
+
+    // Auto-open first section on mobile
+    if (window.innerWidth <= 768) {
+      document.querySelector('.collapsible').click();
+    }
   </script>
 </body>
 </html>
