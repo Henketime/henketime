@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>XYZ Survey</title>
+  <style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+  }
+  /* label {
+    display: block;
+    margin-bottom: 10px;
+  } */
+  ul {
+    list-style-type: none;
+    padding-left: 0;
+  }
+  li {
+    margin-bottom: 5px;
+  }
+  </style>
+</head>
+<body>
+  <form action="https://formspree.io/f/xzdkdzqj" method="POST">
+    <label
+      style="display: block; margin-bottom: 10px;"
+    >
+      <div>Your name:</div>
+      <input type="text" name="voter_name" required>
+    </label>
+    <br>
+    <label>Which name?
+      <ul>
+        <li><input type="radio" id="toodaloo" name="name_choice" value="toodaloo" required /><label for="toodaloo">Toodaloo</label></li>
+        <li><input type="radio" id="the_painted_pencil" name="name_choice" value="the_painted_pencil" required /><label for="the_painted_pencil">The Painted Pencil</label></li>
+        <li><input type="radio" id="different_drum" name="name_choice" value="different_drum" required /><label for="different_drum">Different Drum</label></li>
+        <li><input type="radio" id="livin_creative" name="name_choice" value="livin_creative" required /><label for="livin_creative">LIVIN Creative</label></li>
+        <li><input type="radio" id="test_throwaway" name="name_choice" value="test_throwaway" required /><label for="test_throwaway">TEST THROWAWAY</label></li>
+      </ul>
+    </label>
+    <br>
+    <button type="submit">Submit Vote</button>
+  </form>
+  <script> /* Optional JS for validation */ </script>
+</body>
+</html>
