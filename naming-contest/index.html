@@ -28,6 +28,7 @@
       box-shadow: 0 20px 40px rgba(0,0,0,0.5);
     }
     h1 {
+      font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
       font-size: 2rem;
       font-weight: 600;
       margin-bottom: 1.5rem;
@@ -36,6 +37,23 @@
       -webkit-text-fill-color: transparent;
       background-clip: text;
       text-align: center;
+    }
+    h2 {
+      font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+      font-size: 1.75rem;
+      font-weight: 500;
+      background: linear-gradient(90deg, #58a6ff, #f0f6fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    p {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+    p b {
+      color: #58a6ff;
     }
     label {
       display: block;
@@ -126,16 +144,33 @@
       h1 { font-size: 1.5rem; }
       .rank-row { grid-template-columns: 50px 1fr; }
     }
+    hr {
+      border: none;
+      border-top: 1px solid #30363d;
+      margin-top: 1rem;
+      margin-right: 0;
+      margin-bottom: 2rem;
+      margin-left: 0;
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>XYZ Survey</h1>
+    <h1>Business Naming Contest</h1>
+    <hr>
+    <h2>Hi, loves!</h2><br>
+    <p>Some months ago, Kevin and I started talking and dreaming about our next adventure: a creative space to offer classes and workshops, a variety of art supplies, and feature local artists' goods. All while building a place to casually meet up with your local community, owned and held by us. We've decided to start by <b>offering curated craft kits at local markets and online</b>, and hosting events at local venues to build our brand while we work on a space. We are very excited!</p>
+    <p>Kevin and I have spent the last few weeks brainstorming possible names for our adventure <b>ahead of our kit product launch</b>. As you might imagine, for two creative strong-willed people this was nothing short of comical and exhaustive. We have narrowed it down to our favorites and are asking our family and friends to give us some feedback. Each name has its own meaning to us, but we don't want to sway anyone one way or the other. So, Kevin has created a rank choice voting system for you to give us your thoughts.</p>
+    <p><b>We will close voting this Friday, April 3rd.</b> We will, of course, announce what we go with once we sort through it all.</p>
+    <p>Thank you all in advance for helping us bring this next adventure to life!</p>
+    <p style="margin-bottom: 0.2rem;">Hugs,</p>
+    <p>Liz & Kevin</p>
+    <hr>
     <form id="surveyForm" action="https://formspree.io/f/xzdkdzqj" method="POST">
       <label for="voter_name">Your name</label>
       <input type="text" id="voter_name" name="voter_name" required>
 
-      <label>Rank the options (#1 first, continue as desired)</label>
+      <label>Rank the options (#1 first, continue as desired)</label><br>
       <div class="rank-group" id="rankGroup">
         <!-- Populated by JS -->
       </div>
@@ -152,7 +187,7 @@
       { id: 'the_painted_pencil', label: 'The Painted Pencil' },
       { id: 'different_drum', label: 'Different Drum' },
       { id: 'livin_creative', label: 'LIVIN Creative' },
-      { id: 'test_throwaway', label: 'TEST THROWAWAY' }
+      { id: 'full_circle', label: 'Full Circle' }
     ];
 
     const rankGroup = document.getElementById('rankGroup');
@@ -199,7 +234,7 @@
           select.removeChild(select.lastChild);
         }
 
-        // Rebuild options: include all options unless they’re already selected
+        // Rebuild options: include all options unless they're already selected
         // and are *not* the current value (so we keep the current selection)
         options.forEach(opt => {
           if (!selected.has(opt.id) || opt.id === currentValue) {
