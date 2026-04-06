@@ -35,6 +35,7 @@
     background: linear-gradient(45deg, #ff6b6b, #ffd93d, #6bcf7f, #4d96ff);
     background-size: 300% 300%;
     border: none;
+    margin-top: 60px;
     padding: 20px 40px;
     font-size: 24px;
     font-weight: 700;
@@ -89,7 +90,7 @@
     transition: all 0.8s ease 1.5s;
     font-size: 20px;
     font-weight: 400;
-    max-width: 600px;
+    max-width: 400px;
     margin: 0 auto;
     line-height: 1.5;
   }
@@ -100,62 +101,62 @@
   }
   .spotlight {
     position: absolute;
-    width: 600px;
-    height: 600px;
+    width: 300px;
+    height: 300px;
     background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, transparent 70%);
     pointer-events: none;
-    top: 25%;
-    left: 33%;
-    transform: translate(-50%, -50%);
     border-radius: 50%;
     z-index: 5;
-  }
-
-  .spotlight:nth-child(1) {
-    animation: figure8-1 2s infinite linear;
+    transform: translate(0%, 0%);
     filter: blur(15px);
   }
 
-  .spotlight:nth-child(2) {
-    animation: figure8-2 2s infinite linear reverse;
-    filter: blur(20px);
+  /* Initial circling animations */
+  .spotlight.circle-1 {
+    animation: circlePath1 2.5s infinite linear;
   }
 
-  @keyframes figure8-1 {
-    0% { transform: translate(-120%, -60%) rotate(0deg); }
-    25% { transform: translate(120%, -60%) rotate(90deg); }
-    50% { transform: translate(120%, 60%) rotate(180deg); }
-    75% { transform: translate(-120%, 60%) rotate(270deg); }
-    100% { transform: translate(-120%, -60%) rotate(360deg); }
+  .spotlight.circle-2 {
+    animation: circlePath2 2.5s infinite linear;
   }
 
-  @keyframes figure8-2 {
-    0% { transform: translate(120%, -60%) rotate(0deg); }
-    25% { transform: translate(-120%, -60%) rotate(-90deg); }
-    50% { transform: translate(-120%, 60%) rotate(-180deg); }
-    75% { transform: translate(120%, 60%) rotate(-270deg); }
-    100% { transform: translate(120%, -60%) rotate(-360deg); }
+  @keyframes circlePath1 {
+    0% { transform: translate(-100%, -100%) rotate(0deg); }
+    25% { transform: translate(100%, -100%) rotate(90deg); }
+    50% { transform: translate(100%, 100%) rotate(180deg); }
+    75% { transform: translate(-100%, 100%) rotate(270deg); }
+    100% { transform: translate(-100%, -100%) rotate(360deg); }
   }
 
-  @keyframes converge {
-  0% { 
-    transform: translate(-50%, -50%) scale(1); 
-  }
-  100% { 
-    transform: translate(0, 0) scale(2) !important; 
-  }
-  }
-
-  /* Spotlight converge on reveal */
-  .spotlight.converge {
-    animation: converge 1s ease forwards 0.5s;
+  @keyframes circlePath2 {
+    0% { transform: translate(-100%, 100%) rotate(-270deg); }
+    25% { transform: translate(100%, 100%) rotate(-360deg); }
+    50% { transform: translate(100%, -100%) rotate(0deg); }
+    75% { transform: translate(-100%, -100%) rotate(-90deg); }
+    100% { transform: translate(-100%, 100%) rotate(-180deg); }
   }
 
-  @keyframes converge {
-    0% { transform: translate(-50%, -50%) scale(1); }
-    100% { transform: translate(-50%, -50%) scale(1.5); }
+  /* Convergence animation - 0.75s smooth travel to button */
+  @keyframes convergeToButton {
+    0% {
+      transform: translate(-50%, -50%) scale(1);
+    }
+    100% {
+      transform: translate(0, 0) scale(2.2);
+      filter: blur(8px);
+    }
   }
 
+  .spotlight.converging {
+    animation: convergeToButton 0.75s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+
+  /* Stay converged after animation */
+  .spotlight.converged {
+    animation-play-state: paused !important;
+    transform: translate(0, 0) scale(2.2) !important;
+    filter: blur(8px);
+  }
   /* Button glow during anticipation */
   .reveal-btn.glowing {
     animation: intenseGlow 1s ease infinite alternate;
@@ -225,7 +226,7 @@
 
   <div class="confetti" id="confetti"></div>
 
-  <script>
+<script>
   const revealBtn = document.getElementById('revealBtn');
   const winner = document.getElementById('winner');
   const thankYou = document.getElementById('thankYou');
@@ -233,46 +234,57 @@
   const spotlight2 = document.getElementById('spotlight2');
   const confetti = document.getElementById('confetti');
 
+  // Initialize circling
+  spotlight1.classList.add('circle-1');
+  spotlight2.classList.add('circle-2');
+
   revealBtn.addEventListener('click', () => {
-    // Position spotlights to container center before converging
-    spotlight1.style.left = '50%';
-    spotlight2.style.left = '50%';
+    // Stop circling animations immediately
+    spotlight1.style.animation = 'none';
+    spotlight2.style.animation = 'none';
     
-    // Step 1: Spotlights smoothly converge  
+    // Position at current spot, then converge over 0.75s
     setTimeout(() => {
-      spotlight1.classList.asList.add('converge');
-      spotlight2.classList.add('converge');
-    }, 100);
-    
-    // Step 3: After 1.5s total, reveal winner + confetti
+      spotlight1.classList.add('converging');
+      spotlight2.classList.add('converging');
+    }, 50);
+
+    // Button glow starts after convergence begins
     setTimeout(() => {
-      revealBtn.classList.add('hidden');
+      revealBtn.classList.add('glowing');
+    }, 200);
+
+    // Reveal after convergence + glow (total ~1.5s)
+    setTimeout(() => {
+      // revealBtn.classList.add('hidden');
+      revealBtn.style.display = 'none';
       winner.classList.add('revealed');
+      
+      // Mark spotlights as converged (stay in place)
+      spotlight1.classList.add('converged');
+      spotlight2.classList.add('converged');
+      
       createConfetti();
     }, 1500);
 
-    // Step 4: Thank you appears after confetti (3s later)
+    // Thank you after confetti
     setTimeout(() => {
       thankYou.classList.add('shown');
-    }, 2500);
+    }, 1500);
   });
 
   function createConfetti() {
     for (let i = 0; i < 100; i++) {
-    const piece = document.createElement('div');
-    piece.className = 'confetti-piece';
-    piece.style.left = Math.random() * 100 + '%';
-    piece.style.backgroundColor = `hsl(${Math.random() * 60 + 0}, 70%, 60%)`;
-    piece.style.animationDelay = Math.random() * 0.3 + 's';
-    piece.style.animationDuration = (Math.random() * 1 + 2) + 's';
-    confetti.appendChild(piece);
-
-    // Clean up after animation
-    setTimeout(() => {
-      piece.remove();
-    }, 4000);
+      const piece = document.createElement('div');
+      piece.className = 'confetti-piece';
+      piece.style.left = Math.random() * 100 + '%';
+      piece.style.backgroundColor = `hsl(${Math.random() * 60 + 0}, 70%, 60%)`;
+      piece.style.animationDelay = Math.random() * 0.3 + 's';
+      piece.style.animationDuration = (Math.random() * 1 + 2) + 's';
+      confetti.appendChild(piece);
+      setTimeout(() => piece.remove(), 4000);
     }
   }
-  </script>
+</script>
 </body>
 </html>
