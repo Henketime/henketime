@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Create a Post</title>
+  <script src="../components/blog-nav/blog-nav.js"></script>
+  <script src="../components/markdown-editor/markdown-editor.js"></script>
+  <script src="../components/post-editor/post-editor.js"></script>
+  <link rel="stylesheet" href="../styles/variables.css">
+  <link rel="stylesheet" href="../styles/styles.css">
+  <!-- Markdown libraries -->
+  <script src="../../../lib/easymde.min.js"></script>
+  <link rel="stylesheet" href="../../../lib/easymde.min.css">
+</head>
+<body>
+  <blog-nav title="Create Post">
+    <button
+      slot="left-button"
+      id="leftButton"
+      class="button button--nav"
+      onclick="location.href='posts.html'"
+    >
+      All Posts
+    </button>
+    <button
+      slot="right-button"
+      id="rightButton"
+      class="button button--nav"
+      onclick="location.href='reader.html'"
+    >
+      Read First Post
+    </button>
+  </blog-nav>
+  <section>
+    <h1>Create a Markdown Post</h1>
+    <post-editor></post-editor>
+  </section>
+</body>
+</html>
