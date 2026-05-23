@@ -1,5 +1,5 @@
--- foster-art-2025 working code
--- This code is part of the Foster Art 2025 pixel art lesson
+-- pixel art lesson 2025
+-- foster art
 app = {}
 gravity = 0.5
 
@@ -523,7 +523,7 @@ function game_update()
 end
 
 function title_draw()
- -- Draw Foster Art logo
+ -- draw foster art logo
  for i=0,5 do
   spr(i+234, 40+(i*8), 30)
  end
@@ -536,7 +536,7 @@ end
 
 function win_draw()
  cls()
- -- Draw Foster Art logo
+ -- draw foster art logo
  for i=0,5 do
   spr(i+234, 40+(i*8), 50)
  end
