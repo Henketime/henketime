@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ABCDEF Entertainment | Coming Soon</title>
+  <style>
+    :root{
+      --red:#e53935;
+      --blue:#1e4fff;
+      --ink:#0f1220;
+      --paper:#f8f6f2;
+      --white:#ffffff;
+      --muted:rgba(255,255,255,.82);
+      --card:rgba(255,255,255,.14);
+      --border:rgba(255,255,255,.22);
+      --shadow:0 20px 60px rgba(0,0,0,.28);
+    }
+
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;min-height:100%}
+    body{
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color:var(--white);
+      background:
+        linear-gradient(135deg, rgba(230,57,53,.85), rgba(30,79,255,.72)),
+        radial-gradient(circle at top left, rgba(255,255,255,.26), transparent 34%),
+        radial-gradient(circle at bottom right, rgba(255,255,255,.14), transparent 30%);
+      overflow-x:hidden;
+    }
+
+    .bg-art{
+      position:fixed;
+      inset:0;
+      z-index:-2;
+      background-image:
+        url("https://images.pexels.com/photos/3119180/pexels-photo-3119180.jpeg?auto=compress&cs=tinysrgb&w=1600"),
+        url("https://images.pexels.com/photos/1183992/pexels-photo-1183992.jpeg?auto=compress&cs=tinysrgb&w=1600");
+      background-size:cover, cover;
+      background-position:center, center;
+      filter:saturate(1.15) contrast(1.05) brightness(.52);
+      transform:scale(1.03);
+    }
+
+    .overlay{
+      position:fixed;
+      inset:0;
+      z-index:-1;
+      background:
+        linear-gradient(180deg, rgba(10,12,24,.28), rgba(10,12,24,.64)),
+        radial-gradient(circle at 25% 20%, rgba(255,255,255,.14), transparent 28%),
+        radial-gradient(circle at 78% 24%, rgba(255,255,255,.10), transparent 26%);
+    }
+
+    .wrap{
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      padding:24px;
+    }
+
+    .shell{
+      width:min(1120px, 100%);
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap:24px;
+      align-items:stretch;
+    }
+
+    .hero, .aside{
+      backdrop-filter: blur(16px);
+      background:linear-gradient(180deg, rgba(15,18,32,.58), rgba(15,18,32,.36));
+      border:1px solid var(--border);
+      box-shadow:var(--shadow);
+      border-radius:28px;
+      overflow:hidden;
+      position:relative;
+    }
+
+    .hero{
+      padding:34px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      min-height:680px;
+    }
+
+    .kicker{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 14px;
+      border-radius:999px;
+      background:rgba(255,255,255,.12);
+      border:1px solid rgba(255,255,255,.14);
+      width:max-content;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      font-size:.78rem;
+      font-weight:700;
+    }
+
+    .dot{
+      width:10px;height:10px;border-radius:50%;
+      background:linear-gradient(135deg, var(--red), var(--blue));
+      box-shadow:0 0 20px rgba(255,255,255,.45);
+    }
+
+    h1{
+      margin:18px 0 14px;
+      font-size:clamp(3rem, 8vw, 6.6rem);
+      line-height:.92;
+      letter-spacing:-.06em;
+      text-transform:uppercase;
+    }
+
+    .accent{
+      display:block;
+      background:linear-gradient(90deg, #fff, #ffd6d6 20%, #d9e4ff 55%, #fff);
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+    }
+
+    .lead{
+      max-width:34rem;
+      font-size:1.08rem;
+      line-height:1.7;
+      color:var(--muted);
+      margin:0 0 22px;
+    }
+
+    .cta-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin:18px 0 28px;
+    }
+
+    .btn{
+      appearance:none;
+      border:none;
+      text-decoration:none;
+      color:var(--white);
+      font-weight:800;
+      letter-spacing:.02em;
+      padding:14px 18px;
+      border-radius:16px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      transition:transform .18s ease, filter .18s ease, background .18s ease;
+      cursor:pointer;
+    }
+
+    .btn:hover{transform:translateY(-2px);filter:brightness(1.03)}
+    .btn-primary{
+      background:linear-gradient(135deg, var(--red), #ff6b6b);
+      box-shadow:0 14px 30px rgba(229,57,53,.32);
+    }
+    .btn-secondary{
+      background:linear-gradient(135deg, rgba(255,255,255,.18), rgba(255,255,255,.08));
+      border:1px solid rgba(255,255,255,.22);
+    }
+
+    .stats{
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0,1fr));
+      gap:12px;
+      margin-top:auto;
+    }
+
+    .stat{
+      background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:20px;
+      padding:16px;
+    }
+
+    .stat strong{
+      display:block;
+      font-size:1.3rem;
+      margin-bottom:6px;
+    }
+
+    .stat span{
+      color:rgba(255,255,255,.76);
+      font-size:.92rem;
+      line-height:1.45;
+    }
+
+    .aside{
+      padding:28px;
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+      justify-content:space-between;
+    }
+
+    .card{
+      background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:22px;
+      padding:20px;
+    }
+
+    .card h2{
+      margin:0 0 10px;
+      font-size:1.15rem;
+      letter-spacing:-.02em;
+    }
+
+    .card p, .card li{
+      color:rgba(255,255,255,.80);
+      line-height:1.65;
+      margin:0;
+    }
+
+    .list{
+      list-style:none;
+      padding:0;
+      margin:0;
+      display:grid;
+      gap:10px;
+    }
+
+    .list li{
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+    }
+
+    .check{
+      width:22px;height:22px;border-radius:7px;
+      flex:0 0 22px;
+      background:linear-gradient(135deg, var(--blue), #6ea2ff);
+      display:grid;
+      place-items:center;
+      font-size:.9rem;
+      font-weight:900;
+    }
+
+    .gallery{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+
+    .tile{
+      min-height:132px;
+      border-radius:18px;
+      background-size:cover;
+      background-position:center;
+      position:relative;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.12);
+    }
+
+    .tile::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(180deg, transparent, rgba(0,0,0,.35));
+    }
+
+    .tile.one{background-image:url("https://images.pexels.com/photos/844177/pexels-photo-844177.jpeg?auto=compress&cs=tinysrgb&w=1200")}
+    .tile.two{background-image:url("https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg?auto=compress&cs=tinysrgb&w=1200")}
+    .tile.three{background-image:url("https://images.pexels.com/photos/1266808/pexels-photo-1266808.jpeg?auto=compress&cs=tinysrgb&w=1200")}
+    .tile.four{background-image:url("https://images.pexels.com/photos/3062546/pexels-photo-3062546.jpeg?auto=compress&cs=tinysrgb&w=1200")}
+
+    .footer{
+      display:flex;
+      justify-content:space-between;
+      gap:14px;
+      flex-wrap:wrap;
+      color:rgba(255,255,255,.72);
+      font-size:.92rem;
+      margin-top:8px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      font-weight:800;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+    }
+
+    .logo{
+      width:38px;height:38px;border-radius:12px;
+      background:linear-gradient(135deg, var(--red), var(--blue));
+      box-shadow:0 10px 24px rgba(0,0,0,.24);
+    }
+
+    @media (max-width: 900px){
+      .shell{grid-template-columns:1fr}
+      .hero{min-height:auto}
+      .stats{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-art"></div>
+  <div class="overlay"></div>
+
+  <main class="wrap">
+    <section class="shell" aria-label="ABCDEF Entertainment coming soon landing page">
+      <div class="hero">
+        <div>
+          <div class="kicker"><span class="dot"></span> Coming Soon • Local Event Drop</div>
+          <h1><span class="accent">Make art.</span><br/>Make a scene.</h1>
+          <p class="lead">
+            ABCDEF Entertainment creates bold, adults-only art kits designed for fun nights, creative dates, and unforgettable local events. Colorful. Messy. Social. Easy to take home and enjoy.
+          </p>
+
+          <div class="cta-row">
+            <a class="btn btn-primary" href="#notify">Notify Me</a>
+            <a class="btn btn-secondary" href="#kits">See What’s Inside</a>
+          </div>
+        </div>
+
+        <div class="stats">
+          <div class="stat">
+            <strong>Adults Only</strong>
+            <span>Playful kits made for creative grown-ups and group hangs.</span>
+          </div>
+          <div class="stat">
+            <strong>Event Ready</strong>
+            <span>Currently sold at local events, pop-ups, and seasonal markets.</span>
+          </div>
+          <div class="stat">
+            <strong>Bright & Bold</strong>
+            <span>Red, blue, and full-color energy with a modern art feel.</span>
+          </div>
+        </div>
+      </div>
+
+      <aside class="aside">
+        <div class="card" id="kits">
+          <h2>What’s in the kits</h2>
+          <ul class="list">
+            <li><span class="check">✓</span><span>Paints, tools, and fun extras for a polished creative session.</span></li>
+            <li><span class="check">✓</span><span>Designed for quick setup and satisfying results.</span></li>
+            <li><span class="check">✓</span><span>Perfect for birthdays, date nights, girls’ nights, and solo art time.</span></li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h2>Art energy, updated</h2>
+          <p>
+            The look is lively and immersive, with a fresher editorial layout, cleaner typography, and high-impact color blocking instead of an old-school flyer feel.
+          </p>
+        </div>
+
+        <div class="gallery" aria-label="Colorful art inspiration images">
+          <div class="tile one"></div>
+          <div class="tile two"></div>
+          <div class="tile three"></div>
+          <div class="tile four"></div>
+        </div>
+
+        <div class="card" id="notify">
+          <h2>Get launch updates</h2>
+          <p>Drop your email at the event table or on the future signup form to hear when the online shop opens.</p>
+        </div>
+
+        <div class="footer">
+          <div class="brand"><span class="logo"></span> ABCDEF Entertainment</div>
+          <div>Coming soon to a local event near you</div>
+        </div>
+      </aside>
+    </section>
+  </main>
+</body>
+</html>
