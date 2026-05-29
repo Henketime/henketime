@@ -1,377 +1,654 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ABCDEF Entertainment | Coming Soon</title>
+  <title>ABCDEF Entertainment Layout Study</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    :root{
-      --red:#e53935;
-      --blue:#1e4fff;
-      --ink:#0f1220;
-      --paper:#f8f6f2;
-      --white:#ffffff;
-      --muted:rgba(255,255,255,.82);
-      --card:rgba(255,255,255,.14);
-      --border:rgba(255,255,255,.22);
-      --shadow:0 20px 60px rgba(0,0,0,.28);
+    :root {
+      --bg: #fff8ff;
+      --surface: rgba(255,255,255,0.72);
+      --surface-strong: rgba(255,255,255,0.88);
+      --text: #31123f;
+      --text-muted: #6d4f7e;
+      --brand: #bb44dd;
+      --brand-deep: #8a22ae;
+      --analog-1: #ff5aa9;
+      --analog-2: #7a6dff;
+      --accent: #ffd84d;
+      --accent-deep: #f2b705;
+      --line: rgba(104, 34, 130, 0.12);
+      --shadow: 0 24px 80px rgba(123, 48, 146, 0.16);
+      --radius-sm: 16px;
+      --radius-md: 24px;
+      --radius-lg: 36px;
+      --space-1: 0.25rem;
+      --space-2: 0.5rem;
+      --space-3: 0.75rem;
+      --space-4: 1rem;
+      --space-5: 1.25rem;
+      --space-6: 1.5rem;
+      --space-8: 2rem;
+      --space-10: 2.5rem;
+      --space-12: 3rem;
+      --space-16: 4rem;
+      --space-20: 5rem;
+      --space-24: 6rem;
+      --text-xs: clamp(0.78rem, 0.76rem + 0.1vw, 0.88rem);
+      --text-sm: clamp(0.92rem, 0.88rem + 0.2vw, 1rem);
+      --text-base: clamp(1rem, 0.96rem + 0.25vw, 1.1rem);
+      --text-lg: clamp(1.18rem, 1.08rem + 0.6vw, 1.45rem);
+      --text-xl: clamp(1.75rem, 1.2rem + 1.7vw, 2.7rem);
+      --text-2xl: clamp(2.6rem, 1.55rem + 4vw, 5.3rem);
+      --content: 1160px;
     }
 
-    *{box-sizing:border-box}
-    html,body{margin:0;padding:0;min-height:100%}
-    body{
-      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color:var(--white);
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Outfit", system-ui, sans-serif;
+      font-size: var(--text-base);
+      line-height: 1.6;
+      color: var(--text);
       background:
-        linear-gradient(135deg, rgba(230,57,53,.85), rgba(30,79,255,.72)),
-        radial-gradient(circle at top left, rgba(255,255,255,.26), transparent 34%),
-        radial-gradient(circle at bottom right, rgba(255,255,255,.14), transparent 30%);
-      overflow-x:hidden;
+        radial-gradient(circle at 8% 15%, rgba(255, 90, 169, 0.25), transparent 23%),
+        radial-gradient(circle at 88% 14%, rgba(122, 109, 255, 0.22), transparent 22%),
+        radial-gradient(circle at 78% 60%, rgba(255, 216, 77, 0.26), transparent 24%),
+        linear-gradient(180deg, #fff8ff 0%, #fffaf0 100%);
     }
 
-    .bg-art{
-      position:fixed;
-      inset:0;
-      z-index:-2;
-      background-image:
-        url("https://images.pexels.com/photos/3119180/pexels-photo-3119180.jpeg?auto=compress&cs=tinysrgb&w=1600"),
-        url("https://images.pexels.com/photos/1183992/pexels-photo-1183992.jpeg?auto=compress&cs=tinysrgb&w=1600");
-      background-size:cover, cover;
-      background-position:center, center;
-      filter:saturate(1.15) contrast(1.05) brightness(.52);
-      transform:scale(1.03);
+    img, svg { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+
+    .page-shell {
+      width: min(calc(100% - 32px), var(--content));
+      margin: 0 auto;
+      padding: var(--space-6) 0 var(--space-16);
     }
 
-    .overlay{
-      position:fixed;
-      inset:0;
-      z-index:-1;
-      background:
-        linear-gradient(180deg, rgba(10,12,24,.28), rgba(10,12,24,.64)),
-        radial-gradient(circle at 25% 20%, rgba(255,255,255,.14), transparent 28%),
-        radial-gradient(circle at 78% 24%, rgba(255,255,255,.10), transparent 26%);
+    .skip-link {
+      position: absolute;
+      left: 12px;
+      top: -48px;
+      background: var(--accent);
+      color: #2f2200;
+      padding: 10px 14px;
+      border-radius: 999px;
+      z-index: 20;
     }
+    .skip-link:focus { top: 12px; }
 
-    .wrap{
-      min-height:100vh;
-      display:grid;
-      place-items:center;
-      padding:24px;
-    }
-
-    .shell{
-      width:min(1120px, 100%);
-      display:grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap:24px;
-      align-items:stretch;
-    }
-
-    .hero, .aside{
+    .site-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-4);
+      margin-bottom: var(--space-8);
+      padding: 14px 18px;
+      position: sticky;
+      top: 12px;
+      z-index: 10;
       backdrop-filter: blur(16px);
-      background:linear-gradient(180deg, rgba(15,18,32,.58), rgba(15,18,32,.36));
-      border:1px solid var(--border);
-      box-shadow:var(--shadow);
-      border-radius:28px;
-      overflow:hidden;
-      position:relative;
+      background: rgba(255,255,255,0.62);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      box-shadow: var(--shadow);
     }
 
-    .hero{
-      padding:34px;
-      display:flex;
-      flex-direction:column;
-      justify-content:space-between;
-      min-height:680px;
+    .brand-lockup {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
     }
 
-    .kicker{
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      padding:10px 14px;
-      border-radius:999px;
-      background:rgba(255,255,255,.12);
-      border:1px solid rgba(255,255,255,.14);
-      width:max-content;
-      letter-spacing:.08em;
-      text-transform:uppercase;
-      font-size:.78rem;
-      font-weight:700;
+    .brand-logo {
+      width: 44px;
+      height: 44px;
+      flex: 0 0 auto;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--brand), var(--analog-1));
+      display: grid;
+      place-items: center;
+      color: white;
+      box-shadow: 0 10px 25px rgba(187,68,221,0.28);
     }
 
-    .dot{
-      width:10px;height:10px;border-radius:50%;
-      background:linear-gradient(135deg, var(--red), var(--blue));
-      box-shadow:0 0 20px rgba(255,255,255,.45);
+    .brand-mark {
+      width: 26px;
+      height: 20px;
     }
 
-    h1{
-      margin:18px 0 14px;
-      font-size:clamp(3rem, 8vw, 6.6rem);
-      line-height:.92;
-      letter-spacing:-.06em;
-      text-transform:uppercase;
+    .brand-text {
+      min-width: 0;
     }
 
-    .accent{
-      display:block;
-      background:linear-gradient(90deg, #fff, #ffd6d6 20%, #d9e4ff 55%, #fff);
-      -webkit-background-clip:text;
-      background-clip:text;
-      color:transparent;
+    .eyebrow {
+      margin: 0 0 2px;
+      font-size: var(--text-xs);
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--brand-deep);
+      font-weight: 700;
     }
 
-    .lead{
-      max-width:34rem;
-      font-size:1.08rem;
-      line-height:1.7;
-      color:var(--muted);
-      margin:0 0 22px;
+    .brand-name {
+      margin: 0;
+      font-size: var(--text-sm);
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    .cta-row{
-      display:flex;
-      flex-wrap:wrap;
-      gap:12px;
-      margin:18px 0 28px;
+    .nav-note {
+      font-size: var(--text-sm);
+      color: var(--text-muted);
+      text-align: right;
     }
 
-    .btn{
-      appearance:none;
-      border:none;
-      text-decoration:none;
-      color:var(--white);
-      font-weight:800;
-      letter-spacing:.02em;
-      padding:14px 18px;
-      border-radius:16px;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      transition:transform .18s ease, filter .18s ease, background .18s ease;
-      cursor:pointer;
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(330px, 0.8fr);
+      gap: var(--space-8);
+      align-items: stretch;
+      margin-bottom: var(--space-8);
     }
 
-    .btn:hover{transform:translateY(-2px);filter:brightness(1.03)}
-    .btn-primary{
-      background:linear-gradient(135deg, var(--red), #ff6b6b);
-      box-shadow:0 14px 30px rgba(229,57,53,.32);
-    }
-    .btn-secondary{
-      background:linear-gradient(135deg, rgba(255,255,255,.18), rgba(255,255,255,.08));
-      border:1px solid rgba(255,255,255,.22);
-    }
-
-    .stats{
-      display:grid;
-      grid-template-columns:repeat(3, minmax(0,1fr));
-      gap:12px;
-      margin-top:auto;
+    .panel {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      backdrop-filter: blur(18px);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
     }
 
-    .stat{
-      background:rgba(255,255,255,.10);
-      border:1px solid rgba(255,255,255,.12);
-      border-radius:20px;
-      padding:16px;
+    .feature-panel {
+      padding: clamp(1.25rem, 2vw, 1.8rem);
+      min-height: 640px;
+      display: grid;
+      grid-template-rows: auto auto 1fr auto;
+      gap: var(--space-6);
     }
 
-    .stat strong{
-      display:block;
-      font-size:1.3rem;
-      margin-bottom:6px;
+    .panel::before {
+      content: "";
+      position: absolute;
+      inset: auto -40px -60px auto;
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(circle, rgba(255,216,77,0.22), transparent 66%);
+      pointer-events: none;
     }
 
-    .stat span{
-      color:rgba(255,255,255,.76);
-      font-size:.92rem;
-      line-height:1.45;
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      width: fit-content;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.7);
+      border: 1px solid rgba(187,68,221,0.14);
+      font-size: var(--text-xs);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--brand-deep);
     }
 
-    .aside{
-      padding:28px;
-      display:flex;
-      flex-direction:column;
-      gap:18px;
-      justify-content:space-between;
+    .kicker-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--analog-1), var(--brand));
+      box-shadow: 0 0 0 6px rgba(187,68,221,0.08);
     }
 
-    .card{
-      background:rgba(255,255,255,.10);
-      border:1px solid rgba(255,255,255,.14);
-      border-radius:22px;
-      padding:20px;
+    h1, h2, h3 {
+      margin: 0;
+      font-family: "Space Grotesk", system-ui, sans-serif;
+      line-height: 0.95;
+      letter-spacing: -0.04em;
     }
 
-    .card h2{
-      margin:0 0 10px;
-      font-size:1.15rem;
-      letter-spacing:-.02em;
+    h1 {
+      max-width: 10ch;
+      font-size: var(--text-2xl);
     }
 
-    .card p, .card li{
-      color:rgba(255,255,255,.80);
-      line-height:1.65;
-      margin:0;
+    h2 {
+      font-size: var(--text-xl);
+      margin-bottom: var(--space-3);
     }
 
-    .list{
-      list-style:none;
-      padding:0;
-      margin:0;
-      display:grid;
-      gap:10px;
+    .hero-note {
+      max-width: 52ch;
+      color: var(--text-muted);
+      margin: 0;
     }
 
-    .list li{
-      display:flex;
-      align-items:flex-start;
-      gap:10px;
+    .layout-caption {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.72);
+      border: 1px solid rgba(122,109,255,0.14);
+      font-size: var(--text-sm);
+      color: var(--text-muted);
     }
 
-    .check{
-      width:22px;height:22px;border-radius:7px;
-      flex:0 0 22px;
-      background:linear-gradient(135deg, var(--blue), #6ea2ff);
-      display:grid;
-      place-items:center;
-      font-size:.9rem;
-      font-weight:900;
+    .layout-caption strong {
+      color: var(--text);
     }
 
-    .gallery{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:12px;
+    .logo-stage {
+      position: relative;
+      display: grid;
+      place-items: center;
+      min-height: 330px;
+      border-radius: 30px;
+      overflow: hidden;
+      isolation: isolate;
+      background:
+        radial-gradient(circle at 20% 24%, rgba(255,255,255,0.48), transparent 22%),
+        linear-gradient(135deg, rgba(255,90,169,0.15), rgba(122,109,255,0.18));
+      border: 1px solid rgba(255,255,255,0.72);
     }
 
-    .tile{
-      min-height:132px;
-      border-radius:18px;
-      background-size:cover;
-      background-position:center;
-      position:relative;
-      overflow:hidden;
-      border:1px solid rgba(255,255,255,.12);
+    .stage-splashes {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 10% 20%, rgba(255,90,169,0.45), transparent 9%),
+        radial-gradient(circle at 83% 18%, rgba(122,109,255,0.42), transparent 10%),
+        radial-gradient(circle at 78% 82%, rgba(255,216,77,0.44), transparent 11%),
+        radial-gradient(circle at 25% 78%, rgba(187,68,221,0.32), transparent 10%),
+        radial-gradient(circle at 56% 40%, rgba(255,255,255,0.35), transparent 14%);
+      mix-blend-mode: screen;
+      opacity: .92;
+      pointer-events: none;
     }
 
-    .tile::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:linear-gradient(180deg, transparent, rgba(0,0,0,.35));
+    .bacon-logo {
+      width: min(100%, 700px);
+      filter: drop-shadow(0 22px 32px rgba(130, 35, 152, 0.18));
     }
 
-    .tile.one{background-image:url("https://images.pexels.com/photos/844177/pexels-photo-844177.jpeg?auto=compress&cs=tinysrgb&w=1200")}
-    .tile.two{background-image:url("https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg?auto=compress&cs=tinysrgb&w=1200")}
-    .tile.three{background-image:url("https://images.pexels.com/photos/1266808/pexels-photo-1266808.jpeg?auto=compress&cs=tinysrgb&w=1200")}
-    .tile.four{background-image:url("https://images.pexels.com/photos/3062546/pexels-photo-3062546.jpeg?auto=compress&cs=tinysrgb&w=1200")}
-
-    .footer{
-      display:flex;
-      justify-content:space-between;
-      gap:14px;
-      flex-wrap:wrap;
-      color:rgba(255,255,255,.72);
-      font-size:.92rem;
-      margin-top:8px;
+    .logo-stroke {
+      fill: url(#baconFrame);
+      stroke: rgba(255,255,255,.92);
+      stroke-width: 8;
+      paint-order: stroke fill;
     }
 
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      font-weight:800;
-      letter-spacing:.06em;
-      text-transform:uppercase;
+    .logo-glow {
+      fill: none;
+      stroke: rgba(255,216,77,.62);
+      stroke-width: 3;
+      stroke-dasharray: 8 10;
+      opacity: .9;
     }
 
-    .logo{
-      width:38px;height:38px;border-radius:12px;
-      background:linear-gradient(135deg, var(--red), var(--blue));
-      box-shadow:0 10px 24px rgba(0,0,0,.24);
+    .side-stack {
+      display: grid;
+      gap: var(--space-6);
     }
 
-    @media (max-width: 900px){
-      .shell{grid-template-columns:1fr}
-      .hero{min-height:auto}
-      .stats{grid-template-columns:1fr}
+    .info-card,
+    .event-card,
+    .products {
+      padding: var(--space-6);
+    }
+
+    .section-intent {
+      margin: 0 0 var(--space-3);
+      font-size: var(--text-sm);
+      color: var(--brand-deep);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .copy-block p,
+    .event-copy p {
+      margin: 0;
+      color: var(--text-muted);
+      max-width: 58ch;
+    }
+
+    .event-highlight {
+      display: grid;
+      gap: var(--space-4);
+      padding: var(--space-5);
+      border-radius: 26px;
+      background: linear-gradient(135deg, rgba(187,68,221,0.92), rgba(122,109,255,0.92));
+      color: white;
+      box-shadow: 0 18px 40px rgba(111, 52, 163, 0.24);
+    }
+
+    .event-label {
+      margin: 0;
+      font-size: var(--text-xs);
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-weight: 700;
+      color: rgba(255,255,255,0.8);
+    }
+
+    .event-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-3);
+    }
+
+    .event-pill {
+      padding: 12px 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.16);
+    }
+
+    .event-pill span {
+      display: block;
+      font-size: var(--text-xs);
+      color: rgba(255,255,255,0.72);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 4px;
+    }
+
+    .event-pill strong {
+      font-size: var(--text-sm);
+      line-height: 1.35;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-4);
+      margin-top: var(--space-4);
+    }
+
+    .product-card {
+      position: relative;
+      padding: var(--space-4);
+      border-radius: 22px;
+      background: var(--surface-strong);
+      border: 1px solid rgba(187,68,221,0.12);
+      min-height: 112px;
+      overflow: hidden;
+    }
+
+    .product-card::after {
+      content: "";
+      position: absolute;
+      inset: auto -18px -24px auto;
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,216,77,0.32), transparent 70%);
+    }
+
+    .product-index {
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      margin-bottom: var(--space-3);
+      background: linear-gradient(135deg, rgba(255,216,77,0.96), rgba(255,195,0,0.92));
+      color: #513900;
+      font-size: var(--text-sm);
+      font-weight: 700;
+      box-shadow: 0 10px 18px rgba(255,216,77,0.2);
+    }
+
+    .product-card h3 {
+      font-size: var(--text-lg);
+      line-height: 1.05;
+      margin-bottom: 6px;
+    }
+
+    .product-card p {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: var(--text-sm);
+      max-width: 26ch;
+    }
+
+    .full-width-note {
+      margin-top: var(--space-8);
+      padding: var(--space-6);
+      border-radius: var(--radius-md);
+      border: 1px dashed rgba(187,68,221,0.24);
+      background: rgba(255,255,255,0.55);
+      color: var(--text-muted);
+    }
+
+    .full-width-note strong {
+      color: var(--text);
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .feature-panel {
+        min-height: auto;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .page-shell {
+        width: min(calc(100% - 20px), var(--content));
+        padding-top: var(--space-4);
+      }
+
+      .site-header {
+        position: static;
+        border-radius: 26px;
+        padding: 16px;
+      }
+
+      .nav-note { display: none; }
+
+      .feature-panel,
+      .info-card,
+      .event-card,
+      .products {
+        padding: var(--space-5);
+      }
+
+      .products-grid,
+      .event-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .logo-stage {
+        min-height: 250px;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="bg-art"></div>
-  <div class="overlay"></div>
-
-  <main class="wrap">
-    <section class="shell" aria-label="ABCDEF Entertainment coming soon landing page">
-      <div class="hero">
-        <div>
-          <div class="kicker"><span class="dot"></span> Coming Soon • Local Event Drop</div>
-          <h1><span class="accent">Make art.</span><br/>Make a scene.</h1>
-          <p class="lead">
-            ABCDEF Entertainment creates bold, adults-only art kits designed for fun nights, creative dates, and unforgettable local events. Colorful. Messy. Social. Easy to take home and enjoy.
-          </p>
-
-          <div class="cta-row">
-            <a class="btn btn-primary" href="#notify">Notify Me</a>
-            <a class="btn btn-secondary" href="#kits">See What’s Inside</a>
-          </div>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="page-shell">
+    <header class="site-header" aria-label="Site header">
+      <div class="brand-lockup">
+        <div class="brand-logo" aria-hidden="true">
+          <svg class="brand-mark" viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 26C18 14 34 10 50 16C64 21 74 18 85 13C97 8 109 11 112 22C115 33 108 42 96 46C83 50 73 57 60 63C43 70 24 68 13 58C2 48 -1 36 8 26Z" fill="currentColor" opacity=".95"/>
+            <path d="M18 31C28 24 40 22 52 26C62 30 72 29 84 22C93 17 101 18 103 26C105 34 99 39 88 43C77 47 69 53 57 57C42 62 28 60 20 53C12 47 10 38 18 31Z" fill="white" opacity=".18"/>
+          </svg>
         </div>
-
-        <div class="stats">
-          <div class="stat">
-            <strong>Adults Only</strong>
-            <span>Playful kits made for creative grown-ups and group hangs.</span>
-          </div>
-          <div class="stat">
-            <strong>Event Ready</strong>
-            <span>Currently sold at local events, pop-ups, and seasonal markets.</span>
-          </div>
-          <div class="stat">
-            <strong>Bright & Bold</strong>
-            <span>Red, blue, and full-color energy with a modern art feel.</span>
-          </div>
+        <div class="brand-text">
+          <p class="eyebrow">Layout Study</p>
+          <p class="brand-name">ABCDEF Entertainment</p>
         </div>
       </div>
+      <div class="nav-note">Light-hearted, colorful, modern blocks for visual review</div>
+    </header>
 
-      <aside class="aside">
-        <div class="card" id="kits">
-          <h2>What’s in the kits</h2>
-          <ul class="list">
-            <li><span class="check">✓</span><span>Paints, tools, and fun extras for a polished creative session.</span></li>
-            <li><span class="check">✓</span><span>Designed for quick setup and satisfying results.</span></li>
-            <li><span class="check">✓</span><span>Perfect for birthdays, date nights, girls’ nights, and solo art time.</span></li>
-          </ul>
-        </div>
+    <main id="main">
+      <section class="hero-grid" aria-label="Main layout blocks">
+        <article class="panel feature-panel">
+          <div class="kicker"><span class="kicker-dot"></span>Main Feature</div>
+          <div>
+            <h1>Animated logo gallery as the centerpiece.</h1>
+          </div>
+          <div class="logo-stage" aria-label="Placeholder bacon logo with rotating colorful images">
+            <div class="stage-splashes" aria-hidden="true"></div>
+            <svg class="bacon-logo" viewBox="0 0 920 430" role="img" aria-label="Placeholder logo shaped like a wavy strip of bacon showing rotating colorful art images inside the cutout">
+              <defs>
+                <linearGradient id="baconFrame" x1="50" y1="20" x2="860" y2="410" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#ff5aa9"/>
+                  <stop offset="0.45" stop-color="#bb44dd"/>
+                  <stop offset="1" stop-color="#7a6dff"/>
+                </linearGradient>
+                <clipPath id="baconClip">
+                  <path d="M86 161C140 103 232 85 323 112C389 132 447 128 520 102C592 77 659 72 713 90C775 110 825 157 829 217C833 279 786 330 710 348C635 365 570 367 491 337C432 315 383 311 319 328C228 352 139 347 86 300C37 257 36 214 86 161Z"/>
+                </clipPath>
+                <filter id="innerGlow" x="0" y="0" width="100%" height="100%">
+                  <feGaussianBlur stdDeviation="16" result="blur"/>
+                  <feColorMatrix in="blur" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 .45 0" result="soft"/>
+                  <feBlend in="SourceGraphic" in2="soft" mode="screen"/>
+                </filter>
+              </defs>
 
-        <div class="card">
-          <h2>Art energy, updated</h2>
-          <p>
-            The look is lively and immersive, with a fresher editorial layout, cleaner typography, and high-impact color blocking instead of an old-school flyer feel.
-          </p>
-        </div>
+              <g clip-path="url(#baconClip)">
+                <image id="rotatorImage"
+                  href="https://images.pexels.com/photos/1193743/pexels-photo-1193743.jpeg?auto=compress&cs=tinysrgb&w=1600"
+                  x="40" y="28" width="840" height="374" preserveAspectRatio="xMidYMid slice" />
+                <rect x="40" y="28" width="840" height="374" fill="rgba(255,255,255,0.06)" />
+              </g>
 
-        <div class="gallery" aria-label="Colorful art inspiration images">
-          <div class="tile one"></div>
-          <div class="tile two"></div>
-          <div class="tile three"></div>
-          <div class="tile four"></div>
-        </div>
+              <path class="logo-stroke" filter="url(#innerGlow)" d="M86 161C140 103 232 85 323 112C389 132 447 128 520 102C592 77 659 72 713 90C775 110 825 157 829 217C833 279 786 330 710 348C635 365 570 367 491 337C432 315 383 311 319 328C228 352 139 347 86 300C37 257 36 214 86 161Z"/>
+              <path class="logo-glow" d="M102 171C150 118 235 101 320 126C386 145 456 142 528 118C590 98 652 94 703 110C752 125 791 166 794 217C796 265 760 303 699 318C630 335 566 334 502 307C436 280 379 277 311 294C229 316 158 311 115 277C78 247 72 209 102 171Z"/>
+            </svg>
+          </div>
+          <p class="layout-caption"><strong>Intent:</strong> a single memorable hero object that behaves like the future logo and doubles as a playful image carousel.</p>
+        </article>
 
-        <div class="card" id="notify">
-          <h2>Get launch updates</h2>
-          <p>Drop your email at the event table or on the future signup form to hear when the online shop opens.</p>
-        </div>
+        <div class="side-stack">
+          <article class="panel info-card copy-block">
+            <p class="section-intent">Who We Are</p>
+            <h2>Friendly intro copy block.</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer efficitur, lorem vitae tincidunt luctus, turpis sapien efficitur mi, vitae volutpat risus libero eu augue. Quisque ultricies, sem sed hendrerit condimentum, nibh lectus tristique est, eu dictum justo lacus sit amet lorem. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+          </article>
 
-        <div class="footer">
-          <div class="brand"><span class="logo"></span> ABCDEF Entertainment</div>
-          <div>Coming soon to a local event near you</div>
+          <article class="panel event-card event-copy">
+            <p class="section-intent">Next Event</p>
+            <h2>Prominent announcement card.</h2>
+            <div class="event-highlight" aria-label="Upcoming event announcement">
+              <p class="event-label">Upcoming appearance</p>
+              <div class="event-grid">
+                <div class="event-pill">
+                  <span>Event</span>
+                  <strong>Color Splash Market</strong>
+                </div>
+                <div class="event-pill">
+                  <span>Date</span>
+                  <strong>Saturday, July 18</strong>
+                </div>
+                <div class="event-pill">
+                  <span>Presented by</span>
+                  <strong>ABCDEF Entertainment</strong>
+                </div>
+              </div>
+            </div>
+            <p style="margin-top: 16px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent non lorem et velit vulputate vulputate. Donec sed purus porta, iaculis velit sed, vulputate sem.</p>
+          </article>
         </div>
-      </aside>
-    </section>
-  </main>
+      </section>
+
+      <section class="panel products" aria-label="Current kits">
+        <p class="section-intent">Current Products</p>
+        <h2>Seven kit cards in a clean grid.</h2>
+        <div class="products-grid">
+          <article class="product-card">
+            <div class="product-index">01</div>
+            <h3>Kit One</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          </article>
+          <article class="product-card">
+            <div class="product-index">02</div>
+            <h3>Kit Two</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          </article>
+          <article class="product-card">
+            <div class="product-index">03</div>
+            <h3>Kit Three</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          </article>
+          <article class="product-card">
+            <div class="product-index">04</div>
+            <h3>Kit Four</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          </article>
+          <article class="product-card">
+            <div class="product-index">05</div>
+            <h3>Kit Five</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          </article>
+          <article class="product-card">
+            <div class="product-index">06</div>
+            <h3>Kit Six</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          </article>
+          <article class="product-card" style="grid-column: 1 / -1; min-height: 126px; display: grid; align-content: center;">
+            <div class="product-index">07</div>
+            <h3>Kit Seven</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ac justo non lacus accumsan posuere vel non massa.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="full-width-note" aria-label="Layout notes">
+        <strong>Layout intention:</strong> the page is built around one high-energy logo object, then balanced with three straightforward content blocks: identity, event priority, and products. The yellow is reserved as an attention guide for indexes and highlights, while the magenta-purple-to-blue family carries the brand personality inspired by the energetic splatter-room feel from Pinspiration, updated with cleaner structure and softer glassy surfaces.
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const imageUrls = [
+      'https://images.pexels.com/photos/1193743/pexels-photo-1193743.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      'https://images.pexels.com/photos/1570264/pexels-photo-1570264.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      'https://images.pexels.com/photos/1191710/pexels-photo-1191710.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      'https://images.pexels.com/photos/1939485/pexels-photo-1939485.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      'https://images.pexels.com/photos/1269968/pexels-photo-1269968.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      'https://images.pexels.com/photos/1266808/pexels-photo-1266808.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      'https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      'https://images.pexels.com/photos/2693212/pexels-photo-2693212.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      'https://images.pexels.com/photos/1183992/pexels-photo-1183992.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      'https://images.pexels.com/photos/3119180/pexels-photo-3119180.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      'https://images.pexels.com/photos/844177/pexels-photo-844177.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      'https://images.pexels.com/photos/102127/pexels-photo-102127.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      'https://images.pexels.com/photos/1148998/pexels-photo-1148998.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      'https://images.pexels.com/photos/1194420/pexels-photo-1194420.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      'https://images.pexels.com/photos/1109354/pexels-photo-1109354.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      'https://images.pexels.com/photos/1193740/pexels-photo-1193740.jpeg?auto=compress&cs=tinysrgb&w=1600'
+    ];
+
+    const rotatorImage = document.getElementById('rotatorImage');
+    let currentIndex = 0;
+
+    function swapImage() {
+      currentIndex = (currentIndex + 1) % imageUrls.length;
+      rotatorImage.setAttribute('href', imageUrls[currentIndex]);
+    }
+
+    setInterval(swapImage, 1800);
+  </script>
 </body>
 </html>
