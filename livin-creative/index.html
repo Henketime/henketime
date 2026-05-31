@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Livin Creative</title>
+  <title>Livin Creative - Make Art For Life</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" media="print" onload="this.media='all'">
@@ -129,13 +129,6 @@
       backdrop-filter: blur(12px);
     }
 
-    .brand-lockup {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      min-width: 0;
-    }
-
     .brand-logo {
       width: 36px;
       height: 36px;
@@ -153,12 +146,6 @@
       overflow: hidden;
       text-overflow: ellipsis;
       align-self: center;
-    }
-
-    .nav-note {
-      font-size: var(--text-sm);
-      color: var(--text-muted);
-      text-align: right;
     }
 
     #main {
@@ -292,11 +279,6 @@
       pointer-events: none;
     }
 
-    .bacon-logo {
-      width: min(100%, 700px);
-      filter: drop-shadow(0 22px 32px rgba(130, 35, 152, 0.18));
-    }
-
     .logo-stroke {
       fill: url(#brandImageRotatorFrame);
       stroke: rgba(255,255,255,.92);
@@ -311,12 +293,8 @@
       pointer-events: none;
     }
 
-    .logo-glow {
-      fill: none;
-      stroke: rgba(255,216,77,.62);
-      stroke-width: 3;
-      stroke-dasharray: 8 10;
-      opacity: .9;
+    #rotatorImageA, #rotatorImageB {
+      transition: opacity 0.8s ease;
     }
 
     .side-stack {
@@ -332,10 +310,25 @@
       padding: var(--space-6);
     }
 
+    .info-card,
+    .event-card {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .info-card > p:last-child,
+    .event-card > p:last-child {
+      margin-top: auto;
+      padding-top: var(--space-4);
+    }
+
     .info-card p + p,
-    .info-card p + ul,
     .info-card ul + p {
       margin-top: var(--space-3);
+    }
+
+    .info-card p:has(+ ul) {
+      margin-bottom: var(--space-2);
     }
 
     .info-card ul {
@@ -359,11 +352,48 @@
     .event-highlight {
       display: grid;
       gap: var(--space-4);
+      margin-top: var(--space-4);
       padding: var(--space-5);
       border-radius: 26px;
       background: linear-gradient(135deg, rgba(187,68,221,0.92), rgba(122,109,255,0.92));
       color: white;
       box-shadow: 0 18px 40px rgba(111, 52, 163, 0.24);
+    }
+
+    /* Second event — muted, surface-toned */
+    .event-highlight.event-secondary {
+      background: linear-gradient(135deg, rgba(187,68,221,0.38), rgba(122,109,255,0.32));
+      color: var(--text-dark);
+      box-shadow: 0 8px 24px rgba(111, 52, 163, 0.10);
+    }
+    .event-highlight.event-secondary .event-label,
+    .event-highlight.event-secondary .event-pill span {
+      color: var(--text-muted);
+    }
+    .event-highlight.event-secondary .event-pill strong {
+      color: var(--text-dark);
+    }
+    .event-highlight.event-secondary .event-pill {
+      background: rgba(255,255,255,0.5);
+      border-color: rgba(187,68,221,0.15);
+    }
+
+    /* Third event — same as second, equally de-emphasised */
+    .event-highlight.event-tertiary {
+      background: linear-gradient(135deg, rgba(187,68,221,0.38), rgba(122,109,255,0.32));
+      color: var(--text-dark);
+      box-shadow: 0 8px 24px rgba(111, 52, 163, 0.10);
+    }
+    .event-highlight.event-tertiary .event-label,
+    .event-highlight.event-tertiary .event-pill span {
+      color: var(--text-muted);
+    }
+    .event-highlight.event-tertiary .event-pill strong {
+      color: var(--text-dark);
+    }
+    .event-highlight.event-tertiary .event-pill {
+      background: rgba(255,255,255,0.5);
+      border-color: rgba(187,68,221,0.15);
     }
 
     .event-label {
@@ -485,19 +515,6 @@
       font-size: var(--text-sm);
     }
 
-    .full-width-note {
-      margin-top: var(--space-8);
-      padding: var(--space-6);
-      border-radius: var(--radius-md);
-      border: 1px dashed rgba(187,68,221,0.24);
-      background: rgba(255,255,255,0.55);
-      color: var(--text-muted);
-    }
-
-    .full-width-note strong {
-      color: var(--text-dark);
-    }
-
     @media (max-width: 980px) {
       .hero-grid {
         grid-template-columns: 1fr;
@@ -568,13 +585,21 @@
             </defs>
 
             <g clip-path="url(#brandImageRotatorClip)">
-              <image id="rotatorImage"
+              <image id="rotatorImageA"
                 href="./_images/image_22.jpg"
-                xlink:href="./_images/image_22.jpg"
+                fetchpriority="high"
                 x="0" y="0"
                 width="2080"
                 height="1675"
                 preserveAspectRatio="xMidYMid slice"
+              />
+              <image id="rotatorImageB"
+                href=""
+                x="0" y="0"
+                width="2080"
+                height="1675"
+                preserveAspectRatio="xMidYMid slice"
+                style="opacity:0"
               />
             </g>
             <path class="logo-outline" d="M926.19 712.908C867.081 816.701 766.569 790.791 734.401 777.701C697.3 762.603 709.248 682.085 670.261 651.89C566.507 572.001 413.913 668.581 467.154 894.704C478.354 942.274 593.913 1171.8 560.517 1218.37C519.015 1276.25 430.484 1257.7 378.161 1220.26C266.184 1140.14 293.204 936.562 301.775 863.251C318.044 724.104 155.689 646.391 67.2267 749.393C-112.213 958.326 223.472 1573.16 402.056 1583.85C485.869 1588.87 671.818 1447.98 705.145 1445.01C728.178 1442.96 798.777 1668.21 873.668 1658.71C957.929 1648.01 1006.93 1427.18 1010.4 1367.59C1017.67 1242.91 1084.95 987.511 1150.98 1035.95C1186.3 1061.86 1091.14 1250.62 1131.18 1301.07C1228.32 1423.44 1373.91 1065.81 1441.19 1048.82C1508.47 1031.84 1499.04 1199.16 1615.37 1169.6C1686.51 1151.52 1785.45 1119.61 1969.69 791.248C2153.94 462.884 2032.28 202.749 1909.33 74.7598C1800.97 -38.0433 1677.17 21.3495 1708.74 169.746C1736.47 300.145 1836.06 666.787 1669.12 725.827C1640.19 726.665 1579.33 713.497 1567.25 654.115C1552.16 579.887 1615.37 520.419 1547.46 482.676C1479.55 444.933 1433.65 465.692 1395.29 495.257C1356.93 524.823 1322.01 681.793 1279.25 656.631C1236.49 631.469 1198.77 557.87 1254.73 476.094C1345.88 342.91 1111.94 247.244 1035.27 398.72C984.968 498.11 992.121 597.135 926.19 712.908Z"/>
@@ -587,8 +612,8 @@
           <article class="panel info-card copy-block">
             <p class="section-intent">Who we are</p>
             <h2>Art is discovery</h2>
-            <p>LIVIN Creative began somewhere between paint splatters and sketchbooks; late-night ideas and project lists; and the simple magic of making something with our hands.</p>
-            <p>We’re Liz and Kevin- lifelong creative explorers. Together, we built LIVIN Creative as a space where creativity can feel playful instead of pressured, inspiring instead of intimidating, and imperfect in all the best ways.</p>
+            <p>Livin Creative began somewhere between paint splatters and sketchbooks; late-night ideas and project lists; and the simple magic of making something with our hands.</p>
+            <p>We’re Liz and Kevin- lifelong creative explorers. Together, we built Livin Creative as a space where creativity can feel playful instead of pressured, inspiring instead of intimidating, and imperfect in all the best ways.</p>
             <p>Here, you’ll find adult craft kits, creative workshops, and hands-on experiences designed to help you reconnect with your own creative rhythm. From time to time, you’ll also find our handmade creations.</p>
             <p>We celebrate the many ways creativity shows up in our lives. That’s why we have kits for any occasion:</p>
             <ul>
@@ -598,30 +623,15 @@
               <li>Gentle nudge toward self-inspiration</li>
             </ul>
             <p>You found us, and we can’t wait to make things alongside you!</p>
-            <p><strong>Thank you for being part of this growing creative community.</strong></p>
+            <p style="text-align: center"><strong>Thank you for being part of this growing creative community!</strong></p>
           </article>
 
           <article class="panel event-card event-copy">
-            <p class="section-intent">Next Event</p>
+            <p class="section-intent">Events Schedule</p>
             <h2>We're out there</h2>
-            <div class="event-highlight" aria-label="Upcoming event announcement">
-              <p class="event-label">Upcoming appearance</p>
-              <div class="event-grid">
-                <div class="event-pill">
-                  <span>Event</span>
-                  <strong>Color Splash Market</strong>
-                </div>
-                <div class="event-pill">
-                  <span>Date</span>
-                  <strong>Saturday, July 18</strong>
-                </div>
-                <div class="event-pill">
-                  <span>Presented by</span>
-                  <strong>Livin Creative</strong>
-                </div>
-              </div>
-            </div>
-            <p style="margin-top: 16px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent non lorem et velit vulputate vulputate. Donec sed purus porta, iaculis velit sed, vulputate sem.</p>
+            <div id="events-container"></div>
+            <p id="no-events" style="display:none; margin-top: 16px; color: var(--text-muted);">No upcoming events at this time. Check back soon!</p>
+            <p style="text-align: center"><strong>Please don't be afraid to tell me if I have something in my teeth!</strong></p>
           </article>
         </div>
       </section>
@@ -636,7 +646,7 @@
               <h3>Forever Blooming Bouquets</h3>
               <p>Craft your own 5-stem bouquet of flowers that never fade. Bring a miniature colorful, playful element to your space. These charming bouquets make a wonderful gift for yourself and loved one.</p>
             </div>
-            <img class="product-card-image" src="./_images/image_42.jpg" alt="" aria-hidden="true" loading="lazy" width="400" height="400">
+            <img class="product-card-image" src="./_images/image_42.png" alt="" aria-hidden="true" loading="lazy" decoding="async" width="400" height="400">
           </article>
           <article class="product-card">
             <div class="product-card-content">
@@ -644,7 +654,7 @@
               <h3>Felt Geodes</h3>
               <p>Transform soft wool into a vibrant geode form! Using wet felting techniques, craft your own unique geological marvel. This fun, beginner-friendly kit contains the tools needed to create one large geode or two smaller ones.</p>
             </div>
-            <img class="product-card-image" src="./_images/image_42.jpg" alt="" aria-hidden="true" loading="lazy" width="400" height="400">
+            <img class="product-card-image" src="./_images/image_42.png" alt="" aria-hidden="true" loading="lazy" decoding="async" width="400" height="400">
           </article>
           <article class="product-card">
             <div class="product-card-content">
@@ -652,7 +662,7 @@
               <h3>Rolled Beeswax Candles</h3>
               <p>Create two taper candles with our hands-on candle-making kit.  Each kit features natural beeswax sheets for you to shape, layer, and roll a beautiful candle.</p>
             </div>
-            <img class="product-card-image" src="./_images/image_42.jpg" alt="" aria-hidden="true" loading="lazy" width="400" height="400">
+            <img class="product-card-image" src="./_images/image_42.png" alt="" aria-hidden="true" loading="lazy" decoding="async" width="400" height="400">
           </article>
           <article class="product-card">
             <div class="product-card-content">
@@ -660,7 +670,7 @@
               <h3>Sun Catcher</h3>
               <p>Build your own radiant sun catcher that transforms sunlight into shifting color and sparkle. A light-catching strand of prismatic beads to hang in a window and watch shine.</p>
             </div>
-            <img class="product-card-image" src="./_images/image_42.jpg" alt="" aria-hidden="true" loading="lazy" width="400" height="400">
+            <img class="product-card-image" src="./_images/image_42.png" alt="" aria-hidden="true" loading="lazy" decoding="async" width="400" height="400">
           </article>
           <article class="product-card">
             <div class="product-card-content">
@@ -668,7 +678,7 @@
               <h3>"Second Life" Hanging Flowers</h3>
               <p>With color and detail, create fun hanging flowers in our first “Second Life” art kit. A warm-weather creative experience that celebrates transformation. Available March through June.</p>
             </div>
-            <img class="product-card-image" src="./_images/image_42.jpg" alt="" aria-hidden="true" loading="lazy" width="400" height="400">
+            <img class="product-card-image" src="./_images/image_42.png" alt="" aria-hidden="true" loading="lazy" decoding="async" width="400" height="400">
           </article>
           <article class="product-card">
             <div class="product-card-content">
@@ -676,7 +686,7 @@
               <h3>Splatter Art</h3>
               <p>A collaborative date-night art experience for two, designed to connect creativity and chaos! Using canvas, paint, and a set of shared tools, you’ll co-create an expressive one-of-a-kind artwork.</p>
             </div>
-            <img class="product-card-image" src="./_images/image_42.jpg" alt="" aria-hidden="true" loading="lazy" width="400" height="400">
+            <img class="product-card-image" src="./_images/image_42.png" alt="" aria-hidden="true" loading="lazy" decoding="async" width="400" height="400">
           </article>
           <article class="product-card">
             <div class="product-card-content">
@@ -684,7 +694,7 @@
               <h3>Torn Paper Collage</h3>
               <p>A side-by-side date-night art experience. Each person tears their way through solid colored paper, layering, laughing, and laying the scraps out until the final product reveals itself! Includes two matte boards and a curated paper selection for everyone to choose from for making an intuitive, unique composition.</p>
             </div>
-            <img class="product-card-image" src="./_images/image_42.jpg" alt="" aria-hidden="true" loading="lazy" width="400" height="400">
+            <img class="product-card-image" src="./_images/image_42.png" alt="" aria-hidden="true" loading="lazy" decoding="async" width="400" height="400">
           </article>
         </div>
       </section>
@@ -711,7 +721,8 @@
       './_images/image_41.png'
     ];
 
-    const rotatorImage = document.getElementById('rotatorImage');
+    const imgA = document.getElementById('rotatorImageA');
+    const imgB = document.getElementById('rotatorImageB');
     // Fisher-Yates shuffle
     for (let i = imageUrls.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -719,6 +730,7 @@
     }
 
     let currentIndex = imageUrls.length - 1;
+    let showingA = true; // tracks which layer is currently visible
 
     // Preload a rolling window of the next N images ahead of current position
     const PRELOAD_AHEAD = 3;
@@ -739,8 +751,20 @@
 
     function swapImage() {
       currentIndex = (currentIndex + 1) % imageUrls.length;
-      rotatorImage.setAttribute('href', imageUrls[currentIndex]);
-      rotatorImage.setAttribute('xlink:href', imageUrls[currentIndex]);
+      const src = imageUrls[currentIndex];
+
+      if (showingA) {
+        // Load next image into B, then fade B in and A out
+        imgB.setAttribute('href', src);
+        imgB.style.opacity = '1';
+        imgA.style.opacity = '0';
+      } else {
+        // Load next image into A, then fade A in and B out
+        imgA.setAttribute('href', src);
+        imgA.style.opacity = '1';
+        imgB.style.opacity = '0';
+      }
+      showingA = !showingA;
       preloadAhead();
     }
 
@@ -750,19 +774,88 @@
     const header = document.querySelector('.site-header');
     const logoStage = document.querySelector('.logo-stage');
 
+    let rafPending = false;
     function updateHeaderBg() {
       const stageBounds = logoStage.getBoundingClientRect();
-      // Header has cleared the rotator when the stage's bottom is above the header's bottom
-      const headerBottom = header.getBoundingClientRect().bottom;
-      if (stageBounds.bottom <= headerBottom) {
-        header.classList.add('scrolled-past');
-      } else {
-        header.classList.remove('scrolled-past');
-      }
+      header.classList.toggle('scrolled-past', stageBounds.bottom <= header.getBoundingClientRect().bottom);
+      rafPending = false;
     }
 
-    window.addEventListener('scroll', updateHeaderBg, { passive: true });
+    window.addEventListener('scroll', () => {
+      if (!rafPending) { rafPending = true; requestAnimationFrame(updateHeaderBg); }
+    }, { passive: true });
     updateHeaderBg();
+    // ── Upcoming events ──────────────────────────────────────────────
+    const events = [
+      {
+        date: new Date('2026-06-07T09:00:00-04:00'),
+        name: 'Painted Platters and Pints',
+        label: 'Craft market',
+        presentedBy: "Potter's Craft Cider",
+        description: 'A day of perusing cool crafts, sipping craft cider, and listening to WTJU DJs hone their craft of musical selection. Vendor Market is from 1-5pm, DJs spin vinyl from 1-6pm.'
+      },
+      {
+        date: new Date('2026-06-21T09:00:00-04:00'),
+        name: 'Summer Solstice Fair',
+        label: 'Outdoor festival',
+        presentedBy: 'Downtown Arts District',
+        description: 'Celebrate the longest day of the year with us at the annual Summer Solstice Fair. Come make something and take it home.'
+      },
+      {
+        date: new Date('2026-06-28T09:00:00-04:00'),
+        name: 'Handmade Holiday Pop-Up',
+        label: 'Pop-up shop',
+        presentedBy: 'Livin Creative',
+        description: 'A curated pop-up featuring our full kit lineup plus exclusive workshop spots. First come, first served.'
+      },
+      {
+        date: new Date('2026-07-12T09:00:00-04:00'),
+        name: 'Color Splash Market',
+        label: 'Upcoming appearance',
+        presentedBy: 'Livin Creative',
+        description: 'Our flagship summer market appearance — kits, demos, and all the color you can handle.'
+      }
+    ];
+
+    const MAX_EVENTS = 2;
+    // Compare against today in America/New_York
+    const todayET = new Date(new Date().toLocaleDateString('en-US', { timeZone: 'America/New_York' }));
+
+    const upcomingEvents = events
+      .filter(e => e.date >= todayET)
+      .slice(0, MAX_EVENTS);
+
+    const container = document.getElementById('events-container');
+    const noEvents = document.getElementById('no-events');
+
+    if (upcomingEvents.length === 0) {
+      noEvents.style.display = '';
+    } else {
+      const etFormatter = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'America/New_York',
+        weekday: 'long',
+        month: 'long',
+        day: 'numeric'
+      });
+
+      upcomingEvents.forEach((ev, i) => {
+        const dateStr = etFormatter.format(ev.date);
+        const el = document.createElement('div');
+        const modifiers = ['', 'event-secondary', 'event-tertiary'];
+        el.className = ('event-highlight ' + (modifiers[i] ?? 'event-tertiary')).trim();
+        if (i > 0) el.style.marginTop = 'var(--space-4)';
+        el.setAttribute('aria-label', ev.name);
+        el.innerHTML = `
+          <p class="event-label">${ev.label}</p>
+          <div class="event-grid">
+            <div class="event-pill"><span>Event</span><strong>${ev.name}</strong></div>
+            <div class="event-pill"><span>Date</span><strong>${dateStr}</strong></div>
+            <div class="event-pill"><span>Presented by</span><strong>${ev.presentedBy}</strong></div>
+          </div>
+          <p style="margin-top:12px;font-size:var(--text-sm);color:${i === 0 ? 'rgba(255,255,255,0.85)' : 'var(--text-muted)'}">${ev.description}</p>`;
+        container.appendChild(el);
+      });
+    }
   </script>
 </body>
 </html>
