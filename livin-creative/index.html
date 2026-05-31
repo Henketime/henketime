@@ -890,6 +890,12 @@
 
     // ── Clip-path jiggle via SMIL (runs once; zero JS per frame after setup) ──
     (function () {
+      // Skip on low-end devices or when user prefers reduced motion
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const lowMemory     = navigator.deviceMemory !== undefined && navigator.deviceMemory < 4;
+      const lowCPU        = navigator.hardwareConcurrency !== undefined && navigator.hardwareConcurrency < 4;
+      if (reducedMotion || lowMemory || lowCPU) return;
+
       const NUM_FRAMES = 6;   // keyframe count (not counting loop-back)
       const AMPLITUDE  = 18;  // max shift in SVG units (~0.9% of 2080-wide canvas)
       const DURATION   = '1s';
