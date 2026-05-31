@@ -14,7 +14,7 @@
       --surface: rgba(255,255,255,0.72);
       --surface-strong: rgba(255,255,255,0.88);
       --text: #622474;
-      --text-dark: #31123f;
+      --text-dark: #53196e;
       --text-muted: #6d4f7e;
 
       /* Primary */
@@ -282,7 +282,7 @@
       pointer-events: none;
       transform: rotate(-4deg);
       transform-origin: center center;
-      -webkit-text-stroke: 2px var(--text-dark);
+      -webkit-text-stroke: 3px #eeddff;
       paint-order: stroke fill;
     }
 
@@ -812,7 +812,7 @@
     const events = [
       {
         date: new Date('2026-06-07T09:00:00-04:00'),
-        name: 'Painted Platters and Pints',
+        name: 'Prints, Platters, and Pints',
         label: 'Craft market',
         presentedBy: "Potter's Craft Cider",
         description: 'A day of perusing cool crafts, sipping craft cider, and listening to WTJU DJs hone their craft of musical selection. Vendor Market is from 1-5pm, DJs spin vinyl from 1-6pm.'
@@ -884,7 +884,7 @@
     (function () {
       const NUM_FRAMES = 6;   // keyframe count (not counting loop-back)
       const AMPLITUDE  = 18;  // max shift in SVG units (~0.9% of 2080-wide canvas)
-      const DURATION   = '3s';
+      const DURATION   = '1s';
 
       // Seeded LCG so each call to rand() is deterministic per path × frame
       function makeRand(seed) {
