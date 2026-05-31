@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Livin Creative - Make Art For Life</title>
+  <title>Livin Creative - Mess Around and Find Art</title>
+  <!-- <title>Livin Creative - Make Art For Life</title> -->
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" media="print" onload="this.media='all'">
@@ -582,9 +583,20 @@
                 <path d="M440.413 598.129C471.448 539.142 450.758 435.139 363.862 415.476C276.966 395.814 190.588 492.574 244.38 591.92C271.794 645.733 409.379 657.116 440.413 598.129Z"/>
                 <path d="M1562.18 273.735C1596.96 179.444 1541.04 111.903 1449.66 118.59C1358.28 125.277 1268.27 208.2 1316.68 307.171C1365.1 406.143 1527.4 368.026 1562.18 273.735Z"/>
               </clipPath>
+              <!-- GPU-accelerated displacement filter — no JS per frame -->
+              <filter id="logoJiggle" x="-4%" y="-4%" width="108%" height="108%" color-interpolation-filters="linearRGB">
+                <feTurbulence type="turbulence" baseFrequency="0.008 0.006" numOctaves="2" result="noise">
+                  <animate attributeName="baseFrequency"
+                    values="0.008 0.006;0.012 0.010;0.007 0.011;0.011 0.007;0.008 0.006"
+                    dur="6s" repeatCount="indefinite" calcMode="spline"
+                    keySplines="0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1"/>
+                </feTurbulence>
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="38"
+                  xChannelSelector="R" yChannelSelector="G"/>
+              </filter>
             </defs>
 
-            <g clip-path="url(#brandImageRotatorClip)">
+            <g clip-path="url(#brandImageRotatorClip)" filter="url(#logoJiggle)">
               <image id="rotatorImageA"
                 href="./_images/image_22.jpg"
                 fetchpriority="high"
@@ -857,70 +869,6 @@
       });
     }
 
-    // ── Organic path jiggle ───────────────────────────────────────────
-    (function() {
-      const AMPLITUDE = 16;  // max displacement in SVG units (~0.8% of canvas)
-      const SPEED = 0.28; // rad/ms — ~1 full cycle per ~22s per point
-
-      // Parse a path d string into command letters and numbers,
-      // assigning each number its own oscillation parameters
-      function parsePath(d) {
-        const tokens = [];
-        const re = /([MmCcLlZz])|(-?[\d.]+(?:e[+-]?\d+)?)/g;
-        let m;
-        while ((m = re.exec(d)) !== null) {
-          if (m[1]) {
-            tokens.push({ cmd: m[1] });
-          } else {
-            tokens.push({
-              base: parseFloat(m[2]),
-              freq: 0.3 + Math.random() * 0.9,
-              phase: Math.random() * Math.PI * 2,
-              amp: (0.4 + Math.random() * 0.6) * AMPLITUDE
-            });
-          }
-        }
-        return tokens;
-      }
-
-      function buildPath(tokens, t) {
-        let d = '';
-        for (const tok of tokens) {
-          if (tok.cmd) { d += tok.cmd; continue; }
-          d += (tok.base + Math.sin(t * tok.freq + tok.phase) * tok.amp).toFixed(2) + ' ';
-        }
-        return d;
-      }
-
-      // Grab clip paths and matching outline paths
-      const clipEls = document.querySelectorAll('#brandImageRotatorClip path');
-      const outlineEls = document.querySelectorAll('.logo-outline');
-
-      // Pre-parse each path's tokens once
-      const tokenSets = Array.from(clipEls).map(el => parsePath(el.getAttribute('d')));
-
-      let animating = true;
-
-      function jiggle(ts) {
-        if (!animating) return;
-        const t = ts * SPEED;
-        tokenSets.forEach((tokens, i) => {
-          const d = buildPath(tokens, t);
-          clipEls[i].setAttribute('d', d);
-          if (outlineEls[i]) outlineEls[i].setAttribute('d', d);
-        });
-        requestAnimationFrame(jiggle);
-      }
-
-      // Pause when logo-stage scrolls out of view
-      const obs = new IntersectionObserver(entries => {
-        animating = entries[0].isIntersecting;
-        if (animating) requestAnimationFrame(jiggle);
-      }, { threshold: 0 });
-      obs.observe(document.querySelector('.logo-stage'));
-
-      requestAnimationFrame(jiggle);
-    })();
   </script>
 </body>
 </html>
