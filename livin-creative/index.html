@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Livin Creative - Mess Around and Find Art</title>
+  <link rel="preload" as="image" href="./_images/image_22.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700;800;900&display=swap" media="print" onload="this.media='all'">
@@ -120,12 +121,14 @@
       padding: 10px 16px 10px 10px;
       background: rgba(255,255,255,0);
       border-radius: 30px;
-      transition: background 0.35s ease, backdrop-filter 0.35s ease;
+      transition: background 0.35s ease;
+      width: -webkit-fit-content;
       width: fit-content;
     }
 
     .site-header.scrolled-past {
       background: rgba(255,255,255,0.5);
+      -webkit-backdrop-filter: blur(12px);
       backdrop-filter: blur(12px);
     }
 
@@ -165,6 +168,7 @@
       overflow: hidden;
       border: 1px solid var(--line);
       background: var(--surface);
+      -webkit-backdrop-filter: blur(18px);
       backdrop-filter: blur(18px);
       border-radius: var(--radius-lg);
       box-shadow: var(--shadow);
@@ -188,6 +192,7 @@
       display: inline-flex;
       align-items: center;
       gap: 10px;
+      width: -webkit-fit-content;
       width: fit-content;
       padding: 10px 14px;
       border-radius: 999px;
@@ -258,6 +263,7 @@
       border-radius: 30px;
       overflow: hidden;
       isolation: isolate;
+      contain: paint;
     }
 
     .logo-stage .brand-svg {
@@ -271,7 +277,7 @@
       margin-top: -1.8em;
       padding: 0 2rem;
       text-align: center;
-      font-family: var(--font-display, var(--font-sans));
+      font-family: "Fredoka", system-ui, sans-serif;
       font-size: clamp(2.5rem, 6.5vw, 6rem);
       font-weight: 900;
       line-height: 1;
@@ -282,6 +288,7 @@
       pointer-events: none;
       transform: rotate(-4deg);
       transform-origin: center center;
+      will-change: transform;
       -webkit-text-stroke: 3px #eeddff;
       paint-order: stroke fill;
     }
@@ -316,6 +323,7 @@
 
     #rotatorImageA, #rotatorImageB {
       transition: opacity 0.8s ease;
+      will-change: opacity;
     }
 
     .side-stack {
@@ -500,6 +508,7 @@
     }
 
     .product-index {
+      width: -webkit-fit-content;
       width: fit-content;
       border-radius: 12px;
       display: grid;
@@ -609,7 +618,6 @@
             <g clip-path="url(#brandImageRotatorClip)">
               <image id="rotatorImageA"
                 href="./_images/image_22.jpg"
-                fetchpriority="high"
                 x="0" y="0"
                 width="2080"
                 height="1675"
