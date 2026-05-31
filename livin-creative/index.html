@@ -640,6 +640,7 @@
             <g clip-path="url(#brandImageRotatorClip)">
               <image id="rotatorImageA"
                 href="./_images/image_22.png"
+                xlink:href="./_images/image_22.png"
                 x="0" y="0"
                 width="2080"
                 height="1675"
@@ -647,6 +648,7 @@
               />
               <image id="rotatorImageB"
                 href=""
+                xlink:href=""
                 x="0" y="0"
                 width="2080"
                 height="1675"
@@ -810,6 +812,7 @@
 
       // Show the first image right away (no fade needed)
       imgA.setAttribute('href', imageUrls[0]);
+      imgA.setAttributeNS('http://www.w3.org/1999/xlink', 'href', imageUrls[0]);
       imgA.style.opacity = '1';
       imgB.style.opacity = '0';
 
@@ -836,6 +839,7 @@
         const outgoing  = onLayerA ? imgA : imgB;
 
         incoming.setAttribute('href', nextSrc);
+        incoming.setAttributeNS('http://www.w3.org/1999/xlink', 'href', nextSrc);
         incoming.style.opacity = '1';
         outgoing.style.opacity  = '0';
 
@@ -934,11 +938,13 @@
 
     // ── Clip-path jiggle via SMIL (runs once; zero JS per frame after setup) ──
     (function () {
-      // Skip on low-end devices or when user prefers reduced motion
+      // Skip on iOS (WebKit on iPhone has inconsistent SMIL+clipPath support),
+      // low-end devices, or when user prefers reduced motion
+      const isIOS        = /iP(hone|ad|od)/.test(navigator.userAgent);
       const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const lowMemory     = navigator.deviceMemory !== undefined && navigator.deviceMemory < 4;
       const lowCPU        = navigator.hardwareConcurrency !== undefined && navigator.hardwareConcurrency < 4;
-      if (reducedMotion || lowMemory || lowCPU) return;
+      if (isIOS || reducedMotion || lowMemory || lowCPU) return;
 
       const NUM_FRAMES = 6;   // keyframe count (not counting loop-back)
       const AMPLITUDE  = 18;  // max shift in SVG units (~0.9% of 2080-wide canvas)
