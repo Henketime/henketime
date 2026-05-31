@@ -262,14 +262,23 @@
     .logo-stage {
       grid-column: 1 / -1;
       position: relative;
+      /* aspect-ratio for modern browsers; padding-top trick as universal fallback */
       aspect-ratio: 16 / 9;
-      min-height: unset;
       border-radius: 30px;
       overflow: hidden;
       isolation: isolate;
     }
 
-    .logo-stage .brand-svg {
+    /* Padding-top trick: 9/16 = 56.25% — percentage padding is always % of WIDTH,
+       so this reliably gives a 16:9 height on every browser including old iOS WebKit */
+    .logo-stage::before {
+      content: '';
+      display: block;
+      padding-top: 56.25%;
+    }
+
+    .logo-stage .brand-svg,
+    .logo-stage .stage-splashes {
       position: absolute;
       top: 0;
       left: 0;
