@@ -4,22 +4,43 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ABCDEF Entertainment Layout Study</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap"></noscript>
   <style>
     :root {
       --bg: #fff8ff;
       --surface: rgba(255,255,255,0.72);
       --surface-strong: rgba(255,255,255,0.88);
-      --text: #31123f;
+      --text: #622474;
+      --text-dark: #31123f;
       --text-muted: #6d4f7e;
+
+      /* Primary */
       --brand: #bb44dd;
       --brand-deep: #8a22ae;
-      --analog-1: #ff5aa9;
-      --analog-2: #7a6dff;
-      --accent: #ffd84d;
-      --accent-deep: #f2b705;
+
+      /* Analogous — blue-violet → pink */
+      --analog-a: #7a44ee;
+      --analog-b: #aa44ff;
+      --analog-c: #dd44bb;
+      --analog-d: #ff5aaa;
+
+      /* Complementary yellows */
+      --yellow-solo: #ffc880;      /* pale yellow-orange — Solo/group kit */
+      --yellow-solo-deep: #e09040;
+      --yellow-date: #ffd84d;      /* core yellow — Date-night kit */
+      --yellow-date-deep: #f2b705;
+      --yellow-workshop: #c8e855;  /* pale yellow-green — Workshop */
+      --yellow-workshop-deep: #8aaa10;
+
+      /* Legacy aliases kept for existing usage */
+      --analog-1: var(--analog-d);
+      --analog-2: var(--analog-a);
+      --accent: var(--yellow-date);
+      --accent-deep: var(--yellow-date-deep);
+
       --line: rgba(104, 34, 130, 0.12);
       --shadow: 0 24px 80px rgba(123, 48, 146, 0.16);
       --radius-sm: 16px;
@@ -32,7 +53,7 @@
       --space-5: 1.25rem;
       --space-6: 1.5rem;
       --space-8: 2rem;
-      --space-10: 2.5rem;
+      --header-height: 68px; /* logo 36px + padding 20px top+bottom + sticky top 12px */
       --space-12: 3rem;
       --space-16: 4rem;
       --space-20: 5rem;
@@ -69,6 +90,8 @@
       width: min(calc(100% - 32px), var(--content));
       margin: 0 auto;
       padding: var(--space-6) 0 var(--space-16);
+      display: flex;
+      flex-direction: column;
     }
 
     .skip-link {
@@ -83,21 +106,27 @@
     }
     .skip-link:focus { top: 12px; }
 
-    .site-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: var(--space-4);
-      margin-bottom: var(--space-8);
-      padding: 14px 18px;
+    .header-wrap {
       position: sticky;
       top: 12px;
       z-index: 10;
-      backdrop-filter: blur(16px);
-      background: rgba(255,255,255,0.62);
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      box-shadow: var(--shadow);
+      margin-bottom: 0;
+    }
+
+    .site-header {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-4);
+      padding: 10px 16px 10px 10px;
+      background: rgba(255,255,255,0);
+      border-radius: 30px;
+      transition: background 0.35s ease, backdrop-filter 0.35s ease;
+      width: fit-content;
+    }
+
+    .site-header.scrolled-past {
+      background: rgba(255,255,255,0.5);
+      backdrop-filter: blur(12px);
     }
 
     .brand-lockup {
@@ -108,48 +137,32 @@
     }
 
     .brand-logo {
-      width: 44px;
-      height: 44px;
+      width: 36px;
+      height: 36px;
       flex: 0 0 auto;
-      border-radius: 14px;
-      background: linear-gradient(135deg, var(--brand), var(--analog-1));
-      display: grid;
-      place-items: center;
-      color: white;
-      box-shadow: 0 10px 25px rgba(187,68,221,0.28);
-    }
-
-    .brand-mark {
-      width: 26px;
-      height: 20px;
-    }
-
-    .brand-text {
-      min-width: 0;
-    }
-
-    .eyebrow {
-      margin: 0 0 2px;
-      font-size: var(--text-xs);
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: var(--brand-deep);
-      font-weight: 700;
+      display: flex;
+      align-items: center;
     }
 
     .brand-name {
       margin: 0;
-      font-size: var(--text-sm);
+      font-size: 1.5rem;
       font-weight: 700;
+      line-height: 1;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      align-self: center;
     }
 
     .nav-note {
       font-size: var(--text-sm);
       color: var(--text-muted);
       text-align: right;
+    }
+
+    #main {
+      margin-top: calc(-1 * var(--header-height));
     }
 
     .hero-grid {
@@ -172,10 +185,6 @@
 
     .feature-panel {
       padding: clamp(1.25rem, 2vw, 1.8rem);
-      min-height: 640px;
-      display: grid;
-      grid-template-rows: auto auto 1fr auto;
-      gap: var(--space-6);
     }
 
     .panel::before {
@@ -217,6 +226,7 @@
       font-family: "Space Grotesk", system-ui, sans-serif;
       line-height: 0.95;
       letter-spacing: -0.04em;
+      color: var(--text-dark);
     }
 
     h1 {
@@ -248,21 +258,24 @@
     }
 
     .layout-caption strong {
-      color: var(--text);
+      color: var(--text-dark);
     }
 
     .logo-stage {
+      grid-column: 1 / -1;
       position: relative;
       display: grid;
       place-items: center;
-      min-height: 330px;
+      aspect-ratio: 16 / 9;
+      min-height: unset;
       border-radius: 30px;
       overflow: hidden;
       isolation: isolate;
-      background:
-        radial-gradient(circle at 20% 24%, rgba(255,255,255,0.48), transparent 22%),
-        linear-gradient(135deg, rgba(255,90,169,0.15), rgba(122,109,255,0.18));
-      border: 1px solid rgba(255,255,255,0.72);
+    }
+
+    .logo-stage .brand-svg {
+      width: 100%;
+      height: 100%;
     }
 
     .stage-splashes {
@@ -285,10 +298,17 @@
     }
 
     .logo-stroke {
-      fill: url(#baconFrame);
+      fill: url(#brandImageRotatorFrame);
       stroke: rgba(255,255,255,.92);
-      stroke-width: 8;
+      stroke-width: 20;
       paint-order: stroke fill;
+    }
+
+    .logo-outline {
+      fill: none;
+      stroke: rgba(255,255,255,0.72);
+      stroke-width: 28;
+      pointer-events: none;
     }
 
     .logo-glow {
@@ -300,7 +320,9 @@
     }
 
     .side-stack {
+      grid-column: 1 / -1;
       display: grid;
+      grid-template-columns: 1fr 1fr;
       gap: var(--space-6);
     }
 
@@ -310,6 +332,21 @@
       padding: var(--space-6);
     }
 
+    .info-card p + p,
+    .info-card p + ul,
+    .info-card ul + p {
+      margin-top: var(--space-3);
+    }
+
+    .info-card ul {
+      padding-left: var(--space-5);
+      margin: 0;
+    }
+
+    .info-card li {
+      margin-bottom: var(--space-1);
+    }
+
     .section-intent {
       margin: 0 0 var(--space-3);
       font-size: var(--text-sm);
@@ -317,13 +354,6 @@
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.12em;
-    }
-
-    .copy-block p,
-    .event-copy p {
-      margin: 0;
-      color: var(--text-muted);
-      max-width: 58ch;
     }
 
     .event-highlight {
@@ -381,12 +411,31 @@
 
     .product-card {
       position: relative;
-      padding: var(--space-4);
+      padding: var(--space-4) 0 var(--space-4) var(--space-4);
       border-radius: 22px;
       background: var(--surface-strong);
       border: 1px solid rgba(187,68,221,0.12);
       min-height: 112px;
       overflow: hidden;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: var(--space-3, 0.75rem);
+      align-items: stretch;
+    }
+
+    .product-card-content {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .product-card-image {
+      width: 140px;
+      height: 100%;
+      border-radius: 12px 22px 22px 12px;
+      object-fit: cover;
+      display: block;
     }
 
     .product-card::after {
@@ -400,17 +449,28 @@
     }
 
     .product-index {
-      width: 34px;
-      height: 34px;
+      width: fit-content;
       border-radius: 12px;
       display: grid;
       place-items: center;
+      padding: 5px var(--space-2);
       margin-bottom: var(--space-3);
-      background: linear-gradient(135deg, rgba(255,216,77,0.96), rgba(255,195,0,0.92));
+      background: linear-gradient(135deg, var(--yellow-solo), var(--yellow-solo-deep));
       color: #513900;
       font-size: var(--text-sm);
       font-weight: 700;
-      box-shadow: 0 10px 18px rgba(255,216,77,0.2);
+      box-shadow: 0 10px 18px rgba(255,200,128,0.25);
+    }
+
+    .product-index.date-night {
+      background: linear-gradient(135deg, var(--yellow-date), var(--yellow-date-deep));
+      box-shadow: 0 10px 18px rgba(255,216,77,0.25);
+    }
+
+    .product-index.workshop {
+      background: linear-gradient(135deg, var(--yellow-workshop), var(--yellow-workshop-deep));
+      color: #2a3a00;
+      box-shadow: 0 10px 18px rgba(180,220,50,0.25);
     }
 
     .product-card h3 {
@@ -423,7 +483,6 @@
       margin: 0;
       color: var(--text-muted);
       font-size: var(--text-sm);
-      max-width: 26ch;
     }
 
     .full-width-note {
@@ -436,7 +495,7 @@
     }
 
     .full-width-note strong {
-      color: var(--text);
+      color: var(--text-dark);
     }
 
     @media (max-width: 980px) {
@@ -444,8 +503,13 @@
         grid-template-columns: 1fr;
       }
 
-      .feature-panel {
-        min-height: auto;
+      .logo-stage {
+        grid-column: auto;
+      }
+
+      .side-stack {
+        grid-column: auto;
+        grid-template-columns: 1fr;
       }
     }
 
@@ -454,14 +518,6 @@
         width: min(calc(100% - 20px), var(--content));
         padding-top: var(--space-4);
       }
-
-      .site-header {
-        position: static;
-        border-radius: 26px;
-        padding: 16px;
-      }
-
-      .nav-note { display: none; }
 
       .feature-panel,
       .info-card,
@@ -474,82 +530,80 @@
       .event-grid {
         grid-template-columns: 1fr;
       }
-
-      .logo-stage {
-        min-height: 250px;
-      }
     }
   </style>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
   <div class="page-shell">
+    <div class="header-wrap">
     <header class="site-header" aria-label="Site header">
-      <div class="brand-lockup">
-        <div class="brand-logo" aria-hidden="true">
-          <svg class="brand-mark" viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M8 26C18 14 34 10 50 16C64 21 74 18 85 13C97 8 109 11 112 22C115 33 108 42 96 46C83 50 73 57 60 63C43 70 24 68 13 58C2 48 -1 36 8 26Z" fill="currentColor" opacity=".95"/>
-            <path d="M18 31C28 24 40 22 52 26C62 30 72 29 84 22C93 17 101 18 103 26C105 34 99 39 88 43C77 47 69 53 57 57C42 62 28 60 20 53C12 47 10 38 18 31Z" fill="white" opacity=".18"/>
-          </svg>
-        </div>
-        <div class="brand-text">
-          <p class="eyebrow">Layout Study</p>
-          <p class="brand-name">ABCDEF Entertainment</p>
-        </div>
+      <div class="brand-logo" aria-hidden="true">
+        <svg class="brand-svg" viewBox="0 0 2080 1675" role="img" aria-label="Livin Creative logomark">
+          <path class="logo-stroke" d="M926.19 712.908C867.081 816.701 766.569 790.791 734.401 777.701C697.3 762.603 709.248 682.085 670.261 651.89C566.507 572.001 413.913 668.581 467.154 894.704C478.354 942.274 593.913 1171.8 560.517 1218.37C519.015 1276.25 430.484 1257.7 378.161 1220.26C266.184 1140.14 293.204 936.562 301.775 863.251C318.044 724.104 155.689 646.391 67.2267 749.393C-112.213 958.326 223.472 1573.16 402.056 1583.85C485.869 1588.87 671.818 1447.98 705.145 1445.01C728.178 1442.96 798.777 1668.21 873.668 1658.71C957.929 1648.01 1006.93 1427.18 1010.4 1367.59C1017.67 1242.91 1084.95 987.511 1150.98 1035.95C1186.3 1061.86 1091.14 1250.62 1131.18 1301.07C1228.32 1423.44 1373.91 1065.81 1441.19 1048.82C1508.47 1031.84 1499.04 1199.16 1615.37 1169.6C1686.51 1151.52 1785.45 1119.61 1969.69 791.248C2153.94 462.884 2032.28 202.749 1909.33 74.7598C1800.97 -38.0433 1677.17 21.3495 1708.74 169.746C1736.47 300.145 1836.06 666.787 1669.12 725.827C1640.19 726.665 1579.33 713.497 1567.25 654.115C1552.16 579.887 1615.37 520.419 1547.46 482.676C1479.55 444.933 1433.65 465.692 1395.29 495.257C1356.93 524.823 1322.01 681.793 1279.25 656.631C1236.49 631.469 1198.77 557.87 1254.73 476.094C1345.88 342.91 1111.94 247.244 1035.27 398.72C984.968 498.11 992.121 597.135 926.19 712.908Z"/>
+          <path class="logo-stroke" d="M440.413 598.129C471.448 539.142 450.758 435.139 363.862 415.476C276.966 395.814 190.588 492.574 244.38 591.92C271.794 645.733 409.379 657.116 440.413 598.129Z"/>
+          <path class="logo-stroke" d="M1562.18 273.735C1596.96 179.444 1541.04 111.903 1449.66 118.59C1358.28 125.277 1268.27 208.2 1316.68 307.171C1365.1 406.143 1527.4 368.026 1562.18 273.735Z"/>
+        </svg>
       </div>
-      <div class="nav-note">Light-hearted, colorful, modern blocks for visual review</div>
+      <p class="brand-name">Livin Creative</p>
     </header>
+    </div>
 
     <main id="main">
       <section class="hero-grid" aria-label="Main layout blocks">
-        <article class="panel feature-panel">
-          <div class="kicker"><span class="kicker-dot"></span>Main Feature</div>
-          <div>
-            <h1>Animated logo gallery as the centerpiece.</h1>
-          </div>
-          <div class="logo-stage" aria-label="Placeholder bacon logo with rotating colorful images">
-            <div class="stage-splashes" aria-hidden="true"></div>
-            <svg class="bacon-logo" viewBox="0 0 920 430" role="img" aria-label="Placeholder logo shaped like a wavy strip of bacon showing rotating colorful art images inside the cutout">
-              <defs>
-                <linearGradient id="baconFrame" x1="50" y1="20" x2="860" y2="410" gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#ff5aa9"/>
-                  <stop offset="0.45" stop-color="#bb44dd"/>
-                  <stop offset="1" stop-color="#7a6dff"/>
-                </linearGradient>
-                <clipPath id="baconClip">
-                  <path d="M86 161C140 103 232 85 323 112C389 132 447 128 520 102C592 77 659 72 713 90C775 110 825 157 829 217C833 279 786 330 710 348C635 365 570 367 491 337C432 315 383 311 319 328C228 352 139 347 86 300C37 257 36 214 86 161Z"/>
-                </clipPath>
-                <filter id="innerGlow" x="0" y="0" width="100%" height="100%">
-                  <feGaussianBlur stdDeviation="16" result="blur"/>
-                  <feColorMatrix in="blur" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 .45 0" result="soft"/>
-                  <feBlend in="SourceGraphic" in2="soft" mode="screen"/>
-                </filter>
-              </defs>
+        <div class="logo-stage" aria-label="Livin Creative logo with rotating colorful images">
+          <div class="stage-splashes" aria-hidden="true"></div>
+          <svg class="brand-svg" viewBox="0 0 2080 1675" role="img" aria-label="Livin Creative logomark">
+            <defs>
+              <linearGradient id="brandImageRotatorFrame" x1="0" y1="0" x2="2080" y2="1675" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#ff5aa9"/>
+                <stop offset="0.45" stop-color="#bb44dd"/>
+                <stop offset="1" stop-color="#7a6dff"/>
+              </linearGradient>
+              <clipPath id="brandImageRotatorClip">
+                <path d="M926.19 712.908C867.081 816.701 766.569 790.791 734.401 777.701C697.3 762.603 709.248 682.085 670.261 651.89C566.507 572.001 413.913 668.581 467.154 894.704C478.354 942.274 593.913 1171.8 560.517 1218.37C519.015 1276.25 430.484 1257.7 378.161 1220.26C266.184 1140.14 293.204 936.562 301.775 863.251C318.044 724.104 155.689 646.391 67.2267 749.393C-112.213 958.326 223.472 1573.16 402.056 1583.85C485.869 1588.87 671.818 1447.98 705.145 1445.01C728.178 1442.96 798.777 1668.21 873.668 1658.71C957.929 1648.01 1006.93 1427.18 1010.4 1367.59C1017.67 1242.91 1084.95 987.511 1150.98 1035.95C1186.3 1061.86 1091.14 1250.62 1131.18 1301.07C1228.32 1423.44 1373.91 1065.81 1441.19 1048.82C1508.47 1031.84 1499.04 1199.16 1615.37 1169.6C1686.51 1151.52 1785.45 1119.61 1969.69 791.248C2153.94 462.884 2032.28 202.749 1909.33 74.7598C1800.97 -38.0433 1677.17 21.3495 1708.74 169.746C1736.47 300.145 1836.06 666.787 1669.12 725.827C1640.19 726.665 1579.33 713.497 1567.25 654.115C1552.16 579.887 1615.37 520.419 1547.46 482.676C1479.55 444.933 1433.65 465.692 1395.29 495.257C1356.93 524.823 1322.01 681.793 1279.25 656.631C1236.49 631.469 1198.77 557.87 1254.73 476.094C1345.88 342.91 1111.94 247.244 1035.27 398.72C984.968 498.11 992.121 597.135 926.19 712.908Z"/>
+                <path d="M440.413 598.129C471.448 539.142 450.758 435.139 363.862 415.476C276.966 395.814 190.588 492.574 244.38 591.92C271.794 645.733 409.379 657.116 440.413 598.129Z"/>
+                <path d="M1562.18 273.735C1596.96 179.444 1541.04 111.903 1449.66 118.59C1358.28 125.277 1268.27 208.2 1316.68 307.171C1365.1 406.143 1527.4 368.026 1562.18 273.735Z"/>
+              </clipPath>
+            </defs>
 
-              <g clip-path="url(#baconClip)">
-                <image id="rotatorImage"
-                  href="https://images.pexels.com/photos/1193743/pexels-photo-1193743.jpeg?auto=compress&cs=tinysrgb&w=1600"
-                  x="40" y="28" width="840" height="374" preserveAspectRatio="xMidYMid slice" />
-                <rect x="40" y="28" width="840" height="374" fill="rgba(255,255,255,0.06)" />
-              </g>
-
-              <path class="logo-stroke" filter="url(#innerGlow)" d="M86 161C140 103 232 85 323 112C389 132 447 128 520 102C592 77 659 72 713 90C775 110 825 157 829 217C833 279 786 330 710 348C635 365 570 367 491 337C432 315 383 311 319 328C228 352 139 347 86 300C37 257 36 214 86 161Z"/>
-              <path class="logo-glow" d="M102 171C150 118 235 101 320 126C386 145 456 142 528 118C590 98 652 94 703 110C752 125 791 166 794 217C796 265 760 303 699 318C630 335 566 334 502 307C436 280 379 277 311 294C229 316 158 311 115 277C78 247 72 209 102 171Z"/>
-            </svg>
-          </div>
-          <p class="layout-caption"><strong>Intent:</strong> a single memorable hero object that behaves like the future logo and doubles as a playful image carousel.</p>
-        </article>
+            <g clip-path="url(#brandImageRotatorClip)">
+              <image id="rotatorImage"
+                href="./_images/image_22.jpg"
+                xlink:href="./_images/image_22.jpg"
+                x="0" y="0"
+                width="2080"
+                height="1675"
+                preserveAspectRatio="xMidYMid slice"
+              />
+            </g>
+            <path class="logo-outline" d="M926.19 712.908C867.081 816.701 766.569 790.791 734.401 777.701C697.3 762.603 709.248 682.085 670.261 651.89C566.507 572.001 413.913 668.581 467.154 894.704C478.354 942.274 593.913 1171.8 560.517 1218.37C519.015 1276.25 430.484 1257.7 378.161 1220.26C266.184 1140.14 293.204 936.562 301.775 863.251C318.044 724.104 155.689 646.391 67.2267 749.393C-112.213 958.326 223.472 1573.16 402.056 1583.85C485.869 1588.87 671.818 1447.98 705.145 1445.01C728.178 1442.96 798.777 1668.21 873.668 1658.71C957.929 1648.01 1006.93 1427.18 1010.4 1367.59C1017.67 1242.91 1084.95 987.511 1150.98 1035.95C1186.3 1061.86 1091.14 1250.62 1131.18 1301.07C1228.32 1423.44 1373.91 1065.81 1441.19 1048.82C1508.47 1031.84 1499.04 1199.16 1615.37 1169.6C1686.51 1151.52 1785.45 1119.61 1969.69 791.248C2153.94 462.884 2032.28 202.749 1909.33 74.7598C1800.97 -38.0433 1677.17 21.3495 1708.74 169.746C1736.47 300.145 1836.06 666.787 1669.12 725.827C1640.19 726.665 1579.33 713.497 1567.25 654.115C1552.16 579.887 1615.37 520.419 1547.46 482.676C1479.55 444.933 1433.65 465.692 1395.29 495.257C1356.93 524.823 1322.01 681.793 1279.25 656.631C1236.49 631.469 1198.77 557.87 1254.73 476.094C1345.88 342.91 1111.94 247.244 1035.27 398.72C984.968 498.11 992.121 597.135 926.19 712.908Z"/>
+            <path class="logo-outline" d="M440.413 598.129C471.448 539.142 450.758 435.139 363.862 415.476C276.966 395.814 190.588 492.574 244.38 591.92C271.794 645.733 409.379 657.116 440.413 598.129Z"/>
+            <path class="logo-outline" d="M1562.18 273.735C1596.96 179.444 1541.04 111.903 1449.66 118.59C1358.28 125.277 1268.27 208.2 1316.68 307.171C1365.1 406.143 1527.4 368.026 1562.18 273.735Z"/>
+          </svg>
+        </div>
 
         <div class="side-stack">
           <article class="panel info-card copy-block">
-            <p class="section-intent">Who We Are</p>
-            <h2>Friendly intro copy block.</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer efficitur, lorem vitae tincidunt luctus, turpis sapien efficitur mi, vitae volutpat risus libero eu augue. Quisque ultricies, sem sed hendrerit condimentum, nibh lectus tristique est, eu dictum justo lacus sit amet lorem. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+            <p class="section-intent">Who we are</p>
+            <h2>Art is discovery</h2>
+            <p>LIVIN Creative began somewhere between paint splatters and sketchbooks; late-night ideas and project lists; and the simple magic of making something with our hands.</p>
+            <p>We’re Liz and Kevin- lifelong creative explorers. Together, we built LIVIN Creative as a space where creativity can feel playful instead of pressured, inspiring instead of intimidating, and imperfect in all the best ways.</p>
+            <p>Here, you’ll find adult craft kits, creative workshops, and hands-on experiences designed to help you reconnect with your own creative rhythm. From time to time, you’ll also find our handmade creations.</p>
+            <p>We celebrate the many ways creativity shows up in our lives. That’s why we have kits for any occasion:</p>
+            <ul>
+              <li>Creative reset for one</li>
+              <li>Creative adventure for two</li>
+              <li>Craft night in with friends</li>
+              <li>Gentle nudge toward self-inspiration</li>
+            </ul>
+            <p>You found us, and we can’t wait to make things alongside you!</p>
+            <p><strong>Thank you for being part of this growing creative community.</strong></p>
           </article>
 
           <article class="panel event-card event-copy">
             <p class="section-intent">Next Event</p>
-            <h2>Prominent announcement card.</h2>
+            <h2>We're out there</h2>
             <div class="event-highlight" aria-label="Upcoming event announcement">
               <p class="event-label">Upcoming appearance</p>
               <div class="event-grid">
@@ -563,7 +617,7 @@
                 </div>
                 <div class="event-pill">
                   <span>Presented by</span>
-                  <strong>ABCDEF Entertainment</strong>
+                  <strong>Livin Creative</strong>
                 </div>
               </div>
             </div>
@@ -574,81 +628,139 @@
 
       <section class="panel products" aria-label="Current kits">
         <p class="section-intent">Current Products</p>
-        <h2>Seven kit cards in a clean grid.</h2>
+        <h2>Get kitted out!</h2>
         <div class="products-grid">
           <article class="product-card">
-            <div class="product-index">01</div>
-            <h3>Kit One</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <div class="product-card-content">
+              <div class="product-index">Solo/group kit</div>
+              <h3>Forever Blooming Bouquets</h3>
+              <p>Craft your own 5-stem bouquet of flowers that never fade. Bring a miniature colorful, playful element to your space. These charming bouquets make a wonderful gift for yourself and loved one.</p>
+            </div>
+            <img class="product-card-image" src="./_images/image_42.jpg" alt="" aria-hidden="true" loading="lazy" width="400" height="400">
           </article>
           <article class="product-card">
-            <div class="product-index">02</div>
-            <h3>Kit Two</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <div class="product-card-content">
+              <div class="product-index">Solo/group kit</div>
+              <h3>Felt Geodes</h3>
+              <p>Transform soft wool into a vibrant geode form! Using wet felting techniques, craft your own unique geological marvel. This fun, beginner-friendly kit contains the tools needed to create one large geode or two smaller ones.</p>
+            </div>
+            <img class="product-card-image" src="./_images/image_42.jpg" alt="" aria-hidden="true" loading="lazy" width="400" height="400">
           </article>
           <article class="product-card">
-            <div class="product-index">03</div>
-            <h3>Kit Three</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <div class="product-card-content">
+              <div class="product-index">Solo/group kit</div>
+              <h3>Rolled Beeswax Candles</h3>
+              <p>Create two taper candles with our hands-on candle-making kit.  Each kit features natural beeswax sheets for you to shape, layer, and roll a beautiful candle.</p>
+            </div>
+            <img class="product-card-image" src="./_images/image_42.jpg" alt="" aria-hidden="true" loading="lazy" width="400" height="400">
           </article>
           <article class="product-card">
-            <div class="product-index">04</div>
-            <h3>Kit Four</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <div class="product-card-content">
+              <div class="product-index">Solo/group kit</div>
+              <h3>Sun Catcher</h3>
+              <p>Build your own radiant sun catcher that transforms sunlight into shifting color and sparkle. A light-catching strand of prismatic beads to hang in a window and watch shine.</p>
+            </div>
+            <img class="product-card-image" src="./_images/image_42.jpg" alt="" aria-hidden="true" loading="lazy" width="400" height="400">
           </article>
           <article class="product-card">
-            <div class="product-index">05</div>
-            <h3>Kit Five</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <div class="product-card-content">
+              <div class="product-index">Solo/group kit</div>
+              <h3>"Second Life" Hanging Flowers</h3>
+              <p>With color and detail, create fun hanging flowers in our first “Second Life” art kit. A warm-weather creative experience that celebrates transformation. Available March through June.</p>
+            </div>
+            <img class="product-card-image" src="./_images/image_42.jpg" alt="" aria-hidden="true" loading="lazy" width="400" height="400">
           </article>
           <article class="product-card">
-            <div class="product-index">06</div>
-            <h3>Kit Six</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <div class="product-card-content">
+              <div class="product-index date-night">Date-night kit</div>
+              <h3>Splatter Art</h3>
+              <p>A collaborative date-night art experience for two, designed to connect creativity and chaos! Using canvas, paint, and a set of shared tools, you’ll co-create an expressive one-of-a-kind artwork.</p>
+            </div>
+            <img class="product-card-image" src="./_images/image_42.jpg" alt="" aria-hidden="true" loading="lazy" width="400" height="400">
           </article>
-          <article class="product-card" style="grid-column: 1 / -1; min-height: 126px; display: grid; align-content: center;">
-            <div class="product-index">07</div>
-            <h3>Kit Seven</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ac justo non lacus accumsan posuere vel non massa.</p>
+          <article class="product-card">
+            <div class="product-card-content">
+              <div class="product-index date-night">Date-night kit</div>
+              <h3>Torn Paper Collage</h3>
+              <p>A side-by-side date-night art experience. Each person tears their way through solid colored paper, layering, laughing, and laying the scraps out until the final product reveals itself! Includes two matte boards and a curated paper selection for everyone to choose from for making an intuitive, unique composition.</p>
+            </div>
+            <img class="product-card-image" src="./_images/image_42.jpg" alt="" aria-hidden="true" loading="lazy" width="400" height="400">
           </article>
         </div>
-      </section>
-
-      <section class="full-width-note" aria-label="Layout notes">
-        <strong>Layout intention:</strong> the page is built around one high-energy logo object, then balanced with three straightforward content blocks: identity, event priority, and products. The yellow is reserved as an attention guide for indexes and highlights, while the magenta-purple-to-blue family carries the brand personality inspired by the energetic splatter-room feel from Pinspiration, updated with cleaner structure and softer glassy surfaces.
       </section>
     </main>
   </div>
 
   <script>
     const imageUrls = [
-      'https://images.pexels.com/photos/1193743/pexels-photo-1193743.jpeg?auto=compress&cs=tinysrgb&w=1600',
-      'https://images.pexels.com/photos/1570264/pexels-photo-1570264.jpeg?auto=compress&cs=tinysrgb&w=1600',
-      'https://images.pexels.com/photos/1191710/pexels-photo-1191710.jpeg?auto=compress&cs=tinysrgb&w=1600',
-      'https://images.pexels.com/photos/1939485/pexels-photo-1939485.jpeg?auto=compress&cs=tinysrgb&w=1600',
-      'https://images.pexels.com/photos/1269968/pexels-photo-1269968.jpeg?auto=compress&cs=tinysrgb&w=1600',
-      'https://images.pexels.com/photos/1266808/pexels-photo-1266808.jpeg?auto=compress&cs=tinysrgb&w=1600',
-      'https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg?auto=compress&cs=tinysrgb&w=1600',
-      'https://images.pexels.com/photos/2693212/pexels-photo-2693212.jpeg?auto=compress&cs=tinysrgb&w=1600',
-      'https://images.pexels.com/photos/1183992/pexels-photo-1183992.jpeg?auto=compress&cs=tinysrgb&w=1600',
-      'https://images.pexels.com/photos/3119180/pexels-photo-3119180.jpeg?auto=compress&cs=tinysrgb&w=1600',
-      'https://images.pexels.com/photos/844177/pexels-photo-844177.jpeg?auto=compress&cs=tinysrgb&w=1600',
-      'https://images.pexels.com/photos/102127/pexels-photo-102127.jpeg?auto=compress&cs=tinysrgb&w=1600',
-      'https://images.pexels.com/photos/1148998/pexels-photo-1148998.jpeg?auto=compress&cs=tinysrgb&w=1600',
-      'https://images.pexels.com/photos/1194420/pexels-photo-1194420.jpeg?auto=compress&cs=tinysrgb&w=1600',
-      'https://images.pexels.com/photos/1109354/pexels-photo-1109354.jpeg?auto=compress&cs=tinysrgb&w=1600',
-      'https://images.pexels.com/photos/1193740/pexels-photo-1193740.jpeg?auto=compress&cs=tinysrgb&w=1600'
+      './_images/image_22.jpg',
+      './_images/image_23.jpg',
+      './_images/image_24.jpg',
+      './_images/image_25.jpg',
+      './_images/image_26.jpg',
+      './_images/image_27.jpg',
+      './_images/image_28.jpg',
+      './_images/image_29.jpg',
+      './_images/image_30.jpg',
+      './_images/image_31.jpg',
+      './_images/image_32.jpg',
+      './_images/image_33.jpg',
+      './_images/image_34.jpg',
+      './_images/image_35.jpg',
+      './_images/image_36.jpg',
+      './_images/image_37.jpg',
+      './_images/image_38.jpg',
+      './_images/image_39.jpg',
+      './_images/image_40.jpg',
+      './_images/image_41.jpg'
     ];
 
     const rotatorImage = document.getElementById('rotatorImage');
-    let currentIndex = 0;
+    let currentIndex = imageUrls.length - 1;
+
+    // Preload a rolling window of the next N images ahead of current position
+    const PRELOAD_AHEAD = 3;
+    const preloaded = new Set();
+    function preloadAhead() {
+      const schedule = window.requestIdleCallback || ((cb) => setTimeout(cb, 100));
+      schedule(() => {
+        for (let i = 1; i <= PRELOAD_AHEAD; i++) {
+          const idx = (currentIndex + i) % imageUrls.length;
+          if (!preloaded.has(idx)) {
+            preloaded.add(idx);
+            const img = new Image();
+            img.src = imageUrls[idx];
+          }
+        }
+      });
+    }
 
     function swapImage() {
       currentIndex = (currentIndex + 1) % imageUrls.length;
       rotatorImage.setAttribute('href', imageUrls[currentIndex]);
+      rotatorImage.setAttribute('xlink:href', imageUrls[currentIndex]);
+      preloadAhead();
     }
 
+    swapImage();
     setInterval(swapImage, 1800);
+
+    const header = document.querySelector('.site-header');
+    const logoStage = document.querySelector('.logo-stage');
+
+    function updateHeaderBg() {
+      const stageBounds = logoStage.getBoundingClientRect();
+      // Header has cleared the rotator when the stage's bottom is above the header's bottom
+      const headerBottom = header.getBoundingClientRect().bottom;
+      if (stageBounds.bottom <= headerBottom) {
+        header.classList.add('scrolled-past');
+      } else {
+        header.classList.remove('scrolled-past');
+      }
+    }
+
+    window.addEventListener('scroll', updateHeaderBg, { passive: true });
+    updateHeaderBg();
   </script>
 </body>
 </html>
