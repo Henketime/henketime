@@ -262,22 +262,19 @@
     .logo-stage {
       grid-column: 1 / -1;
       position: relative;
-      /* aspect-ratio for modern browsers; padding-top trick as universal fallback */
-      aspect-ratio: 16 / 9;
       border-radius: 30px;
       overflow: hidden;
       isolation: isolate;
     }
 
-    /* Padding-top trick: 9/16 = 56.25% — percentage padding is always % of WIDTH,
-       so this reliably gives a 16:9 height on every browser including old iOS WebKit */
-    .logo-stage::before {
-      content: '';
+    /* brand-svg is in-flow so its aspect-ratio drives the container height —
+       avoids iOS WebKit bug where overflow:hidden + absolute SVG + clip-path = invisible */
+    .logo-stage .brand-svg {
       display: block;
-      padding-top: 56.25%;
+      width: 100%;
+      aspect-ratio: 16 / 9;
     }
 
-    .logo-stage .brand-svg,
     .logo-stage .stage-splashes {
       position: absolute;
       top: 0;
@@ -339,7 +336,6 @@
 
     #rotatorImageA, #rotatorImageB {
       transition: opacity 0.8s ease;
-      will-change: opacity;
     }
 
     .side-stack {
@@ -686,7 +682,7 @@
             <h2>We're out there</h2>
             <div id="events-container"></div>
             <p id="no-events" style="display:none; margin-top: 16px; color: var(--text-muted);">No upcoming events at this time. Check back soon!</p>
-            <p style="text-align: center"><strong>Please don't be afraid to tell me if I have something in my teeth!</strong></p>
+            <p style="text-align: center"><strong>Don't be afraid to tell me if I have something in my teeth!</strong></p>
           </article>
         </div>
       </section>
@@ -812,7 +808,7 @@
 
       // Show the first image right away (no fade needed)
       imgA.setAttribute('href', imageUrls[0]);
-      imgA.setAttributeNS('http://www.w3.org/1999/xlink', 'href', imageUrls[0]);
+      imgA.setAttribute('xlink:href', imageUrls[0]);
       imgA.style.opacity = '1';
       imgB.style.opacity = '0';
 
@@ -839,7 +835,7 @@
         const outgoing  = onLayerA ? imgA : imgB;
 
         incoming.setAttribute('href', nextSrc);
-        incoming.setAttributeNS('http://www.w3.org/1999/xlink', 'href', nextSrc);
+        incoming.setAttribute('xlink:href', nextSrc);
         incoming.style.opacity = '1';
         outgoing.style.opacity  = '0';
 
@@ -940,11 +936,10 @@
     (function () {
       // Skip on iOS (WebKit on iPhone has inconsistent SMIL+clipPath support),
       // low-end devices, or when user prefers reduced motion
-      const isIOS        = /iP(hone|ad|od)/.test(navigator.userAgent);
       const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const lowMemory     = navigator.deviceMemory !== undefined && navigator.deviceMemory < 4;
       const lowCPU        = navigator.hardwareConcurrency !== undefined && navigator.hardwareConcurrency < 4;
-      if (isIOS || reducedMotion || lowMemory || lowCPU) return;
+      if (reducedMotion || lowMemory || lowCPU) return;
 
       const NUM_FRAMES = 6;   // keyframe count (not counting loop-back)
       const AMPLITUDE  = 18;  // max shift in SVG units (~0.9% of 2080-wide canvas)
