@@ -140,6 +140,12 @@
       align-items: center;
     }
 
+    .brand-logo .brand-svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
     .brand-name {
       margin: 0;
       font-size: 1.5rem;
@@ -256,8 +262,6 @@
     .logo-stage {
       grid-column: 1 / -1;
       position: relative;
-      display: grid;
-      place-items: center;
       aspect-ratio: 16 / 9;
       min-height: unset;
       border-radius: 30px;
@@ -266,6 +270,9 @@
     }
 
     .logo-stage .brand-svg {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
       display: block;
