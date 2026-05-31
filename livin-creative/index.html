@@ -760,46 +760,51 @@
       [imageUrls[i], imageUrls[j]] = [imageUrls[j], imageUrls[i]];
     }
 
-    let currentIndex = imageUrls.length - 1;
-    let showingA = true; // tracks which layer is currently visible
+    let currentIndex = 0;
+    let showingA = true;
 
-    // Preload a rolling window of the next N images ahead of current position
-    const PRELOAD_AHEAD = 3;
-    const preloaded = new Set();
-    function preloadAhead() {
-      const schedule = window.requestIdleCallback || ((cb) => setTimeout(cb, 100));
-      schedule(() => {
-        for (let i = 1; i <= PRELOAD_AHEAD; i++) {
-          const idx = (currentIndex + i) % imageUrls.length;
-          if (!preloaded.has(idx)) {
-            preloaded.add(idx);
-            const img = new Image();
-            img.src = imageUrls[idx];
-          }
-        }
-      });
+    // Keep Image objects alive so browser doesn't evict their decoded data
+    const preloadCache = new Map();
+    function preloadImage(src) {
+      if (!preloadCache.has(src)) {
+        const img = new Image();
+        img.src = src;
+        preloadCache.set(src, img);
+      }
+    }
+
+    // Load the next image into the hidden layer now, while it has time to decode
+    function stageNextImage() {
+      const nextIndex = (currentIndex + 1) % imageUrls.length;
+      const nextSrc   = imageUrls[nextIndex];
+      // Preload a window of upcoming images
+      for (let i = 1; i <= 3; i++) {
+        preloadImage(imageUrls[(currentIndex + i) % imageUrls.length]);
+      }
+      // Set href on the hidden layer now so it fully loads before swapImage fires
+      if (showingA) {
+        imgB.setAttribute('href', nextSrc);
+      } else {
+        imgA.setAttribute('href', nextSrc);
+      }
     }
 
     function swapImage() {
       currentIndex = (currentIndex + 1) % imageUrls.length;
-      const src = imageUrls[currentIndex];
-
+      // href is already set and decoded — just swap visibility
       if (showingA) {
-        // Load next image into B, then fade B in and A out
-        imgB.setAttribute('href', src);
         imgB.style.opacity = '1';
         imgA.style.opacity = '0';
       } else {
-        // Load next image into A, then fade A in and B out
-        imgA.setAttribute('href', src);
         imgA.style.opacity = '1';
         imgB.style.opacity = '0';
       }
       showingA = !showingA;
-      preloadAhead();
+      stageNextImage(); // load the one after this into the background
     }
 
-    swapImage();
+    // Stage the first upcoming image immediately, then start the interval
+    stageNextImage();
     setInterval(swapImage, 1800);
 
     const header = document.querySelector('.site-header');
