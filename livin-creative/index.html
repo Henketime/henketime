@@ -693,29 +693,31 @@
 
   <script>
     const imageUrls = [
-      './_images/image_22.jpg',
-      './_images/image_23.jpg',
-      './_images/image_24.jpg',
-      './_images/image_25.jpg',
-      './_images/image_26.jpg',
-      './_images/image_27.jpg',
-      './_images/image_28.jpg',
-      './_images/image_29.jpg',
-      './_images/image_30.jpg',
-      './_images/image_31.jpg',
-      './_images/image_32.jpg',
-      './_images/image_33.jpg',
-      './_images/image_34.jpg',
-      './_images/image_35.jpg',
-      './_images/image_36.jpg',
-      './_images/image_37.jpg',
-      './_images/image_38.jpg',
-      './_images/image_39.jpg',
-      './_images/image_40.jpg',
-      './_images/image_41.jpg'
+      './_images/image_22.png',
+      './_images/image_23.png',
+      './_images/image_24.png',
+      './_images/image_25.png',
+      './_images/image_26.png',
+      './_images/image_29.png',
+      './_images/image_30.png',
+      './_images/image_31.png',
+      './_images/image_32.png',
+      './_images/image_33.png',
+      './_images/image_36.png',
+      './_images/image_37.png',
+      './_images/image_38.png',
+      './_images/image_39.png',
+      './_images/image_40.png',
+      './_images/image_41.png'
     ];
 
     const rotatorImage = document.getElementById('rotatorImage');
+    // Fisher-Yates shuffle
+    for (let i = imageUrls.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [imageUrls[i], imageUrls[j]] = [imageUrls[j], imageUrls[i]];
+    }
+
     let currentIndex = imageUrls.length - 1;
 
     // Preload a rolling window of the next N images ahead of current position
