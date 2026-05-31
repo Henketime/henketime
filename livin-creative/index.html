@@ -6,8 +6,8 @@
   <title>Livin Creative - Mess Around and Find Art</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" media="print" onload="this.media='all'">
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap"></noscript>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700;800;900&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700;800;900&display=swap"></noscript>
   <style>
     :root {
       --bg: #fff8ff;
@@ -72,7 +72,7 @@
     body {
       margin: 0;
       min-height: 100vh;
-      font-family: "Outfit", system-ui, sans-serif;
+      font-family: "Nunito", system-ui, sans-serif;
       font-size: var(--text-base);
       line-height: 1.6;
       color: var(--text);
@@ -210,9 +210,9 @@
 
     h1, h2, h3 {
       margin: 0;
-      font-family: "Space Grotesk", system-ui, sans-serif;
-      line-height: 0.95;
-      letter-spacing: -0.04em;
+      font-family: "Fredoka", system-ui, sans-serif;
+      line-height: 1.05;
+      letter-spacing: 0.03em;
       color: var(--text-dark);
     }
 
@@ -263,6 +263,27 @@
     .logo-stage .brand-svg {
       width: 100%;
       height: 100%;
+    }
+
+    .hero-tagline {
+      grid-column: 1 / -1;
+      margin: 0;
+      margin-top: -1.8em;
+      padding: 0 2rem;
+      text-align: center;
+      font-family: var(--font-display, var(--font-sans));
+      font-size: clamp(2.5rem, 6.5vw, 6rem);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      color: var(--text-dark);
+      position: relative;
+      z-index: 2;
+      pointer-events: none;
+      transform: rotate(-4deg);
+      transform-origin: center center;
+      -webkit-text-stroke: 2px var(--text-dark);
+      paint-order: stroke fill;
     }
 
     .stage-splashes {
@@ -608,6 +629,7 @@
             <path class="logo-outline" d="M1562.18 273.735C1596.96 179.444 1541.04 111.903 1449.66 118.59C1358.28 125.277 1268.27 208.2 1316.68 307.171C1365.1 406.143 1527.4 368.026 1562.18 273.735Z"/>
           </svg>
         </div>
+        <p class="hero-tagline" aria-label="Tagline: Mess Around and Find Art">Mess Around and Find Art</p>
 
         <div class="side-stack">
           <article class="panel info-card copy-block">
