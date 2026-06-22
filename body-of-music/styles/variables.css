@@ -1,0 +1,19 @@
+:root {
+  --v-one-sixth: 2px;
+  --v-one-quarter: 3px;
+  --v-one-half: 6px;
+  --v-three-quarters: 9px;
+  --v-one: 12px;
+  --v-one-and-a-half: 18px;
+  --v-two: 24px;
+  --v-two-and-a-half: 30px;
+  --v-three: 36px;
+  --v-twelve: 144px;
+
+  --v-nav-height: 53px;
+  --v-container-width: 720px;
+
+  --button-width: var(--v-half);
+  --box-shadow-level-1: 0 var(--v-one-sixth) var(--v-one-half) rgba(0,0,0,0.07);
+  --box-shadow-level-2: 0 var(--v-one-sixth) var(--v-one) rgba(0,0,0,0.07);
+}
