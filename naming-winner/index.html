@@ -11,7 +11,7 @@
     padding: 0;
     box-sizing: border-box;
   }
-  
+
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     background: linear-gradient(135deg, #0d1117 0%, #161b22 50%, #21262d 100%);
@@ -212,10 +212,13 @@
   }
   </style>
 </head>
+
 <body>
+  <script type="module" src="../site-header.js"></script>
+  <site-header></site-header>
   <div class="spotlight" id="spotlight1"></div>
   <div class="spotlight" id="spotlight2"></div>
-  
+
   <div class="container">
   <button class="reveal-btn" id="revealBtn">Reveal the Winner!</button>
   <div class="winner" id="winner">LIVIN Creative</div>
@@ -242,7 +245,7 @@
     // Stop circling animations immediately
     spotlight1.style.animation = 'none';
     spotlight2.style.animation = 'none';
-    
+
     // Position at current spot, then converge over 0.75s
     setTimeout(() => {
       spotlight1.classList.add('converging');
@@ -259,11 +262,11 @@
       // revealBtn.classList.add('hidden');
       revealBtn.style.display = 'none';
       winner.classList.add('revealed');
-      
+
       // Mark spotlights as converged (stay in place)
       spotlight1.classList.add('converged');
       spotlight2.classList.add('converged');
-      
+
       createConfetti();
     }, 1500);
 

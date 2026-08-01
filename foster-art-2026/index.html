@@ -41,7 +41,6 @@
 
 	var pico8_audio_context;
 
-
 	// menu button and controller graphics
 	p8_gfx_dat={
 			"p8b_pause1": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAOUlEQVRIx2NgGPbg/8cX/0F46FtAM4vobgHVLRowC6hm0YBbQLFFoxaM4FQ0dHPy0C1Nh26NNugBAAnizNiMfvbGAAAAAElFTkSuQmCC",
@@ -54,11 +53,9 @@
 
 "controls_left_panel":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAEsCAYAAAB5fY51AAAEI0lEQVR42u3dMU7DQBCG0Tjam9DTcP8jpEmfswS5iHBhAsLxev/hvQY6pGXyZRTQ+nQCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHqbHEEtl+vt7hS+fLy/mXHBQqxEi/6aI/AiFW9SnB2BWDkDBAtAsADBAhAsAMECBAtAsAAECxAsAMECECxAsAAEC0CwONJ8tYvrXRAsImK19j0IFsPGSrQQLCJiNV+et7xAT7QQLIaN1dr3ooVgMWysRAvBIipWooVgERUr0UKwiIqVaCFYRMVKtBAsomIlWggWUbESLQSLqFiJFoJFVKxEC8EiKlaihWARFSvRQrDYJSSVfhaCBSBYAIIFCBbAHpoj4Bl/scOGBWDD4lX8iwE2LADBAgQLQLAABAsQLADBAhAsQLAABAtAsADBAhAsAMECBAtAsAAECxAsAMECECxAsAAECxAsAMECECxAsMh1ud7uTsHZVDcZyFo8Yt5sVJ6NyUAaSNEyIymaXwZepIKd4mwoQbAFC0CwAMECECwAwQIEC0CwAAQLECwAwQIQLECwAAQLQLAAwQI4UHME2/10QZq7usyBObBhRQwpmBUb1nADuPbuaUD/p2ezMH+1admwhosVfBcxb2SCJVaIlmAhVoiWYIkVoiVagiVWiJZgiZVYIVqCJVaIlmgJllghWoIlViBagiVWiJZoCZZYIVqCJVYgWoIlViBaggUIlnc0sPELlmghVmIlWKKFWAmWaIFYCZZoIVYIlmghVoIlWiBWgiVaiJVgIVqIlWCJFoiVYIkWYiVYiBZiJViihViJ1XbNEWyL1mMQRYvfvIGJlQ1rmE0LzIoNyyBiDrBhAYIFIFiAYAEIFoBgAYIFIFgAggUIFoBgAQgWIFgAggUgWIBgDc+Nn1D/tdH8YupwgZy5qG4ykKIlVmZDsDjshSlazqQqH7p793Q2CBaAYAGCBSBYAIIFCBaAYAEIFiBYAIIFIFiAYAEIFoBgAYIFIFgAggUIFoBgAQgWIFgAggUgWIBgAQgWwENzBKxZPub9CJ7WjA0LsGFRV+9N5+jNDhsWgGABggUgWACCxW56fgjuA3cEiz9Z/nWwR0iWP8P/YCFYDBstsUKwiIiWWCFYRERLrBAsIqIlVggWEdESKwSLiGiJFYJFRLTECsEiIlpihWARES2xQrCIiJZYIVhEREusECwioiVWCBYx0RIrBIuoaIkVr+YhFHTZtMCGBQgWgGABCBYgWACCBSBYgGABCBaAYAGCBSBYAIIFCBbj2uOR8s6AEbhexgsWYri3SKhKczcXAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMA2n+e0UMDzh3yTAAAAAElFTkSuQmCC",
 
-
 "controls_right_panel":"data:image/png;base64,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",
 
 	};
-
 
 	// added 0.2.1: work-around for iOS/Safari running from an iFrame (e.g. from itch.io page):
 	// touch events only register after adding dummy listeners on document.
@@ -66,7 +63,6 @@
 	document.addEventListener('touchstart', {});
 	document.addEventListener('touchmove', {});
 	document.addEventListener('touchend', {});
-
 
 	// --------------------------------------------------------------------------------------------------------------------------------
 	// pico-8 0.2.2: allow dropping files
@@ -141,7 +137,6 @@
 	}
 	// --------------------------------------------------------------------------------------------------------------------------------
 
-
 	var p8_buttons_hash = -1;
 	function p8_update_button_icons()
 	{
@@ -181,9 +176,6 @@
 			if (el.innerHTML != new_str)
 				el.innerHTML = new_str;
 
-
-
-
 			// hide all buttons for touch mode (can pause with menu buttons)
 
 			var is_visible = p8_is_running;
@@ -204,8 +196,6 @@
 		}
 		requestAnimationFrame(p8_update_button_icons);
 	}
-
-
 
 	function abs(x)
 	{
@@ -232,7 +222,6 @@
 			//  no active touches: release mouse button from anywhere on page. (maybe redundant? but just in case)
 			pico8_mouse[2] = 0;
 		}
-
 
 		for (var i = 0; i < num; i++)
 		{
@@ -268,7 +257,6 @@
 					pico8_mouse[2] = 0;
 				}
 			}
-
 
 			// buttons
 
@@ -394,7 +382,6 @@
 		if (!is_fullscreen && p8_frame)
 			csize = Math.min(csize, last_windowed_container_height); // p8_frame_0 parent
 
-
 		if (is_fullscreen)
 		{
 			// always center horizontally
@@ -442,7 +429,6 @@
 		// record this for returning to original size after fullscreen pushes out container height (argh)
 		if (!is_fullscreen && p8_frame)
 			last_windowed_container_height = p8_frame.parentNode.parentNode.offsetHeight;
-
 
 		// mobile in portrait mode: put screen at top (w / a little extra space for fullscreen button if needed)
 		// (don't cart too about buttons overlapping screen)
@@ -523,7 +509,6 @@
 		}
 		requestAnimationFrame(p8_update_layout);
 	}
-
 
 	var p8_touch_detected = false;
 	addEventListener("touchstart", function(event)
@@ -607,13 +592,11 @@
 		for (i = 0; i < els.length; i++)
 			els[i].style.display="";
 
-
 		// install touch events. These also serve to block scrolling / pinching / zooming on phones when p8_is_running
 			// moved event.preventDefault(); calls into pico8_buttons_event() (want to let top buttons pass through)
 		addEventListener("touchstart", function(event){ pico8_buttons_event(event, 0); }, {passive: false});
 		addEventListener("touchmove",  function(event){ pico8_buttons_event(event, 1); }, {passive: false});
 		addEventListener("touchend",   function(event){ pico8_buttons_event(event, 2); }, {passive: false});
-
 
 		// load and run script
 		e = document.createElement("script");
@@ -628,7 +611,6 @@
 				p8_update_layout_hash = -77;
 			if (typeof(p8_buttons_hash) !== 'undefined')
 				p8_buttons_hash = -33;
-
 
 		}
 		e.type = "application/javascript";
@@ -666,7 +648,6 @@
 			}
 		}
 	}
-
 
 		// Gamepad code
 
@@ -712,7 +693,6 @@
 		pico8_gamepads_mapping[gamepad_index] = null;
 	}
 
-
 	function p8_first_player_without_gamepad(max_players) {
 		var allocated_players = pico8_gamepads_mapping.filter(function(x) { return x != null; });
 		var sorted_players = Array.from(allocated_players).sort();
@@ -731,8 +711,6 @@
 		p8_unassign_gamepad(gamepad_index);
 		pico8_gamepads_mapping[gamepad_index] = player_index;
 	}
-
-
 
 	function p8_convert_standard_gamepad_to_button_state(gamepad, axis_threshold, button_threshold) {
 		// Given a gamepad object, return:
@@ -833,7 +811,6 @@
 		};
 	}
 
-
 	// gamepad  https://developer.mozilla.org/en-US/docs/Web/API/Gamepad_API/Using_the_Gamepad_API
 	// (sets bits in pico8_buttons[])
 	function p8_update_gamepads() {
@@ -863,7 +840,6 @@
 		// gps.forEach(function (gp, i) { if (gp && !gp.connected) { p8_unassign_gamepad(i); }});
 		gps.forEach(function (gp, i) { if (!gp || !gp.connected) { p8_unassign_gamepad(i); }}); // https://www.lexaloffle.com/bbs/?pid=87132#p
 
-
 		// Assign unassigned gamepads when any button is pressed.
 		gamepad_states.forEach(function (state, i) {
 			if (state.any_button && pico8_gamepads_mapping[i] == null) {
@@ -891,8 +867,6 @@
 	requestAnimationFrame(p8_update_gamepads);
 
 	// End of gamepad code
-
-
 	// key blocker. prevent browser operations while playing cart so that PICO-8 can use those keys e.g. cursors to scroll, ctrl-r to reload
 	document.addEventListener('keydown',
 	function (event) {
@@ -979,7 +953,6 @@ canvas{
 	cursor: none;
 }
 
-
 .p8_start_button{
 	cursor:pointer;
 	background:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAIAAABMXPacAAACfElEQVR4Ae3dT2rjMBSAcdt0LShFdNe9zjKnMDnBgCneCe9M8RWCj5V9dyWUQk4wCw0aR/6biR3L1vcjpEa1Ffm9p6dtHG2ckOpyPqXp4aan6vq49Rf3i0nAaBom3vZICckjASQAi51PJGBNl/Np9J6nfR/LRl0fvV3nbhNg456mB51nZuTz64czAMHsgGYX6mR3RlFW7IB/hFSz9B/zeXt9Ho6+c00Cosv5NONsK1Z36C2onYPRpsQOWCEr6+6SIHaAz90p3kcob+0tdX30ZOU7ScAA/f5yVfUf32GdATrPJg6GafEzoCirdrh9aL6hJMDD/mMLwoc6WLwFrf1+6d9v87nufj50wr0nwObA29XRhUnAgpwur/OsOeLDGbD8MdjVZ1dpvj50fADYCSHVVo+l9xd/FhOHVjc2+sXHN7uIHQAAADBCSEUQQN0QbiBUOs8mDmK6+M4cFGVFEO+REAISQAJAAkgAvKfzbOIggIUJqQgCAAAAAAAAAAB4HCEVQQAAcJoBAAAA8I6QiiAAAG0TAMBx8ig6z3Se+baqhKokAQ8qf+eCBKzj8+uHBKxW/h5ugqsEhHBGv70+e7WeOLTyt4qyogUBAAAAAAAA8xBSEQQAAAAAMIRUvBpArQGhi80fnWfmoigrnWfN785x+4hzT9/P2Jvbv9V33f5F59n2/MNzztL0LufTvAlI7FXnEs1g+1/NoDg32HduT9UMh33EuR5ebt96nEFnwlmiH0XR7NG/SkBf4DoLbSAfU962OU/f9a2ceeYK+tJGdsBAlfVV95QgFmUlpBqo3P/gzHNPLtdJwK2r76uyviA6Ffr78Gs4ms79WwkoAGzIH3i6BNcCRke3AAAAEHRFWHRMb2RlUE5HADIwMTEwMjIx41m2wQAAAABJRU5ErkJggg==");
@@ -1004,15 +977,14 @@ canvas{
 
 -->
 </STYLE>
-
 </head>
 
 <body style="padding:0px; margin:0px; background-color:#222; color:#ccc">
+	<script type="module" src="../site-header.js"></script>
+	<site-header></site-header>
 <div id="body_0"> <!-- hide this when playing in mobile (p8_touch_detected) so that elements don't affect layout -->
 
-
 <!-- Add any content above the cart here -->
-
 
 <div id="p8_frame_0" style="max-width:800px; max-height:800px; margin:auto;"> <!-- double function: limit size, and display only this div for touch devices -->
 <div id="p8_frame" style="display:flex; width:100%; max-width:95vw; height:100vw; max-height:95vh; margin:auto;">
@@ -1054,7 +1026,6 @@ canvas{
 				</div>
 			</div>
 
-
 			<!-- display after first layout update -->
 			<div  id="touch_controls_gfx"
 				  style=" pointer-events:none; display:table;
@@ -1062,7 +1033,6 @@ canvas{
 
 					<img src="" id="controls_right_panel" style="position:absolute; opacity:0.5;">
 					<img src="" id="controls_left_panel" style="position:absolute;  opacity:0.5;">
-
 
 			</div> <!-- touch_controls_gfx -->
 
@@ -1116,12 +1086,7 @@ canvas{
 
 </script>
 
-
-
 <!-- Add content below the cart here -->
-
-
-
 
 </div> <!-- body_0 -->
 </body></html>

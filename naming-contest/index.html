@@ -155,7 +155,10 @@
     }
   </style>
 </head>
+
 <body>
+  <script type="module" src="../site-header.js"></script>
+  <site-header></site-header>
   <div class="container">
     <h1>Business Naming Contest</h1>
     <hr>
@@ -265,7 +268,7 @@
     // Validation and summary
     function updateValidation() {
       updateOptions();
-      
+
       // Enable submit if at least #1 is selected (allows partial)
       const hasFirstRank = selects[0].value;
       if (hasFirstRank) {
