@@ -443,6 +443,8 @@
     </style>
 </head>
 <body class="locked">
+  <script type="module" src="../site-header.js"></script>
+  <site-header></site-header>
     <div class="password-overlay">
         <div class="password-box">
             <h2>Protected Content</h2>
@@ -517,7 +519,7 @@
                     <li>Trigger agent runs via a lightweight <strong>HTTP API</strong> without needing to SSH in</li>
                     <li>Easily <strong>switch between multiple repositories</strong> (workspaces) with a simple config file</li>
                 </ul>
-                
+
                 <p>The primary example workspace is <code>best-of-ui</code>, but the architecture is designed to support any number of repositories by adding entries to a workspace registry.</p>
 
                 <div class="callout">
@@ -737,7 +739,7 @@ workspaces:
     build_command: "npm run build"
     install_command: "npm install"
     description: "UI component library with design system"
-    
+
   another-repo:
     path: /srv/projects/another-repo
     language: python
@@ -786,29 +788,29 @@ def get_workspace_info(workspace_name):
 async def run_autogen_workflow(workspace: str, prompt: str, branch: str = "main"):
     """
     Run AutoGen multi-agent workflow on a specific workspace.
-    
+
     Args:
         workspace: Workspace name from workspaces.yaml
         prompt: User task description for agents
         branch: Git branch to work on
-    
+
     Returns:
         Workflow result and metadata
     """
     # Load workspace config
     ws_config = get_workspace_info(workspace)
     repo_path = Path(ws_config["path"])
-    
+
     # Verify workspace exists
     if not repo_path.exists():
         raise FileNotFoundError(f"Workspace path does not exist: {repo_path}")
-    
+
     # Initialize model client
     model_client = OpenAIChatCompletionClient(
         model=os.getenv("OPENAI_MODEL", "gpt-4o"),
         api_key=os.getenv("OPENAI_API_KEY")
     )
-    
+
     # Define agents with workspace context
     architect = AssistantAgent(
         name="Architect",
@@ -818,7 +820,7 @@ async def run_autogen_workflow(workspace: str, prompt: str, branch: str = "main"
         Language: {ws_config['language']}
         Task: Review the codebase and propose architectural improvements."""
     )
-    
+
     senior_dev = AssistantAgent(
         name="SeniorDev",
         model_client=model_client,
@@ -829,7 +831,7 @@ async def run_autogen_workflow(workspace: str, prompt: str, branch: str = "main"
         Working directory: {repo_path}
         Task: Implement the proposed changes with high code quality."""
     )
-    
+
     reviewer = AssistantAgent(
         name="Reviewer",
         model_client=model_client,
@@ -840,16 +842,16 @@ async def run_autogen_workflow(workspace: str, prompt: str, branch: str = "main"
         - Performance implications
         Repository: {repo_path}"""
     )
-    
+
     # Create team chat
     team = RoundRobinGroupChat([architect, senior_dev, reviewer])
-    
+
     # Change to workspace directory
     os.chdir(repo_path)
-    
+
     # Run the workflow
     result = await team.run(task=prompt)
-    
+
     return {
         "workspace": workspace,
         "result": result,
@@ -929,15 +931,15 @@ async def run_job(request: RunRequest):
     config = load_workspace_config()
     if request.workspace not in config["workspaces"]:
         raise HTTPException(status_code=404, detail=f"Workspace '{request.workspace}' not found")
-    
+
     # Generate job ID
     job_id = str(uuid.uuid4())[:8]
-    
+
     # Create log directory
     log_dir = Path(f"/srv/autogen/logs/{request.workspace}")
     log_dir.mkdir(parents=True, exist_ok=True)
     log_file = log_dir / f"{job_id}.log"
-    
+
     # Initialize job status
     jobs[job_id] = {
         "job_id": job_id,
@@ -948,7 +950,7 @@ async def run_job(request: RunRequest):
         "created_at": datetime.utcnow().isoformat(),
         "log_file": str(log_file)
     }
-    
+
     # Run workflow in background (for async version, use background tasks)
     try:
         result = await run_autogen_workflow(
@@ -956,27 +958,27 @@ async def run_job(request: RunRequest):
             prompt=request.prompt,
             branch=request.branch
         )
-        
+
         # Write log
         with open(log_file, "w") as f:
             f.write(f"Job ID: {job_id}\n")
             f.write(f"Workspace: {request.workspace}\n")
             f.write(f"Prompt: {request.prompt}\n")
             f.write(f"Result: {result}\n")
-        
+
         jobs[job_id]["status"] = "completed"
         jobs[job_id]["completed_at"] = datetime.utcnow().isoformat()
         jobs[job_id]["result"] = result
-        
+
     except Exception as e:
         jobs[job_id]["status"] = "failed"
         jobs[job_id]["error"] = str(e)
         jobs[job_id]["completed_at"] = datetime.utcnow().isoformat()
-        
+
         with open(log_file, "w") as f:
             f.write(f"Job ID: {job_id}\n")
             f.write(f"Error: {str(e)}\n")
-    
+
     return {"job_id": job_id, "status": "running"}
 
 @app.get("/status/{job_id}")
@@ -984,7 +986,7 @@ def get_status(job_id: str):
     """Get status of a specific job."""
     if job_id not in jobs:
         raise HTTPException(status_code=404, detail="Job not found")
-    
+
     job = jobs[job_id]
     return JobStatus(
         job_id=job["job_id"],
@@ -1000,11 +1002,11 @@ def get_logs(job_id: str):
     """Retrieve logs for a specific job."""
     if job_id not in jobs:
         raise HTTPException(status_code=404, detail="Job not found")
-    
+
     log_file = Path(jobs[job_id]["log_file"])
     if not log_file.exists():
         raise HTTPException(status_code=404, detail="Log file not found")
-    
+
     with open(log_file) as f:
         return {"job_id": job_id, "logs": f.read()}
 </code></pre>
@@ -1082,21 +1084,21 @@ def poll_status(job_id):
         response = requests.get(f"{API_URL}/status/{job_id}")
         status = response.json()
         print(f"Status: {status['status']}")
-        
+
         if status["status"] in ["completed", "failed"]:
             return status
-        
+
         time.sleep(5)
 
 if __name__ == "__main__":
     workspace = input("Workspace: ")
     prompt = input("Task prompt: ")
     branch = input("Branch (default: main): ") or "main"
-    
+
     print(f"Starting job on {workspace}...")
     job_id = trigger_run(workspace, prompt, branch)
     print(f"Job ID: {job_id}")
-    
+
     final_status = poll_status(job_id)
     print(f"Final status: {final_status}")
 </code></pre>
@@ -1130,7 +1132,7 @@ git clone https://github.com/yourusername/new-project.git new-project
     test_command: "npm test"
     build_command: "npm run build"
     install_command: "npm install"
-    
+
   new-project:
     path: /srv/projects/new-project
     language: python
@@ -1361,10 +1363,10 @@ pip install --upgrade <package-name>
                 e.preventDefault();
                 const targetId = this.getAttribute('href').substring(1);
                 const targetElement = document.getElementById(targetId);
-                
+
                 if (targetElement) {
                     targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    
+
                     // Update active state
                     document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
                     this.classList.add('active');
@@ -1396,7 +1398,7 @@ pip install --upgrade <package-name>
 
         // Password protection
         const PASSWORD_HASH = '2b657b282063794ff7cf169b1f03383e3657c3fd08c736c1be42b0c9853e3a7e';
-        
+
         async function hashPassword(password) {
             const encoder = new TextEncoder();
             const data = encoder.encode(password);
@@ -1409,7 +1411,7 @@ pip install --upgrade <package-name>
             const input = document.getElementById('passwordInput');
             const error = document.getElementById('passwordError');
             const hash = await hashPassword(input.value);
-            
+
             if (hash === PASSWORD_HASH) {
                 document.body.classList.remove('locked');
                 sessionStorage.setItem('authenticated', 'true');

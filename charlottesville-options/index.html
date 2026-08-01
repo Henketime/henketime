@@ -289,6 +289,8 @@
     </style>
 </head>
 <body>
+    <script type="module" src="../site-header.js"></script>
+    <site-header></site-header>
     <div class="container">
         <h1>🏠 Your Charlottesville Rental Guide</h1>
 
@@ -558,10 +560,10 @@
         function showTab(index) {
             const tabs = document.querySelectorAll('.tab-content');
             const buttons = document.querySelectorAll('.tab-button');
-            
+
             tabs.forEach(tab => tab.classList.remove('active'));
             buttons.forEach(btn => btn.classList.remove('active'));
-            
+
             tabs[index].classList.add('active');
             buttons[index].classList.add('active');
         }
@@ -635,7 +637,7 @@
         // Add property markers
         properties.forEach(property => {
             const marker = L.marker(property.coords, { icon: propertyIcon }).addTo(map);
-            
+
             marker.bindPopup(`
                 <div class="popup-title">${property.name}</div>
                 <div class="popup-detail"><strong>Price:</strong> ${property.price}</div>

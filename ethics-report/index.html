@@ -30,61 +30,61 @@
     ul.checklist { list-style: none; padding-left: 0; }
     ul.checklist li { padding: 8px 0; position: relative; padding-left: 25px; }
     ul.checklist li:before { content: "☐"; position: absolute; left: 0; }
-    .citation { 
-      position: relative; 
-      color: #2563eb; 
-      text-decoration: none; 
-      font-size: 0.85em; 
-      vertical-align: super; 
-      line-height: 1; 
+    .citation {
+      position: relative;
+      color: #2563eb;
+      text-decoration: none;
+      font-size: 0.85em;
+      vertical-align: super;
+      line-height: 1;
     }
     .citation:hover::after {
-      content: attr(data-tooltip); 
-      position: absolute; 
-      bottom: 100%; 
-      left: 50%; 
-      transform: translateX(-50%); 
-      background: #111827; 
-      color: white; 
-      padding: 8px 12px; 
-      border-radius: 0; 
-      white-space: nowrap; 
-      font-size: 12px; 
-      z-index: 1000; 
-      max-width: 300px; 
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #111827;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 0;
+      white-space: nowrap;
+      font-size: 12px;
+      z-index: 1000;
+      max-width: 300px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
     @media (max-width: 768px) {
       body { font-size: 13px; }
       table, thead, tbody, th, td, tr { display: block; }
-      thead tr { 
-        position: absolute; 
-        top: -9999px; 
-        left: -9999px; 
+      thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
       }
-      tr { 
-        border: 1px solid #e5e7eb; 
-        margin-bottom: 10px; 
-        padding: 12px; 
-        background: white; 
+      tr {
+        border: 1px solid #e5e7eb;
+        margin-bottom: 10px;
+        padding: 12px;
+        background: white;
         display: block;
       }
-      td { 
-        border: none; 
-        position: relative; 
-        padding-left: 50%; 
+      td {
+        border: none;
+        position: relative;
+        padding-left: 50%;
         padding-top: 8px;
         padding-bottom: 8px;
         font-size: 13px;
         display: block;
         min-height: 0;
       }
-      td:before { 
-        content: attr(data-label) ": "; 
-        position: absolute; 
-        left: 12px; 
+      td:before {
+        content: attr(data-label) ": ";
+        position: absolute;
+        left: 12px;
         top: 8px;
-        font-weight: 600; 
+        font-weight: 600;
         white-space: nowrap;
         font-size: 13px;
       }
@@ -94,20 +94,22 @@
       .container { padding: 10px; }
     }
     html { scroll-behavior: smooth; }
-    @media print { 
-      nav, .collapsible:not(.open) .content { display: none; } 
+    @media print {
+      nav, .collapsible:not(.open) .content { display: none; }
       header { position: static; }
     }
   </style>
 </head>
 <body>
+  <script type="module" src="../site-header.js"></script>
+  <site-header></site-header>
   <header>
     <div class="container">
       <h1>AI LLM Ethics: Data Centers & Defense</h1>
       <p>Infrastructure effects and military connections behind popular AI tools</p>
     </div>
   </header>
-  
+
   <nav>
     <ul>
       <li><a href="#summary" class="active">Summary</a></li>
@@ -258,7 +260,7 @@
     document.querySelectorAll('.collapsible').forEach(section => {
       const toggle = section.querySelector('.toggle');
       const content = section.querySelector('.content');
-      
+
       section.addEventListener('click', (e) => {
         if (e.target.tagName !== 'A') {
           content.classList.toggle('open');

@@ -45,7 +45,7 @@ class SiteHeader extends HTMLElement {
       </style>
       <header class="site-header">
         <section>
-          <a href="https://henketime.com/index.html" aria-label="Henketime home page">
+          <a href="../index.html" aria-label="Henketime home page">
             Henketime
           </a>
         </section>
