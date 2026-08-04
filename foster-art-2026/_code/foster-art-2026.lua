@@ -1,8 +1,8 @@
--- PICO-8 Spaceship - Cleaned up collision, kept enemy corpses
-STATE_TITLE=1 STATE_ENTRANCE=2 STATE_PLAY=3 STATE_BOSS_INTRO=4 STATE_BOSS=5 STATE_GAMEOVER=6
-game_state=STATE_TITLE state_timer=0 current_set=1
+-- pico-8 spaceship - cleaned up collision, kept enemy corpses
+state_title=1 state_entrance=2 state_play=3 state_boss_intro=4 state_boss=5 state_gameover=6
+game_state=state_title state_timer=0 current_set=1
 
-AUTHORS={"Default art","Rahma","Dani","Layla","Joey","Mika","Thomas","Reese","Gabe","Liam","Daniel","Aidan","Oliver","James","Artist 15","Artist 16"}
+authors={"default art","rahma","dani","layla","joey","mika","thomas","reese","gabe","liam","daniel","aidan","oliver","james","artist 15","artist 16"}
 
 function get_ship_sprites(set)
   local base=(set-1)*3
@@ -33,11 +33,11 @@ function apply_set(set)
   projectile_sprite=get_projectile_sprite(set)
   boss_tl,boss_tr,boss_bl,boss_br=get_boss_sprites(set)
   boss_sprite=boss_tl
-  current_author=AUTHORS[set]
+  current_author=authors[set]
 end
 
-INIT_STATE={
-  game_state=STATE_TITLE,
+init_state={
+  game_state=state_title,
   state_timer=0,
   current_set=1,
   ship_x=64,
@@ -71,8 +71,8 @@ INIT_STATE={
 }
 
 projectiles={} particles={} stars={}
-LEFT_ROWS={17,33}
-RIGHT_ROWS={25,41}
+left_rows={17,33}
+right_rows={25,41}
 enemy1={x=-20,y=30,alive=false,respawn=0,entering=true,enter_x=-20,dx=0,dy=0,invuln=0,base_y=30,dead=false}
 enemy2={x=148,y=35,alive=false,respawn=0,entering=true,enter_x=148,dx=0,dy=0,invuln=0,base_y=35,dead=false}
 boss_x=56 boss_y=-20 boss_speed=0.5 boss_dir=1 boss_active=false boss_sprite=64 boss_hp=5 boss_entrance=false
@@ -90,7 +90,7 @@ end
 function _init() reset_game() end
 
 function reset_game(reset_state)
-  local s=copytable(INIT_STATE)
+  local s=copytable(init_state)
   game_state=reset_state or s.game_state
   state_timer=s.state_timer
   current_set=s.current_set
@@ -115,7 +115,7 @@ function spawn_particles(x,y,count,colors)
 end
 
 function pick_row(from_left)
-  local rows=from_left and LEFT_ROWS or RIGHT_ROWS
+  local rows=from_left and left_rows or right_rows
   return rows[flr(rnd(#rows))+1]
 end
 
@@ -154,16 +154,16 @@ function _update60()
 
   update_stars()
 
-  if game_state==STATE_TITLE then
+  if game_state==state_title then
     if btnp(4) then
       current_set=current_set+1
       if current_set>16 then current_set=1 end
       apply_set(current_set)
     end
-    if btn(5) then game_state=STATE_ENTRANCE state_timer=0 reset_game(STATE_ENTRANCE) end
+    if btn(5) then game_state=state_entrance state_timer=0 reset_game(state_entrance) end
   end
 
-  if game_state==STATE_PLAY or game_state==STATE_BOSS_INTRO or game_state==STATE_BOSS then
+  if game_state==state_play or game_state==state_boss_intro or game_state==state_boss then
     if btnp(4) then
       current_set=current_set+1
       if current_set>16 then current_set=1 end
@@ -171,18 +171,18 @@ function _update60()
     end
   end
 
-  if game_state==STATE_ENTRANCE then
+  if game_state==state_entrance then
     if ship_y>ship_target_y then ship_y=ship_y-ship_entrance_speed else ship_y=ship_target_y
-      if state_timer>=30 then game_state=STATE_PLAY state_timer=0 spawn_enemy(enemy1,true) spawn_enemy(enemy2,false) end end end
+      if state_timer>=30 then game_state=state_play state_timer=0 spawn_enemy(enemy1,true) spawn_enemy(enemy2,false) end end end
 
   update_enemies() update_enemy_movement()
 
-  if game_state==STATE_PLAY then
+  if game_state==state_play then
     update_ship() update_projectiles() update_particles()
     handle_ship_enemy_collision()
-    if enemies_killed>=4 and not boss_spawned then game_state=STATE_BOSS_INTRO state_timer=0 boss_active=false boss_entrance=true boss_y=-20 end end
+    if enemies_killed>=4 and not boss_spawned then game_state=state_boss_intro state_timer=0 boss_active=false boss_entrance=true boss_y=-20 end end
 
-  if game_state==STATE_BOSS_INTRO then
+  if game_state==state_boss_intro then
     update_ship() update_projectiles() update_particles()
     handle_ship_enemy_collision()
     if boss_entrance and boss_y<boss_target_y then
@@ -191,16 +191,16 @@ function _update60()
       boss_y=boss_target_y
       boss_active=true
       boss_entrance=false
-      game_state=STATE_BOSS
+      game_state=state_boss
     end
   end
 
-  if game_state==STATE_BOSS then
+  if game_state==state_boss then
     update_ship() update_projectiles() update_particles() update_boss()
     handle_ship_enemy_collision()
-    if boss_hp<=0 then game_state=STATE_GAMEOVER state_timer=0 end end
+    if boss_hp<=0 then game_state=state_gameover state_timer=0 end end
 
-  if game_state==STATE_GAMEOVER and btn(5) and state_timer>30 then game_state=STATE_TITLE state_timer=0 end
+  if game_state==state_gameover and btn(5) and state_timer>30 then game_state=state_title state_timer=0 end
 end
 
 function update_ship()
@@ -256,14 +256,14 @@ function update_boss() boss_x=boss_x+boss_speed*boss_dir if boss_x<=0 then boss_
 function _draw()
   cls(0)
   for s in all(stars) do pset(s.x,s.y,1) end
-  if game_state==STATE_TITLE then
-    print("PRESS X TO BEGIN",32,60,7,false)
-    print("PRESS Z TO CHANGE ARTWORK",12,68,7,false)
+  if game_state==state_title then
+    print("press x or ❎ to begin",20,60,7,false)
+    print("press z or 🅾️ to change artist",4,68,7,false)
     return
   end
-  if game_state==STATE_GAMEOVER then
-    print("GAME OVER",52,60,7,false)
-    print("PRESS X TO RESTART",32,68,7,false)
+  if game_state==state_gameover then
+    print("game over",48,60,7,false)
+    print("press x or ❎ to restart",16,68,7,false)
     return
   end
   for pt in all(particles) do circfill(pt.x,pt.y,pt.size,pt.color) end
@@ -271,8 +271,8 @@ function _draw()
   if ship_invuln>0 and (flr(state_timer/4)%2==0) then else spr(ship_sprite,ship_x,ship_y) end
   if enemy1.alive then spr(enemy_sprite,enemy1.x,enemy1.y) end if enemy2.alive then spr(enemy_sprite,enemy2.x,enemy2.y) end
   if boss_entrance or boss_active then spr(boss_sprite,boss_x,boss_y,2,2) end
-  if game_state==STATE_PLAY or game_state==STATE_BOSS_INTRO or game_state==STATE_BOSS then
-    print("AUTHOR: "..current_author,2,120,7,false)
+  if game_state==state_play or game_state==state_boss_intro or game_state==state_boss then
+    print("author: "..current_author,2,120,7,false)
   end
   if ship_invuln>0 and (flr(state_timer/4)%2==0) then else spr(ship_sprite,ship_x,ship_y) end
   if enemy1.alive then spr(enemy_sprite,enemy1.x,enemy1.y) end if enemy2.alive then spr(enemy_sprite,enemy2.x,enemy2.y) end
