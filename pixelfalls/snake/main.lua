@@ -1,209 +1,165 @@
--- snake game
--- copyright @eyuzwa
--- released under
--- mit license
---
--- note:
--- this source is split into
--- different tabs in the
--- pico8 editor
--- tab0: _init
--- tab1: _draw
--- tab2: _update
+-- PIXELFALLS Snake
+-- Adapted from the Snake source by Erik Yuzwa (MIT License)
 
+version = "0.4"
 
--- version
-version="0.4"
+-- Board settings
+screen_size = 128
+tile_num = 32
+tile_size = screen_size / tile_num
 
--- global variables
-x={}
-y={}
-x_dir=0
-y_dir=0
-score=0
+-- Palette color indices
+background_color = 1
+head_color = 10
+body_color = 3
+fruit_color = 8
+ui_text_color = 10
+version_text_color = 7
 
--- color definitions
-color_ui_text = 7
-color_menu_text = 10
-color_warning_text = 8
-color_background = 1
-color_snake_initial = 6
-color_snake_initial = 9
-color_fruit = 3
+-- Game state
+x = {}
+y = {}
+x_dir = 1
+y_dir = 0
+score = 0
+fruit = { x = 0, y = 0, color = fruit_color }
+game_over = false
 
--- we are splitting up our 
--- screen into tiles
--- the larger the tile_num,
--- the larger the game area
-tile_num=32
-tile_size=128/tile_num
+-- Set up the initial snake directly in the main file.
+x[1] = tile_size * (tile_num / 4)
+y[1] = tile_size * (tile_num / 2)
 
--- track our fruit position
--- and color
-fruit={}
-fruit.x=0
-fruit.y=0
-fruit.color=color_fruit
-
--- startup function called
--- by pico8
--- used to initialize and
--- setup our game
-function _init()
-  -- generate snake head
-  -- starting position
-  -- todo: randomize it?
-  x[1]=tile_size*(tile_num/4)
-  y[1]=tile_size*(tile_num/2)
-
-  -- start off moving right
-  x_dir=1
-  
-  -- set starting snake tail
-  -- length
-  for i=2, 7 do
-    x[i]=((x[i-1]/tile_size)-1)*tile_size
-    y[i]=y[1]
-  end
-  
-  -- generate fruit
-  update_fruit()
+for i = 2, 7 do
+  x[i] = x[i - 1] - tile_size
+  y[i] = y[1]
 end
 
--->8
--- main draw method called
--- by pico8
--- clear the screen and draw
--- everything
+function update_fruit()
+  fruit.x = math.random(0, tile_num - 1) * tile_size
+  fruit.y = math.random(0, tile_num - 1) * tile_size
+end
+
+update_fruit()
+
 function draw()
-  clearScreen(1)
+  clearScreen(background_color)
   draw_snake()
   draw_fruit()
   draw_score()
-  
-  -- draw version
-  drawText("v" ..version, 100, 1, color_ui_text)
-end
+  drawText("V" .. version, 100, 1, version_text_color, 1)
 
--- draw fruit
-function draw_fruit()
-  drawRect(fruit.x, fruit.y, fruit.x+tile_size-1, fruit.y+tile_size-1, fruit.color)
-end
-
--- draw score
-function draw_score()
-  drawText("score: " .. score, 1, 1, color_menu_text)
-end
-
--- draw snake
-function draw_snake()
-  -- draw snake head
-
-  drawRect(x[1], y[1], x[1]+tile_size-1, y[1]+tile_size-1, color_snake_initial)
-    
-  -- draw snake segments
-  for i=2, #x do
-    drawRect(x[i], y[i], x[i]+tile_size-1, y[i]+tile_size-1, color_snake_segment)
+  if game_over then
+    drawText("GAME OVER", 40, 56, fruit_color, 1)
   end
 end
 
--->8
--- main update function
--- called by pico8
--- updated at 30fps
--- todo: look at _update60
+function draw_fruit()
+  drawFillRect(
+    fruit.x,
+    fruit.y,
+    fruit.x + tile_size - 1,
+    fruit.y + tile_size - 1,
+    fruit.color
+  )
+end
+
+function draw_score()
+  drawText("SCORE: " .. score, 1, 1, ui_text_color, 1)
+end
+
+function draw_snake()
+  drawFillRect(
+    x[1],
+    y[1],
+    x[1] + tile_size - 1,
+    y[1] + tile_size - 1,
+    head_color
+  )
+
+  for i = 2, #x do
+    drawFillRect(
+      x[i],
+      y[i],
+      x[i] + tile_size - 1,
+      y[i] + tile_size - 1,
+      body_color
+    )
+  end
+end
+
 function update()
-  -- check for wall collision
-  if(is_wall_collision()) then
+  if game_over then
     return
   end
 
-  -- capture input
   update_input()
-  
-  -- check for collision
-  -- with fruit
-  local collide=false
-  collide=is_fruit_collision()
-  if(collide)then
-    -- increment score
-    score=score+10
-    
-    -- push new snake segment
-    -- using the position of
-    -- the fruit
-    for i=#x+1, 2, -1 do
-      x[i]=x[i-1]
-      y[i]=y[i-1]
+
+  if is_wall_collision() then
+    game_over = true
+    return
+  end
+
+  if is_fruit_collision() then
+    score = score + 10
+
+    for i = #x + 1, 2, -1 do
+      x[i] = x[i - 1]
+      y[i] = y[i - 1]
     end
-    
-    x[1]=fruit.x
-    y[1]=fruit.y
-    
-    -- generate a new fruit
+
+    x[1] = fruit.x
+    y[1] = fruit.y
     update_fruit()
   else
     update_snake()
   end
 end
 
--- generate a random (x,y)
--- to place the fruit
-function update_fruit()
-  fruit.x = math.random(0, tile_num - 1) * tile_size
-  fruit.y = math.random(0, tile_num - 1) * tile_size
-end
-
 function update_input()
-  if buttonDown(BTN_LEFT) then
+  -- Do not allow an immediate 180-degree turn into the snake.
+  if buttonPressed(BTN_LEFT) and x_dir ~= 1 then
     x_dir = -1
     y_dir = 0
-
-  elseif buttonDown(BTN_RIGHT) then
+  elseif buttonPressed(BTN_RIGHT) and x_dir ~= -1 then
     x_dir = 1
     y_dir = 0
-
-  elseif buttonDown(BTN_UP) then
+  elseif buttonPressed(BTN_UP) and y_dir ~= 1 then
     x_dir = 0
     y_dir = -1
-
-  elseif buttonDown(BTN_DOWN) then
+  elseif buttonPressed(BTN_DOWN) and y_dir ~= -1 then
     x_dir = 0
     y_dir = 1
   end
 end
 
 function update_snake()
-  -- local temp variables
-  local temp1x = x[1]
-  local temp1y = y[1]
-  local temp2x, temp2y
-  
-  -- update snake head segment
-  x[1] += (x_dir * tile_size)
-  y[1] += (y_dir * tile_size)
-  
-  -- update snake tail segments
-  for i=2, #x do
-    temp2x=x[i]
-    temp2y=y[i]
-    
-    x[i]=temp1x
-    y[i]=temp1y
-    
-    temp1x=temp2x
-    temp1y=temp2y
+  local previous_x = x[1]
+  local previous_y = y[1]
+
+  x[1] = x[1] + x_dir * tile_size
+  y[1] = y[1] + y_dir * tile_size
+
+  for i = 2, #x do
+    local segment_x = x[i]
+    local segment_y = y[i]
+
+    x[i] = previous_x
+    y[i] = previous_y
+
+    previous_x = segment_x
+    previous_y = segment_y
   end
 end
 
 function is_fruit_collision()
-  if(x[1]+(x_dir*tile_size) == fruit.x and y[1]+(y_dir*tile_size) == fruit.y) then
-    return true
-  end
-  return false
+  return x[1] + x_dir * tile_size == fruit.x
+    and y[1] + y_dir * tile_size == fruit.y
 end
 
 function is_wall_collision()
-  return x[1] < 0 or x[1] >= 128
-      or y[1] < 0 or y[1] >= 128
+  local next_x = x[1] + x_dir * tile_size
+  local next_y = y[1] + y_dir * tile_size
+
+  return next_x < 0 or next_x >= screen_size
+    or next_y < 0 or next_y >= screen_size
 end
