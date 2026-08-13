@@ -16,10 +16,12 @@
 version = "0.1.0"
 
 -- global variables
-x = {}
-y = {}
-x_dir = 1
-y_dir = 0
+snake = {
+  x = {},
+  y = {},
+  x_dir = 1,
+  y_dir = 0
+}
 score = 0
 
 -- color definitions
@@ -57,14 +59,14 @@ end
 -- generate snake head
 -- starting position
 -- todo: randomize it?
-x[1] = tile_size * (tile_num / 4)
-y[1] = tile_size * (tile_num / 2)
+snake.x[1] = tile_size * (tile_num / 4)
+snake.y[1] = tile_size * (tile_num / 2)
 
 -- set starting snake tail
 -- length
 for i = 2, 7 do
-  x[i] = x[i - 1] - tile_size
-  y[i] = y[1]
+  snake.x[i] = snake.x[i - 1] - tile_size
+  snake.y[i] = snake.y[1]
 end
 
 -- generate fruit
@@ -76,7 +78,7 @@ update_fruit()
 -- clear the screen and draw
 -- everything
 function draw()
-  if x[1] == nil or y[1] == nil then
+  if snake.x[1] == nil or snake.y[1] == nil then
     drawText("SNAKE NOT INITIALIZED", 8, 8, 8, 1)
     return
   end
@@ -103,11 +105,11 @@ end
 function draw_snake()
   -- draw snake head
 
-  drawRect(x[1], y[1], x[1] + tile_size - 1, y[1] + tile_size - 1, color_snake_initial)
+  drawRect(snake.x[1], snake.y[1], snake.x[1] + tile_size - 1, snake.y[1] + tile_size - 1, color_snake_initial)
     
   -- draw snake segments
-  for i=2, #x do
-    drawRect(x[i], y[i], x[i] + tile_size - 1, y[i] + tile_size - 1, color_snake_segment)
+  for i=2, #snake.x do
+    drawRect(snake.x[i], snake.y[i], snake.x[i] + tile_size - 1, snake.y[i] + tile_size - 1, color_snake_segment)
   end
 end
 
@@ -136,13 +138,13 @@ function update()
     -- push new snake segment
     -- using the position of
     -- the fruit
-    for i = #x + 1, 2, -1 do
-      x[i] = x[i-1]
-      y[i] = y[i-1]
+    for i = #snake.x + 1, 2, -1 do
+      snake.x[i] = snake.x[i-1]
+      snake.y[i] = snake.y[i-1]
     end
-    
-    x[1] = fruit.x
-    y[1] = fruit.y
+
+    snake.x[1] = fruit.x
+    snake.y[1] = fruit.y
     
     -- generate a new fruit
     update_fruit()
@@ -153,54 +155,54 @@ end
 
 function update_input()
   if buttonDown(BTN_LEFT) then
-    x_dir = -1
-    y_dir = 0
+    snake.x_dir = -1
+    snake.y_dir = 0
 
   elseif buttonDown(BTN_RIGHT) then
-    x_dir = 1
-    y_dir = 0
+    snake.x_dir = 1
+    snake.y_dir = 0
 
   elseif buttonDown(BTN_UP) then
-    x_dir = 0
-    y_dir = -1
+    snake.x_dir = 0
+    snake.y_dir = -1
 
   elseif buttonDown(BTN_DOWN) then
-    x_dir = 0
-    y_dir = 1
+    snake.x_dir = 0
+    snake.y_dir = 1
   end
 end
 
 function update_snake()
   -- local temp variables
-  local temp1x = x[1]
-  local temp1y = y[1]
+  local temp1x = snake.x[1]
+  local temp1y = snake.y[1]
   local temp2x, temp2y
   
   -- update snake head segment
-  x[1] += (x_dir * tile_size)
-  y[1] += (y_dir * tile_size)
+  snake.x[1] += (snake.x_dir * tile_size)
+  snake.y[1] += (snake.y_dir * tile_size)
   
   -- update snake tail segments
-  for i = 2, #x do
-    temp2x = x[i]
-    temp2y = y[i]
-    
-    x[i] = temp1x
-    y[i] = temp1y
-    
+  for i = 2, #snake.x do
+    temp2x = snake.x[i]
+    temp2y = snake.y[i]
+
+    snake.x[i] = temp1x
+    snake.y[i] = temp1y
+
     temp1x = temp2x
     temp1y = temp2y
   end
 end
 
 function is_fruit_collision()
-  if(x[1] + (x_dir * tile_size) == fruit.x and y[1] + (y_dir * tile_size) == fruit.y) then
+  if(snake.x[1] + (snake.x_dir * tile_size) == fruit.x and snake.y[1] + (snake.y_dir * tile_size) == fruit.y) then
     return true
   end
   return false
 end
 
 function is_wall_collision()
-  return x[1] < 0 or x[1] >= 128
-      or y[1] < 0 or y[1] >= 128
+  return snake.x[1] < 0 or snake.x[1] >= 128
+      or snake.y[1] < 0 or snake.y[1] >= 128
 end
