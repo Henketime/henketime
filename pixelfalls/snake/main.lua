@@ -30,7 +30,7 @@ color_menu_text = 10
 color_warning_text = 8
 color_background = 1
 color_snake_initial = 6
-color_snake_initial = 9
+color_snake_segment = 9
 color_fruit = 3
 
 -- we are splitting up our 
@@ -64,7 +64,7 @@ snake.y[1] = tile_size * (tile_num / 2)
 
 -- set starting snake tail
 -- length
-for i = 2, 7 do
+for i = 2, 3 do
   snake.x[i] = snake.x[i - 1] - tile_size
   snake.y[i] = snake.y[1]
 end
@@ -108,7 +108,7 @@ function draw_snake()
   drawRect(snake.x[1], snake.y[1], snake.x[1] + tile_size - 1, snake.y[1] + tile_size - 1, color_snake_initial)
     
   -- draw snake segments
-  for i=2, #snake.x do
+  for i = 2, #snake.x do
     drawRect(snake.x[i], snake.y[i], snake.x[i] + tile_size - 1, snake.y[i] + tile_size - 1, color_snake_segment)
   end
 end
